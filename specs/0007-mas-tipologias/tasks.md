@@ -53,6 +53,13 @@
 - [x] El controlador acepta `variante` y deriva tipología y serie
 - [x] Test de render y de alta indicando sólo la variante
 
+## Tabaquera HA 62 (12)
+
+- [x] Portar `getTabaqueraHA62` (marco ADR 1470, hoja ADR 1471 a −52, contravidrios −153/−191)
+- [x] Cierre sapito (230281/230282 + limitadores H-87), simplón Newton 100460 y tradicional 100462
+- [x] Accesorios 230419, 230376, 230716, AA258, 230353, 230728 y burletes
+- [x] Formulario y 2 tests · producción: 700×500 → U$S 191
+
 ## Pendiente
 
 - [ ] Mosquitero fijo y uniblock mix en batiente
@@ -61,5 +68,5 @@
 - [ ] Paño fijo en corrediza
 - [ ] Guillotina en otras series (Prima 2, Rotonda 700, Serie 25, Rotonda 640)
 - [ ] Proyectante en otras series (Prima, Serie 20, Serie 30, Forma, Rotonda 640)
-- [ ] Tabaquera y oscilobatiente
+- [ ] Oscilobatiente (el kit depende de peso y ancho de hoja: `getCodigoKitOscilobatiente`)
 - [ ] Aberturas compuestas (`AberturaCompuesta_2`)

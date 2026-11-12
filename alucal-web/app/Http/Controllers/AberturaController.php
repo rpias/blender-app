@@ -13,6 +13,7 @@ use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraGuillotinaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalculadoraProyectanteHA62;
+use App\Services\Aberturas\CalculadoraTabaqueraHA62;
 use App\Services\Aberturas\CalcularAberturaSimple;
 use App\Services\Aberturas\ParametrosFormulario;
 use App\Services\Aberturas\SerieSinConstantes;
@@ -28,7 +29,7 @@ class AberturaController extends Controller
         $datos = $request->validate([
             'tipo' => ['required', 'string', 'in:ABERTURA_SIMPLE'],
             'variante' => ['nullable', 'string', 'regex:/^\d+:\d+$/'],
-            'idTipologia' => ['required_without:variante', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraGuillotinaS20::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
+            'idTipologia' => ['required_without:variante', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraGuillotinaS20::TIPOLOGIA.','.CalculadoraTabaqueraHA62::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
             'idSerie' => ['required_without:variante', 'integer'],
             'cantidad' => ['required', 'integer', 'min:1', 'max:999'],
             'ancho' => ['required', 'numeric', 'min:100', 'max:10000'],
@@ -81,6 +82,9 @@ class AberturaController extends Controller
 
             // Guillotina Serie 20
             'punzonadoGuillotina' => ['nullable', 'boolean'],
+
+            // Tabaquera HA 62
+            'cierreTabaquera' => ['nullable', 'string', 'in:SAPITO,SIMPLÓN NEWTON,SIMPLÓN TRADICIONAL'],
         ]);
 
         if (! empty($datos['variante'])) {
@@ -100,8 +104,16 @@ class AberturaController extends Controller
         $esNordical = $idTipologia === CalculadoraCorredizaNordical::TIPOLOGIA;
         $esProyectante = $idTipologia === CalculadoraProyectanteHA62::TIPOLOGIA;
         $esGuillotina = $idTipologia === CalculadoraGuillotinaS20::TIPOLOGIA;
+        $esTabaquera = $idTipologia === CalculadoraTabaqueraHA62::TIPOLOGIA;
 
         $parametros = match (true) {
+            $esTabaquera => [
+                'contravidrios' => (string) ($datos['contravidriosProyectante'] ?? 'RECTOS'),
+                'cierre' => (string) ($datos['cierreTabaquera'] ?? 'SAPITO'),
+                'colorHerrajes' => (string) ($datos['colorHerrajes'] ?? 'BLANCO'),
+                'espesorVidrio' => 4,
+                'vidrioId' => $datos['vidrioId'] ?? null,
+            ],
             $esGuillotina => [
                 'punzonadoManual' => (bool) ($datos['punzonadoGuillotina'] ?? false),
                 'colorHerrajes' => (string) ($datos['colorHerrajes'] ?? 'GRIS'),

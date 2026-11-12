@@ -111,6 +111,7 @@
                             <option value="2:10">Batiente HA 62</option>
                             <option value="2:12">Batiente Prima</option>
                             <option value="10:10">Proyectante HA 62</option>
+                            <option value="12:10">Tabaquera HA 62</option>
                             <option value="4:19">Guillotina Serie 20</option>
                         </optgroup>
                     </select>
@@ -398,6 +399,34 @@
                         <select name="contravidriosProyectante">
                             <option value="RECTOS">Rectos · ADR 1655</option>
                             <option value="CURVOS">Curvos · desde 14 mm</option>
+                        </select>
+                    </label>
+                    <label>
+                        Color de herrajes
+                        <select name="colorHerrajes">
+                            <option value="BLANCO">Blanco</option>
+                            <option value="NEGRO">Negro</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            {{-- Tabaquera --}}
+            <div class="grupo-variante" data-para="12:10">
+                <div class="grilla">
+                    <label>
+                        Contravidrios
+                        <select name="contravidriosProyectante">
+                            <option value="RECTOS">Rectos · ADR 1655</option>
+                            <option value="CURVOS">Curvos · desde 14 mm</option>
+                        </select>
+                    </label>
+                    <label>
+                        Cierre
+                        <select name="cierreTabaquera">
+                            <option value="SAPITO">Sapito</option>
+                            <option value="SIMPLÓN NEWTON">Simplón Newton</option>
+                            <option value="SIMPLÓN TRADICIONAL">Simplón tradicional</option>
                         </select>
                     </label>
                     <label>

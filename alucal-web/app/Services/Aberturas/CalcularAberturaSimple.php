@@ -29,6 +29,7 @@ class CalcularAberturaSimple
         private readonly CalculadoraCorredizaNordical $nordical,
         private readonly CalculadoraProyectanteHA62 $proyectante,
         private readonly CalculadoraGuillotinaS20 $guillotina,
+        private readonly CalculadoraTabaqueraHA62 $tabaquera,
         private readonly CalculadoraPrecioAbertura $precios,
     ) {}
 
@@ -94,6 +95,19 @@ class CalcularAberturaSimple
                 'divisorAlMedio' => (bool) ($parametros['divisorAlMedio'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
+            ]);
+        }
+
+        if ($idTipologia === CalculadoraTabaqueraHA62::TIPOLOGIA) {
+            return $this->tabaquera->calcular([
+                'anchoMM' => (float) $abertura->ancho,
+                'altoMM' => (float) $abertura->alto,
+                'cantidad' => max(1, (int) $abertura->cantidad),
+                'contravidrios' => (string) ($parametros['contravidrios'] ?? 'RECTOS'),
+                'cierre' => (string) ($parametros['cierre'] ?? 'SAPITO'),
+                'colorHerrajes' => (string) ($parametros['colorHerrajes'] ?? $abertura->colorHerrajes ?? 'BLANCO'),
+                'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
+                'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null, $parametros['vidrioDvh'] ?? null),
             ]);
         }
 
