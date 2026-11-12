@@ -46,6 +46,13 @@
 - [x] Formulario y 2 tests
 - [x] Verificado en producción: guillotina 1200×1000 → U$S 161
 
+## Formulario único
+
+- [x] Reemplazar las 9 tarjetas por un formulario con selector de variante (`tipologia:serie`)
+- [x] Grupos de campos por tipología que se muestran u ocultan según la variante
+- [x] El controlador acepta `variante` y deriva tipología y serie
+- [x] Test de render y de alta indicando sólo la variante
+
 ## Pendiente
 
 - [ ] Mosquitero fijo y uniblock mix en batiente

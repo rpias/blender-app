@@ -27,8 +27,9 @@ class AberturaController extends Controller
     {
         $datos = $request->validate([
             'tipo' => ['required', 'string', 'in:ABERTURA_SIMPLE'],
-            'idTipologia' => ['required', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraGuillotinaS20::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
-            'idSerie' => ['required', 'integer'],
+            'variante' => ['nullable', 'string', 'regex:/^\d+:\d+$/'],
+            'idTipologia' => ['required_without:variante', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraGuillotinaS20::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
+            'idSerie' => ['required_without:variante', 'integer'],
             'cantidad' => ['required', 'integer', 'min:1', 'max:999'],
             'ancho' => ['required', 'numeric', 'min:100', 'max:10000'],
             'alto' => ['required', 'numeric', 'min:100', 'max:10000'],
@@ -82,10 +83,16 @@ class AberturaController extends Controller
             'punzonadoGuillotina' => ['nullable', 'boolean'],
         ]);
 
-        $idTipologia = (int) $datos['idTipologia'];
+        if (! empty($datos['variante'])) {
+            [$idTipologia, $serie] = array_map('intval', explode(':', (string) $datos['variante']));
+            $datos['idTipologia'] = $idTipologia;
+            $datos['idSerie'] = $serie;
+        } else {
+            $idTipologia = (int) $datos['idTipologia'];
+            $serie = (int) $datos['idSerie'];
+        }
 
         $esCorrediza = $idTipologia === CalculadoraCorredizaS20::TIPOLOGIA;
-        $serie = (int) $datos['idSerie'];
 
         $esBatiente = $idTipologia === CalculadoraBatiente::TIPOLOGIA;
         $esDoppia = $idTipologia === CalculadoraCorredizaDoppia::TIPOLOGIA;

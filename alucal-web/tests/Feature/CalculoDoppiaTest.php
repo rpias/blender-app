@@ -11,6 +11,7 @@ use App\Models\Perfil;
 use App\Models\PreciosPorKilo;
 use App\Models\Serie;
 use App\Models\TipoVidrio;
+use App\Models\User;
 use App\Models\VidrioSinCamara;
 use App\Services\Aberturas\CalcularAberturaSimple;
 use App\Services\Aberturas\SerieSinConstantes;
@@ -159,6 +160,31 @@ class CalculoDoppiaTest extends TestCase
         $this->assertSame(4, $abertura->lineas['vidrios'][0]['cantidad']);
         $this->assertSame(6.0, (float) $barras->firstWhere('perfil', 'ADR 2474')['cantidad']);
 
+        $this->assertGreaterThan(0, (int) $abertura->precioUnitario);
+    }
+
+    public function test_se_carga_indicando_solo_la_variante(): void
+    {
+        $usuario = User::factory()->create(['nombre' => 'Vendedor', 'rol' => 'vendedor', 'activo' => true]);
+        $obra = Obra::query()->create(['numero' => 'V-1', 'nombre' => 'Variante', 'fechaCreacion' => now()->toDateString()]);
+
+        $this->actingAs($usuario)
+            ->post("/obras/{$obra->id}/aberturas", [
+                'tipo' => 'ABERTURA_SIMPLE',
+                'variante' => '15:3',
+                'ancho' => 3000,
+                'alto' => 1500,
+                'cantidad' => 1,
+                'terminacion' => 'PINTADO_BLANCO',
+                'vidrioId' => 1,
+            ])
+            ->assertRedirect()
+            ->assertSessionHasNoErrors();
+
+        $abertura = AberturaSimple::query()->latest('id')->firstOrFail();
+
+        $this->assertSame(15, (int) $abertura->idTipologia);
+        $this->assertSame(3, (int) $abertura->idSerie);
         $this->assertGreaterThan(0, (int) $abertura->precioUnitario);
     }
 
