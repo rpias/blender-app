@@ -568,18 +568,24 @@
 
 
     <section class="tarjeta bloque-form">
-        <h2>Agregar abertura · Corrediza 2+1 Doppia</h2>
+        <h2>Agregar abertura · Corrediza Doppia (2+1 / 2+2)</h2>
         <p class="ayuda">
-            Dos hojas móviles y un paño fijo: ADR 2471/2472, cubrehoja 2477 y marco según la variante.
+            2+1: dos hojas móviles y un paño fijo. 2+2: cuatro hojas móviles en dos guías.
         </p>
 
         <form method="post" action="{{ route('aberturas.store', $obra) }}">
             @csrf
             <input type="hidden" name="tipo" value="ABERTURA_SIMPLE">
-            <input type="hidden" name="idTipologia" value="14">
             <input type="hidden" name="idSerie" value="3">
 
             <div class="grilla">
+                <label>
+                    Variante
+                    <select name="idTipologia">
+                        <option value="14">2+1 · dos móviles + paño fijo</option>
+                        <option value="15">2+2 · cuatro móviles</option>
+                    </select>
+                </label>
                 <label>
                     Ancho (mm)
                     <input type="number" name="ancho" value="2400" min="100" max="10000" required>
@@ -597,13 +603,6 @@
                     <select name="marcoInferiorDoppia">
                         <option value="ADR 2494">ADR 2494 · umbral bajo</option>
                         <option value="ADR 2496">ADR 2496 · umbral alto</option>
-                    </select>
-                </label>
-                <label>
-                    Marco superior
-                    <select name="marcoSuperiorDoppia">
-                        <option value="ADR 2494">ADR 2494</option>
-                        <option value="ADR 2496">ADR 2496 · con refuerzo</option>
                     </select>
                 </label>
                 <label>

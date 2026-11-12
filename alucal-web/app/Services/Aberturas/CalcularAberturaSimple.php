@@ -25,6 +25,7 @@ class CalcularAberturaSimple
         private readonly CalculadoraCorredizaS25 $s25,
         private readonly CalculadoraBatiente $batiente,
         private readonly CalculadoraCorredizaDoppia $doppia,
+        private readonly CalculadoraCorredizaDoppia22 $doppia22,
         private readonly CalculadoraPrecioAbertura $precios,
     ) {}
 
@@ -90,6 +91,21 @@ class CalcularAberturaSimple
                 'divisorAlMedio' => (bool) ($parametros['divisorAlMedio'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
+            ]);
+        }
+
+        if ($idTipologia === CalculadoraCorredizaDoppia22::TIPOLOGIA) {
+            return $this->doppia22->calcular([
+                'anchoMM' => (float) $abertura->ancho,
+                'altoMM' => (float) $abertura->alto,
+                'cantidad' => max(1, (int) $abertura->cantidad),
+                'marcoInferior' => (string) ($parametros['marcoInferior'] ?? 'ADR 2494'),
+                'paranteLateral' => (string) ($parametros['paranteLateral'] ?? 'ADR 2474'),
+                'zocalo' => (string) ($parametros['zocalo'] ?? 'ADR 2204'),
+                'enganche' => (string) ($parametros['enganche'] ?? 'SIMPLE'),
+                'enganchePerfil' => $parametros['enganchePerfil'] ?? 'ADR 2479',
+                'colorHerrajes' => (string) ($parametros['colorHerrajes'] ?? $abertura->colorHerrajes ?? 'BLANCO'),
+                'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null, $parametros['vidrioDvh'] ?? null),
             ]);
         }
 

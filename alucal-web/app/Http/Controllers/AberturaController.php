@@ -7,6 +7,7 @@ use App\Models\ElementoObra;
 use App\Models\Obra;
 use App\Services\Aberturas\CalculadoraBatiente;
 use App\Services\Aberturas\CalculadoraCorredizaDoppia;
+use App\Services\Aberturas\CalculadoraCorredizaDoppia22;
 use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalcularAberturaSimple;
@@ -23,7 +24,7 @@ class AberturaController extends Controller
     {
         $datos = $request->validate([
             'tipo' => ['required', 'string', 'in:ABERTURA_SIMPLE'],
-            'idTipologia' => ['required', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
+            'idTipologia' => ['required', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
             'idSerie' => ['required', 'integer'],
             'cantidad' => ['required', 'integer', 'min:1', 'max:999'],
             'ancho' => ['required', 'numeric', 'min:100', 'max:10000'],
@@ -76,8 +77,18 @@ class AberturaController extends Controller
 
         $esBatiente = $idTipologia === CalculadoraBatiente::TIPOLOGIA;
         $esDoppia = $idTipologia === CalculadoraCorredizaDoppia::TIPOLOGIA;
+        $esDoppia22 = $idTipologia === CalculadoraCorredizaDoppia22::TIPOLOGIA;
 
         $parametros = match (true) {
+            $esDoppia22 => [
+                'marcoInferior' => (string) ($datos['marcoInferiorDoppia'] ?? 'ADR 2494'),
+                'paranteLateral' => (string) ($datos['paranteDoppia'] ?? 'ADR 2474'),
+                'zocalo' => (string) ($datos['zocaloDoppia'] ?? 'ADR 2204'),
+                'enganche' => (string) ($datos['engancheDoppia'] ?? 'SIMPLE'),
+                'enganchePerfil' => 'ADR 2479',
+                'colorHerrajes' => (string) ($datos['colorHerrajes'] ?? 'BLANCO'),
+                'vidrioId' => $datos['vidrioId'] ?? null,
+            ],
             $esDoppia => [
                 'marcoInferior' => (string) ($datos['marcoInferiorDoppia'] ?? 'ADR 2494'),
                 'marcoSuperior' => (string) ($datos['marcoSuperiorDoppia'] ?? 'ADR 2494'),

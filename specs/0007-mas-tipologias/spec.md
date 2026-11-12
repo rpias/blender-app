@@ -1,6 +1,6 @@
 # Spec 0007 — Más tipologías
 
-**Estado:** parcial (batiente y corrediza 2+1 Doppia)
+**Estado:** parcial (batiente, 2+1 y 2+2 Doppia)
 **Depende de:** 0003
 
 ## Problema
@@ -14,7 +14,7 @@ compuestas. Sin ellas la aplicación no reemplaza al Java para el día a día.
 Incorporar por orden de uso estimado:
 
 1. ~~**Batiente** 1 y 2 hojas (`AberturaServiceBatiente`).~~ **implementado**
-2. ~~**Corrediza 2+1** Doppia~~ **implementado** · 2+2 pendiente.
+2. ~~**Corrediza 2+1 y 2+2** Doppia~~ **implementado**.
 3. **Paño fijo** en corrediza (`AberturaServiceCorredizaPañoFijo`).
 4. **Proyectante** y **Guillotina**.
 5. **Tabaquera** y **Oscilobatiente**.

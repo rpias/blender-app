@@ -17,9 +17,15 @@
 - [x] Dos vidrios: paño fijo y dos hojas móviles
 - [x] Formulario en la obra y 3 tests
 
+## Corrediza 2+2 Doppia (15)
+
+- [x] Portar `getCorrediza_2_mas_2_Doppia` (dintel 2495, jambas 2478, cruce doble 2480)
+- [x] Parantes simple (6) o mixto (2 + 4 reforzados) y zócalo 2204/2209
+- [x] Accesorios 192510/192515/192535/AA808 y vidrio de 4 hojas
+- [x] Una sola tarjeta con selector de variante 2+1 / 2+2
+
 ## Pendiente
 
-- [ ] Corrediza 2+2 Doppia (`getCorrediza_2_mas_2_Doppia`: jambas 2478, cruce 2480, accesorios 192510/192535)
 - [ ] Mosquitero fijo y uniblock mix en batiente
 - [ ] Variante doble contacto (`getBatientePrima_1Hoja_DobleContacto`)
 - [ ] Corrediza 2+1 y 2+2
