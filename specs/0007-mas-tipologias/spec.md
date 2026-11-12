@@ -1,6 +1,6 @@
 # Spec 0007 — Más tipologías
 
-**Estado:** planificada
+**Estado:** parcial (batiente implementado)
 **Depende de:** 0003
 
 ## Problema
@@ -13,7 +13,7 @@ compuestas. Sin ellas la aplicación no reemplaza al Java para el día a día.
 
 Incorporar por orden de uso estimado:
 
-1. **Batiente** 1 y 2 hojas (`AberturaServiceBatiente`).
+1. ~~**Batiente** 1 y 2 hojas (`AberturaServiceBatiente`).~~ **implementado**
 2. **Corrediza 2+1 y 2+2** (`getAcristalamiento2`, `AberturaServiceCorrediza`).
 3. **Paño fijo** en corrediza (`AberturaServiceCorredizaPañoFijo`).
 4. **Proyectante** y **Guillotina**.
@@ -38,6 +38,12 @@ Fuera de alcance: fachadas vidriadas, barandas, estructuras de aluminio y uniblo
 - 2+1 → el paño fijo usa `getAcristalamiento2()` y el vidrio se emite como paño independiente.
 - Recalcular el histórico deja **0 omitidas** para las tipologías soportadas.
 - Una serie sin constantes devuelve `SerieSinConstantes` con la clave faltante.
+
+## Evidencia
+
+- `tests/Feature/CalculoBatienteTest.php` — 1 hoja recta (hoja 761 × 1961, vidrio 669 × 1869 mm),
+  2 hojas curvas con DVH (6234 + 6223 + 6231), cantidad 3 y error de hoja.
+- `app/Services/Aberturas/CalculadoraBatiente.php`
 
 ## Riesgo principal
 

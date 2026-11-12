@@ -23,6 +23,7 @@ class CalcularAberturaSimple
         private readonly CalculadoraCorredizaDomina $domina,
         private readonly CalculadoraCorredizaHA62 $ha62,
         private readonly CalculadoraCorredizaS25 $s25,
+        private readonly CalculadoraBatiente $batiente,
         private readonly CalculadoraPrecioAbertura $precios,
     ) {}
 
@@ -88,6 +89,21 @@ class CalcularAberturaSimple
                 'divisorAlMedio' => (bool) ($parametros['divisorAlMedio'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
+            ]);
+        }
+
+        if ($idTipologia === CalculadoraBatiente::TIPOLOGIA) {
+            return $this->batiente->calcular([
+                'anchoMM' => (float) $abertura->ancho,
+                'altoMM' => (float) $abertura->alto,
+                'cantidad' => max(1, (int) $abertura->cantidad),
+                'cantHojas' => (int) ($parametros['cantHojas'] ?? 1),
+                'hoja' => (string) ($parametros['hoja'] ?? 'RECTA'),
+                'contravidrios' => (string) ($parametros['contravidrios'] ?? 'RECTOS'),
+                'cierre' => (string) ($parametros['cierre'] ?? 'FALLEBA'),
+                'colorHerrajes' => (string) ($parametros['colorHerrajes'] ?? 'BLANCO'),
+                'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
+                'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null, $parametros['vidrioDvh'] ?? null),
             ]);
         }
 

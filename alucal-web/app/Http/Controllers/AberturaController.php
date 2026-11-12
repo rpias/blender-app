@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AberturaSimple;
 use App\Models\ElementoObra;
 use App\Models\Obra;
+use App\Services\Aberturas\CalculadoraBatiente;
 use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalcularAberturaSimple;
@@ -21,7 +22,7 @@ class AberturaController extends Controller
     {
         $datos = $request->validate([
             'tipo' => ['required', 'string', 'in:ABERTURA_SIMPLE'],
-            'idTipologia' => ['required', 'integer', 'in:'.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
+            'idTipologia' => ['required', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
             'idSerie' => ['required', 'integer'],
             'cantidad' => ['required', 'integer', 'min:1', 'max:999'],
             'ancho' => ['required', 'numeric', 'min:100', 'max:10000'],
@@ -51,6 +52,13 @@ class AberturaController extends Controller
             'marcoHA62' => ['nullable', 'string', 'in:45 GRADOS,90 GRADOS'],
             'engancheHA62' => ['nullable', 'string', 'in:SIMPLE,REFORZADO,DOBLEMENTE REFORZADO'],
             'divisor' => ['nullable', 'string', 'max:30'],
+
+            // Batiente
+            'cantHojasBatiente' => ['nullable', 'integer', 'in:1,2'],
+            'hojaBatiente' => ['nullable', 'string', 'in:RECTA,CURVA'],
+            'contravidriosBatiente' => ['nullable', 'string', 'in:CURVOS,RECTOS'],
+            'cierreBatiente' => ['nullable', 'string', 'in:FALLEBA,ALDABILLA'],
+            'colorHerrajes' => ['nullable', 'string', 'in:NEGRO,BLANCO'],
         ]);
 
         $idTipologia = (int) $datos['idTipologia'];
@@ -58,7 +66,18 @@ class AberturaController extends Controller
         $esCorrediza = $idTipologia === CalculadoraCorredizaS20::TIPOLOGIA;
         $serie = (int) $datos['idSerie'];
 
+        $esBatiente = $idTipologia === CalculadoraBatiente::TIPOLOGIA;
+
         $parametros = match (true) {
+            $esBatiente => [
+                'cantHojas' => (int) ($datos['cantHojasBatiente'] ?? 1),
+                'hoja' => (string) ($datos['hojaBatiente'] ?? 'RECTA'),
+                'contravidrios' => (string) ($datos['contravidriosBatiente'] ?? 'RECTOS'),
+                'cierre' => (string) ($datos['cierreBatiente'] ?? 'FALLEBA'),
+                'colorHerrajes' => (string) ($datos['colorHerrajes'] ?? 'BLANCO'),
+                'espesorVidrio' => 4,
+                'vidrioId' => $datos['vidrioId'] ?? null,
+            ],
             $esCorrediza && $serie === 10 => [
                 'marco' => (string) ($datos['marcoHA62'] ?? '45 GRADOS'),
                 'enganche' => (string) ($datos['engancheHA62'] ?? 'SIMPLE'),

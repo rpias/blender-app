@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\Obra;
+use App\Services\Aberturas\CalculadoraBatiente;
 use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\ParametrosFormulario;
@@ -72,6 +73,7 @@ class ObraController extends Controller
         $obra->load(['elementos.aberturaSimple.tipologia', 'elementos.aberturaSimple.serie']);
 
         $series = $formulario->series(CalculadoraMarcoFijo::TIPOLOGIA);
+        $seriesBatiente = $formulario->series(CalculadoraBatiente::TIPOLOGIA);
         $seriesCorrediza = collect($formulario->series(CalculadoraCorredizaS20::TIPOLOGIA))
             ->where('id', 19)
             ->values()
@@ -81,6 +83,7 @@ class ObraController extends Controller
         return view('obras.show', [
             'obra' => $obra,
             'series' => $series,
+            'seriesBatiente' => $seriesBatiente,
             'seriesCorrediza' => $seriesCorrediza,
             'vidrios' => $formulario->vidrios(),
             'opcionesIniciales' => $serieInicial !== null

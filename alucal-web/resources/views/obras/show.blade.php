@@ -469,6 +469,102 @@
         </form>
     </section>
 
+
+    <section class="tarjeta bloque-form">
+        <h2>Agregar abertura · Batiente (1 o 2 hojas)</h2>
+        <p class="ayuda">
+            Marco 6210, hoja 6211 (recta) o 6234 (curva), contravidrio según hoja y DVH.
+        </p>
+
+        <form method="post" action="{{ route('aberturas.store', $obra) }}">
+            @csrf
+            <input type="hidden" name="tipo" value="ABERTURA_SIMPLE">
+            <input type="hidden" name="idTipologia" value="2">
+
+            <div class="grilla">
+                <label>
+                    Serie
+                    <select name="idSerie" required>
+                        @foreach ($seriesBatiente as $serie)
+                            <option value="{{ $serie['id'] }}">{{ $serie['nombre'] }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <label>
+                    Ancho (mm)
+                    <input type="number" name="ancho" value="800" min="100" max="10000" required>
+                </label>
+                <label>
+                    Alto (mm)
+                    <input type="number" name="alto" value="2000" min="100" max="10000" required>
+                </label>
+                <label>
+                    Cantidad
+                    <input type="number" name="cantidad" value="1" min="1" max="999" required>
+                </label>
+                <label>
+                    Hojas
+                    <select name="cantHojasBatiente">
+                        <option value="1">1 hoja</option>
+                        <option value="2">2 hojas</option>
+                    </select>
+                </label>
+                <label>
+                    Hoja
+                    <select name="hojaBatiente">
+                        <option value="RECTA">Recta · 6211</option>
+                        <option value="CURVA">Curva · 6234</option>
+                    </select>
+                </label>
+                <label>
+                    Contravidrios
+                    <select name="contravidriosBatiente">
+                        <option value="RECTOS">Rectos</option>
+                        <option value="CURVOS">Curvos</option>
+                    </select>
+                </label>
+                <label>
+                    Cierre
+                    <select name="cierreBatiente">
+                        <option value="FALLEBA">Falleba</option>
+                        <option value="ALDABILLA">Aldabilla</option>
+                    </select>
+                </label>
+                <label>
+                    Color de herrajes
+                    <select name="colorHerrajes">
+                        <option value="BLANCO">Blanco</option>
+                        <option value="NEGRO">Negro</option>
+                    </select>
+                </label>
+                <label>
+                    Vidrio
+                    <select name="vidrioId">
+                        <option value="">Sin vidrio</option>
+                        @foreach ($vidrios as $vidrio)
+                            <option value="{{ $vidrio['id'] }}">{{ $vidrio['etiqueta'] }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <label>
+                    Ubicación
+                    <input type="text" name="ubicacion" maxlength="60" placeholder="Ej.: Baño">
+                </label>
+                <label>
+                    Terminación
+                    <select name="terminacion">
+                        <option value="PINTADO_BLANCO">Pintado blanco</option>
+                        <option value="PINTADO_NEGRO">Pintado negro</option>
+                        <option value="ANODIZADO_NATURAL">Anodizado natural</option>
+                        <option value="ELECTROCOLOR_NEGRO">Electrocolor negro</option>
+                    </select>
+                </label>
+            </div>
+
+            <button type="submit" class="btn primario">Agregar y calcular</button>
+        </form>
+    </section>
+
     <script>
         (function () {
             const serie = document.getElementById('serie');
