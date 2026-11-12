@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+
+# Instalación Java original completa: binario, datos y biblioteca de imágenes del cliente.
+# No se versiona (267 MB); los informes están en docs/reverse-engineering/.
+Alucal_v5.5/
+
+# Backups del cliente
+*.wpress
+*.tgz
+
+# Datos y secretos de la aplicación
+alucal-web/.env
+alucal-web/.env.*
+alucal-web/database/database.sqlite
+alucal-web/storage/app/alucal-datos.sql
+alucal-web/storage/app/private/
+alucal-web/storage/logs/
+alucal-web/storage/framework/cache/
+alucal-web/storage/framework/sessions/
+alucal-web/storage/framework/views/
+
+# Dependencias y build
+alucal-web/vendor/
+alucal-web/node_modules/
+alucal-web/public/build/
+alucal-web/public/storage
+
+# Herramientas de agentes (configuración local)
+alucal-web/.claude/
+alucal-web/.codex/
+alucal-web/.agents/
+alucal-web/.mcp.json
+alucal-web/.phpunit.result.cache
+
+# Python
+__pycache__/
+*.pyc
