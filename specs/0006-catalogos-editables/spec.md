@@ -47,6 +47,13 @@ Fuera de alcance: alta/baja de perfiles y accesorios, importación desde Excel, 
 - **R5** — `GET /catalogos/perfiles?buscar=ADR 1470` devuelve sólo los perfiles que coinciden.
 - **R6** — Un `precio` negativo en accesorios se rechaza con mensaje.
 
+## Evidencia
+
+- `tests/Feature/CatalogosTest.php` — 9 tests (permisos, guardado, validación, clave compuesta,
+  búsqueda y 404).
+- Producción: `GET /catalogos/coeficientes` responde 200 con las 29 claves y
+  `GET /catalogos/accesorios?buscar=230478` filtra correctamente.
+
 ## Divergencias
 
 - El Java editaba catálogos con pantallas Swing; acá es una tabla HTML con guardado por catálogo.

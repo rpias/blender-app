@@ -23,6 +23,7 @@
 
 - [x] 9 tests de catálogos (permisos, guardado, validación, clave compuesta, búsqueda, 404)
 - [x] Confirmar que el motor de precios lee el valor actualizado
+- [x] Publicado en producción y verificado por HTTP
 
 ## Pendiente
 
