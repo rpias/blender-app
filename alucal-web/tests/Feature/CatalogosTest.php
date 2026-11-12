@@ -143,6 +143,28 @@ class CatalogosTest extends TestCase
         $this->assertStringNotContainsString('ADR 916', $respuesta->getContent());
     }
 
+    public function test_un_vendedor_no_puede_entrar_ni_guardar(): void
+    {
+        $vendedor = User::factory()->create(['nombre' => 'Vendedor', 'rol' => 'vendedor', 'activo' => true]);
+
+        $this->actingAs($vendedor)->get('/catalogos/coeficientes')->assertForbidden();
+        $this->actingAs($vendedor)->post('/catalogos/coeficientes', [
+            'filas' => ['MARGEN_DVH_CARPINTERIA' => ['valor' => '9']],
+        ])->assertForbidden();
+
+        $this->assertSame('1.22', DB::table('coeficientes_de_calculo_de_precio')
+            ->where('clave', 'MARGEN_DVH_CARPINTERIA')->value('valor'));
+    }
+
+    public function test_el_vendedor_no_ve_el_enlace_de_catalogos(): void
+    {
+        $vendedor = User::factory()->create(['nombre' => 'Vendedor', 'rol' => 'vendedor', 'activo' => true]);
+
+        $this->actingAs($vendedor)->get('/obras')
+            ->assertOk()
+            ->assertDontSee('>Catálogos</a>', false);
+    }
+
     public function test_recurso_inexistente_da_404(): void
     {
         $this->actingAs($this->usuario)->get('/catalogos/no-existe')->assertNotFound();

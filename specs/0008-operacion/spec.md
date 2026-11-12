@@ -1,6 +1,6 @@
 # Spec 0008 — Operación
 
-**Estado:** planificada
+**Estado:** parcial (backup, roles y logs implementados)
 **Depende de:** 0005
 
 ## Problema
@@ -35,6 +35,12 @@ alertas. Cualquier incidente (base corrupta, error de deploy, clave filtrada) ho
   aberturas, 1.728 perfiles).
 - Un `vendedor` recibe 403 en `/catalogos/coeficientes`.
 - `storage/logs` no supera 4 archivos.
+
+## Evidencia
+
+- `deploy/backup.sh` ejecutado en el servidor: `alucal-20261112-1416.sql.gz` (121 KB, 119 tablas).
+- `tests/Feature/CatalogosTest.php`: vendedor recibe 403 en GET y POST de catálogos.
+- Producción: `logging.default = daily`, retención 14 días.
 
 ## Riesgos
 

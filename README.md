@@ -21,7 +21,7 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 |---|---|
 | Stack | Laravel 13 · PHP 8.3 · MySQL 8 / MariaDB |
 | Código | 112 migraciones, 108 modelos Eloquent, 5 calculadoras de tipología |
-| Tests | 40 tests · 160 assertions (`php artisan test`) |
+| Tests | 42 tests · 165 assertions (`vendor/bin/phpunit`) |
 | Producción | Hostinger compartido, `~/alucal` + `public_html` por symlink |
 | Datos migrados | 7 obras, 8 aberturas, 1.728 perfiles, 1.267 accesorios |
 
@@ -59,6 +59,7 @@ Usuario inicial: `admin@alucal.local` / `alucal` (cambiar en producción).
 | `php artisan alucal:limpiar-huerfanas` | Archiva y borra aberturas sin elemento de obra (`--force`) |
 | `php artisan alucal:exportar-mysql <archivo>` | Dump de datos para desplegar en MySQL |
 | `deploy/publicar.sh` | Publica en el servidor por rsync + SSH |
+| `deploy/backup.sh` | Copia diaria de MySQL con retención de 7 días (cron) |
 
 ## Documentación
 

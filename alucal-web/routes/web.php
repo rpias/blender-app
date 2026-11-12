@@ -30,8 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/aberturas/{abertura}/recalcular', [AberturaController::class, 'recalcular'])->name('aberturas.recalcular');
     Route::delete('/aberturas/{abertura}', [AberturaController::class, 'destroy'])->name('aberturas.destroy');
 
-    Route::get('/catalogos/{recurso}', [CatalogoController::class, 'index'])->name('catalogos.index');
-    Route::post('/catalogos/{recurso}', [CatalogoController::class, 'update'])->name('catalogos.update');
+    Route::middleware('admin')->group(function () {
+        Route::get('/catalogos/{recurso}', [CatalogoController::class, 'index'])->name('catalogos.index');
+        Route::post('/catalogos/{recurso}', [CatalogoController::class, 'update'])->name('catalogos.update');
+    });
 
     Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
     Route::get('/clientes/crear', [ClienteController::class, 'create'])->name('clientes.create');

@@ -19,7 +19,7 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0005](0005-despliegue/spec.md) | implementada | Hosting compartido, MySQL, publicación por SSH |
 | [0006](0006-catalogos-editables/spec.md) | implementada | Edición de coeficientes, precios, márgenes, accesorios, perfiles y vidrios |
 | [0007](0007-mas-tipologias/spec.md) | parcial | Batiente listo; faltan 2+1, 2+2, paño fijo, proyectante, compuestas |
-| [0008](0008-operacion/spec.md) | planificada | Dominio, backups, roles y monitoreo |
+| [0008](0008-operacion/spec.md) | parcial | Backup y roles listos; falta dominio y alertas |
 
 ## Cómo agregar una spec
 

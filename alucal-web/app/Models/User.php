@@ -22,6 +22,15 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+    /**
+     * El rol vive en `users.rol`; los usuarios importados del Java quedan como
+     * vendedores salvo que se marquen explícitamente.
+     */
+    public function esAdministrador(): bool
+    {
+        return strtolower((string) $this->rol) === 'admin';
+    }
+
     protected function casts(): array
     {
         return [
