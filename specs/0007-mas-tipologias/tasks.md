@@ -24,6 +24,13 @@
 - [x] Accesorios 192510/192515/192535/AA808 y vidrio de 4 hojas
 - [x] Una sola tarjeta con selector de variante 2+1 / 2+2
 
+## Corrediza + Paño Fijo Nórdical (23)
+
+- [x] Portar `getCorrediza_Nordical` (marco 4251/4252, jambas 3913/4253, hojas 3942-3945)
+- [x] Adaptadores ADR 4237 con vidrio simple (se omiten si el perfil no está en el catálogo)
+- [x] Accesorios AA710/AA708/AA711/AA498/AA213 y dos vidrios (hoja y paño fijo)
+- [x] Formulario y 2 tests
+
 ## Pendiente
 
 - [ ] Mosquitero fijo y uniblock mix en batiente

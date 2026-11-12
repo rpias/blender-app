@@ -1,6 +1,6 @@
 # Spec 0007 — Más tipologías
 
-**Estado:** parcial (batiente, 2+1 y 2+2 Doppia)
+**Estado:** parcial (batiente, Doppia 2+1/2+2 y Nórdical)
 **Depende de:** 0003
 
 ## Problema
@@ -15,7 +15,7 @@ Incorporar por orden de uso estimado:
 
 1. ~~**Batiente** 1 y 2 hojas (`AberturaServiceBatiente`).~~ **implementado**
 2. ~~**Corrediza 2+1 y 2+2** Doppia~~ **implementado**.
-3. **Paño fijo** en corrediza (`AberturaServiceCorredizaPañoFijo`).
+3. ~~**Paño fijo** en corrediza (`AberturaServiceCorredizaPañoFijo`)~~ **implementado** (Nórdical).
 4. **Proyectante** y **Guillotina**.
 5. **Tabaquera** y **Oscilobatiente**.
 6. **Aberturas compuestas** (`AberturaCompuesta_2` + conectores + vano dividido).
@@ -44,6 +44,7 @@ Fuera de alcance: fachadas vidriadas, barandas, estructuras de aluminio y uniblo
 - `tests/Feature/CalculoBatienteTest.php` — 1 hoja recta (hoja 761 × 1961, vidrio 669 × 1869 mm),
   2 hojas curvas con DVH (6234 + 6223 + 6231), cantidad 3 y error de hoja.
 - `app/Services/Aberturas/CalculadoraBatiente.php`
+- `tests/Feature/CalculoNordicalTest.php` — 1 hoja con paño fijo (3942 a 1302 mm) y 2 hojas.
 - `tests/Feature/CalculoDoppiaTest.php` — 2+1 con umbral bajo (2473 a 1430 mm) y alto (1340 mm),
   refuerzo 1152 y dos vidrios.
 

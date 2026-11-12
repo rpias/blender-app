@@ -26,6 +26,7 @@ class CalcularAberturaSimple
         private readonly CalculadoraBatiente $batiente,
         private readonly CalculadoraCorredizaDoppia $doppia,
         private readonly CalculadoraCorredizaDoppia22 $doppia22,
+        private readonly CalculadoraCorredizaNordical $nordical,
         private readonly CalculadoraPrecioAbertura $precios,
     ) {}
 
@@ -91,6 +92,16 @@ class CalcularAberturaSimple
                 'divisorAlMedio' => (bool) ($parametros['divisorAlMedio'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
+            ]);
+        }
+
+        if ($idTipologia === CalculadoraCorredizaNordical::TIPOLOGIA) {
+            return $this->nordical->calcular([
+                'anchoMM' => (float) $abertura->ancho,
+                'altoMM' => (float) $abertura->alto,
+                'cantidad' => max(1, (int) $abertura->cantidad),
+                'cantHojasCorredizas' => (int) ($parametros['cantHojasCorredizas'] ?? 1),
+                'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null, $parametros['vidrioDvh'] ?? null),
             ]);
         }
 
