@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/obras/{obra}/aberturas', [AberturaController::class, 'store'])->name('aberturas.store');
     Route::get('/aberturas/opciones/{tipologia}/{serie}', [AberturaController::class, 'opciones'])->name('aberturas.opciones');
+    Route::get('/aberturas/{abertura}/presupuesto.pdf', [AberturaController::class, 'presupuestoAbertura'])->name('aberturas.pdf');
     Route::post('/aberturas/{abertura}/recalcular', [AberturaController::class, 'recalcular'])->name('aberturas.recalcular');
     Route::delete('/aberturas/{abertura}', [AberturaController::class, 'destroy'])->name('aberturas.destroy');
 

@@ -56,6 +56,7 @@
                 <td class="num">{{ $ab?->precioUnitario !== null ? number_format((float) $ab->precioUnitario * (int) $ab->cantidad, 0, ',', '.') : '—' }}</td>
                 <td class="acciones">
                     @if ($ab)
+                        <a href="{{ route('aberturas.pdf', $ab) }}" class="link" target="_blank">PDF</a>
                         <form method="post" action="{{ route('aberturas.destroy', $ab) }}" onsubmit="return confirm('¿Eliminar la abertura?')">
                             @csrf
                             @method('DELETE')
@@ -109,6 +110,7 @@
                         </optgroup>
                         <optgroup label="Otras">
                             <option value="2:10">Batiente HA 62</option>
+                            <option value="7:10">Oscilobatiente HA 62</option>
                             <option value="2:12">Batiente Prima</option>
                             <option value="10:10">Proyectante HA 62</option>
                             <option value="12:10">Tabaquera HA 62</option>
@@ -394,6 +396,33 @@
             {{-- Proyectante --}}
             <div class="grupo-variante" data-para="10:10">
                 <div class="grilla">
+                    <label>
+                        Contravidrios
+                        <select name="contravidriosProyectante">
+                            <option value="RECTOS">Rectos · ADR 1655</option>
+                            <option value="CURVOS">Curvos · desde 14 mm</option>
+                        </select>
+                    </label>
+                    <label>
+                        Color de herrajes
+                        <select name="colorHerrajes">
+                            <option value="BLANCO">Blanco</option>
+                            <option value="NEGRO">Negro</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            {{-- Oscilobatiente --}}
+            <div class="grupo-variante" data-para="7:10">
+                <div class="grilla">
+                    <label>
+                        Marco
+                        <select name="marcoOscilo">
+                            <option value="ADR 1470">ADR 1470 · coplanar</option>
+                            <option value="ADR 1483">ADR 1483 · escalonado</option>
+                        </select>
+                    </label>
                     <label>
                         Contravidrios
                         <select name="contravidriosProyectante">

@@ -90,6 +90,17 @@ class CalculoAberturaTest extends TestCase
         ]);
     }
 
+    public function test_presupuesto_pdf_de_una_abertura(): void
+    {
+        $usuario = User::factory()->create(['nombre' => 'Admin', 'rol' => 'admin', 'activo' => true]);
+        $abertura = $this->abertura(1000, 1000);
+
+        $this->actingAs($usuario)
+            ->get("/aberturas/{$abertura->id}/presupuesto.pdf")
+            ->assertOk()
+            ->assertHeader('Content-Type', 'application/pdf');
+    }
+
     public function test_marco_fijo_calcula_marco_contravidrios_y_vidrio(): void
     {
         $abertura = $this->abertura();

@@ -1,6 +1,6 @@
 # Spec 0007 — Más tipologías
 
-**Estado:** parcial (batiente, Doppia, Nórdical, proyectante, guillotina y tabaquera)
+**Estado:** parcial (8 tipologías de HA 62 y líneas asociadas)
 **Depende de:** 0003
 
 ## Problema
@@ -17,7 +17,7 @@ Incorporar por orden de uso estimado:
 2. ~~**Corrediza 2+1 y 2+2** Doppia~~ **implementado**.
 3. ~~**Paño fijo** en corrediza (`AberturaServiceCorredizaPañoFijo`)~~ **implementado** (Nórdical).
 4. ~~**Proyectante** HA 62~~ **implementado** · Guillotina pendiente.
-5. **Tabaquera HA 62** _implementada_ · **Oscilobatiente** pendiente (kit por peso/ancho de hoja).
+5. **Tabaquera HA 62** y **Oscilobatiente HA 62** _implementadas_.
 6. **Aberturas compuestas** (`AberturaCompuesta_2` + conectores + vano dividido).
 
 Fuera de alcance: fachadas vidriadas, barandas, estructuras de aluminio y uniblock mix.
@@ -44,6 +44,8 @@ Fuera de alcance: fachadas vidriadas, barandas, estructuras de aluminio y uniblo
 - `tests/Feature/CalculoBatienteTest.php` — 1 hoja recta (hoja 761 × 1961, vidrio 669 × 1869 mm),
   2 hojas curvas con DVH (6234 + 6223 + 6231), cantidad 3 y error de hoja.
 - `app/Services/Aberturas/CalculadoraBatiente.php`
+- `tests/Feature/CalculoOsciloTest.php` — kit coplanar 230682 (hoja 648 mm) y escalonado negro 230675,
+  más rechazo de hoja de 348 mm sin kit.
 - `tests/Feature/CalculoTabaqueraTest.php` — sapito blanco con limitadores, contravidrios 547/309 mm.
 - `tests/Feature/CalculoGuillotinaTest.php` — automática (201 a 491 mm) y manual (426 mm + 230460).
 - `tests/Feature/CalculoProyectanteTest.php` — contravidrios rectos (436/398 mm) y rechazo de curvos < 14 mm.

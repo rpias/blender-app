@@ -12,6 +12,6 @@
 ## Pendiente
 
 - [ ] Encabezado con imagen corporativa (el Java usa `encabezado_y_pie.ruta_encabezado`)
-- [ ] Presupuesto "particular" (una sola abertura) como en el original
+- [x] Presupuesto particular de una abertura (`/aberturas/{id}/presupuesto.pdf`)
 - [ ] Condiciones y textos editables desde la UI
 - [ ] Envío por correo desde la aplicación

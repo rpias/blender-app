@@ -68,5 +68,6 @@
 - [ ] Paño fijo en corrediza
 - [ ] Guillotina en otras series (Prima 2, Rotonda 700, Serie 25, Rotonda 640)
 - [ ] Proyectante en otras series (Prima, Serie 20, Serie 30, Forma, Rotonda 640)
-- [ ] Oscilobatiente (el kit depende de peso y ancho de hoja: `getCodigoKitOscilobatiente`)
+- [x] Oscilobatiente HA 62 (`getCodigoKitOscilobatiente`: 14 kits por coplanar/escalonado, ancho y peso de hoja)
+- [ ] Oscilobatiente en otras series (Prima, Prima Plus, Forma, Rotonda 640, Ecothermic Plus, HA 62 RPT)
 - [ ] Aberturas compuestas (`AberturaCompuesta_2`)

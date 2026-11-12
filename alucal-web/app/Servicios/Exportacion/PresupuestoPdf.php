@@ -2,10 +2,13 @@
 
 namespace App\Servicios\Exportacion;
 
+use App\Models\AberturaSimple;
+use App\Models\ElementoObra;
 use App\Models\Empresa;
 use App\Models\Obra;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
@@ -21,9 +24,34 @@ class PresupuestoPdf
     {
         $obra->load(['elementos.aberturaSimple.tipologia', 'elementos.aberturaSimple.serie']);
 
+        return $this->renderizar($obra, $obra->elementosPresupuestables());
+    }
+
+    /**
+     * Presupuesto de una sola abertura (spec 0004).
+     */
+    public function generarAbertura(AberturaSimple $abertura): string
+    {
+        $abertura->load(['tipologia', 'serie']);
+
+        $obra = $abertura->elemento?->obra;
+        $obra?->load(['elementos.aberturaSimple.tipologia', 'elementos.aberturaSimple.serie']);
+
+        $elementos = $abertura->elemento !== null
+            ? collect([$abertura->elemento])
+            : collect();
+
+        return $this->renderizar($obra, $elementos);
+    }
+
+    /**
+     * @param  Collection<int, ElementoObra>|iterable<ElementoObra>  $elementos
+     */
+    private function renderizar(?Obra $obra, iterable $elementos): string
+    {
         $html = View::make('presupuesto.pdf', [
             'obra' => $obra,
-            'elementos' => $obra->elementosPresupuestables(),
+            'elementos' => $elementos,
             'empresa' => Empresa::query()->first(),
             'textos' => $this->textos(),
         ])->render();
