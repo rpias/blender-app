@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/obras/crear', [ObraController::class, 'create'])->name('obras.create');
     Route::post('/obras', [ObraController::class, 'store'])->name('obras.store');
     Route::get('/obras/{obra}', [ObraController::class, 'show'])->name('obras.show');
+    Route::get('/obras/{obra}/editar', [ObraController::class, 'edit'])->name('obras.edit');
+    Route::patch('/obras/{obra}', [ObraController::class, 'update'])->name('obras.update');
+    Route::delete('/obras/{obra}', [ObraController::class, 'destroy'])->name('obras.destroy');
     Route::get('/obras/{obra}/presupuesto.csv', [ObraController::class, 'exportarCsv'])->name('obras.csv');
     Route::get('/obras/{obra}/presupuesto.pdf', [ObraController::class, 'exportarPdf'])->name('obras.pdf');
     Route::get('/obras/{obra}/presupuesto.xlsx', [ObraController::class, 'exportarXlsx'])->name('obras.xlsx');

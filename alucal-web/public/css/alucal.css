@@ -125,3 +125,11 @@ input:focus, select:focus { outline: 2px solid rgba(31, 111, 235, .25); border-c
 .acciones-form { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
 .buscador.chico { margin: 0; }
 .buscador.chico input { min-width: 200px; }
+
+.grilla .ancho-completo { grid-column: 1 / -1; }
+
+.tarjeta-peligro { border-color: #e5b4b4; margin-top: 18px; }
+.tarjeta-peligro h2 { color: #a12727; }
+
+.btn.peligro { background: #b32d2d; color: #fff; }
+.btn.peligro:hover { background: #982525; }

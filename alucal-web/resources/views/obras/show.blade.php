@@ -16,6 +16,7 @@
             <a href="{{ route('obras.pdf', $obra) }}" class="btn" target="_blank">Presupuesto PDF</a>
             <a href="{{ route('obras.xlsx', $obra) }}" class="btn">Exportar Excel</a>
             <a href="{{ route('obras.csv', $obra) }}" class="btn">Exportar CSV</a>
+            <a href="{{ route('obras.edit', $obra) }}" class="btn">Editar</a>
             <a href="{{ route('obras.index') }}" class="link">Volver</a>
         </div>
     </div>

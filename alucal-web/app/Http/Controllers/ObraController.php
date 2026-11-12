@@ -13,6 +13,7 @@ use App\Servicios\Exportacion\XlsxWriter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -66,6 +67,48 @@ class ObraController extends Controller
         return redirect()
             ->route('obras.show', $obra)
             ->with('estado', 'Obra creada correctamente.');
+    }
+
+    public function edit(Obra $obra): View
+    {
+        return view('obras.edit', [
+            'obra' => $obra,
+            'clientes' => Cliente::query()->orderBy('nombre')->get(),
+        ]);
+    }
+
+    public function update(Request $request, Obra $obra): RedirectResponse
+    {
+        $datos = $request->validate([
+            'numero' => ['required', 'string', 'max:20', Rule::unique('obra', 'numero')->ignore($obra->id)],
+            'nombre' => ['required', 'string', 'max:120'],
+            'ubicacion' => ['nullable', 'string', 'max:120'],
+            'arquitecto' => ['nullable', 'string', 'max:120'],
+            'fechaCreacion' => ['nullable', 'date'],
+            'estadoSeguimiento' => ['nullable', 'string', 'in:ABIERTA,CERRADA'],
+            'proximaAccionFecha' => ['nullable', 'date'],
+            'proximaAccionDetalle' => ['nullable', 'string', 'max:180'],
+            'idCliente' => ['nullable', 'integer', 'exists:clientes,id'],
+        ]);
+
+        $obra->update($datos);
+
+        return redirect()
+            ->route('obras.show', $obra)
+            ->with('estado', 'Obra actualizada.');
+    }
+
+    public function destroy(Obra $obra): RedirectResponse
+    {
+        $numero = $obra->numero;
+
+        // Los elementos cuelgan de la obra; se borran antes para no dejar huérfanos.
+        $obra->elementos()->delete();
+        $obra->delete();
+
+        return redirect()
+            ->route('obras.index')
+            ->with('estado', "Obra {$numero} eliminada.");
     }
 
     public function show(Obra $obra, ParametrosFormulario $formulario): View

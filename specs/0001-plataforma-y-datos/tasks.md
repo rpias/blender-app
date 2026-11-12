@@ -26,6 +26,7 @@
 
 ## Pendiente
 
-- [ ] Edición y baja de obras/clientes
+- [x] Edición y baja de obras (con sus elementos)
+- [ ] Edición y baja de clientes
 - [ ] Multiusuario con roles diferenciados (admin/vendedor)
 - [ ] Importación incremental cuando el cliente actualice Alucal

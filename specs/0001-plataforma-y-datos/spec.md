@@ -52,6 +52,8 @@ Fuera de alcance: edición de catálogos, multiusuario avanzado, importación in
 
 ## Evidencia
 
+- `tests/Feature/EdicionObraTest.php` — formulario, actualización, número duplicado y baja en cascada.
+
 - `tests/Feature/NavegacionBasicaTest.php`
 - `php artisan migrate --force` (112 migraciones)
 - `php artisan alucal:import …` → 109 tablas · 10.159 filas
