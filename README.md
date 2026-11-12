@@ -21,7 +21,7 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 |---|---|
 | Stack | Laravel 13 · PHP 8.3 · MySQL 8 / MariaDB |
 | Código | 112 migraciones, 108 modelos Eloquent, 5 calculadoras de tipología |
-| Tests | 64 tests · 247 assertions (`vendor/bin/phpunit`) |
+| Tests | 75 tests · 272 assertions (`vendor/bin/phpunit`) |
 | Producción | Hostinger compartido, `~/alucal` + `public_html` por symlink |
 | Datos migrados | 7 obras, 8 aberturas, 1.728 perfiles, 1.267 accesorios |
 
@@ -36,7 +36,9 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 - Presupuesto de obra en **PDF**, **XLSX** y **CSV**, y presupuesto de una sola abertura en PDF.
 - Colores de herrajes: blanco, negro y gris (el gris sólo aplica a la guillotina, como en el original).
 - **Un solo formulario de alta**: se elige el tipo de abertura y se muestran sólo sus campos.
-- **Catálogos editables**: coeficientes, precio por kilo, márgenes, accesorios, perfiles y vidrios.
+- **Catálogos editables**: coeficientes, precio por kilo, márgenes, accesorios, perfiles y vidrios,
+  con alta y baja de perfiles y accesorios.
+- **Usuarios** con roles (admin/vendedor) y estado activo.
 - Importación de los catálogos y datos históricos desde las bases SQLite del Java.
 
 ## Puesta en marcha local

@@ -25,8 +25,14 @@
 - [x] Confirmar que el motor de precios lee el valor actualizado
 - [x] Publicado en producción y verificado por HTTP
 
+## Alta y baja
+
+- [x] Alta de accesorios y perfiles con valores por defecto del esquema
+- [x] Baja por fila con confirmación
+- [x] Sólo los catálogos que lo declaran permiten alta/baja (coeficientes no)
+- [x] Verificado en producción (TEST-999 creado y eliminado)
+
 ## Pendiente
 
-- [ ] Alta y baja de perfiles/accesorios
 - [ ] Historial de cambios y quién editó
 - [ ] Restringir la sección al rol administrador (spec 0008)

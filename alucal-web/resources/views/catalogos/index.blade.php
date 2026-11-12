@@ -30,6 +30,28 @@
         @endif
     </div>
 
+    @if ($config->permiteCrear())
+        <form method="post" action="{{ route('catalogos.store', $recurso) }}" class="tarjeta form-alta">
+            @csrf
+            <h3>Agregar fila</h3>
+            <div class="grilla">
+                @foreach ($config->camposCrear as $campo)
+                    <label>
+                        {{ $campo['etiqueta'] }}
+                        <input
+                            type="{{ $campo['tipo'] === 'texto' ? 'text' : 'number' }}"
+                            @if ($campo['tipo'] === 'numero') step="any" @endif
+                            @if ($campo['tipo'] === 'entero') step="1" @endif
+                            name="{{ $campo['campo'] }}"
+                            value="{{ old($campo['campo']) }}"
+                            required>
+                    </label>
+                @endforeach
+            </div>
+            <button type="submit" class="btn primario">Agregar</button>
+        </form>
+    @endif
+
     <form method="post" action="{{ route('catalogos.update', $recurso) }}">
         @csrf
 
@@ -39,6 +61,9 @@
                 @foreach ($config->columnas as $columna)
                     <th class="{{ $columna['tipo'] === 'solo-lectura' ? '' : 'editable' }}">{{ $columna['etiqueta'] }}</th>
                 @endforeach
+                @if ($config->permiteEliminar)
+                    <th></th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -61,9 +86,19 @@
                             @endif
                         </td>
                     @endforeach
+                    @if ($config->permiteEliminar)
+                        <td class="acciones-fila">
+                            <form method="post" action="{{ route('catalogos.destroy', [$recurso, $identificador]) }}"
+                                  onsubmit="return confirm('¿Eliminar esta fila del catálogo?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="link-boton">Eliminar</button>
+                            </form>
+                        </td>
+                    @endif
                 </tr>
             @empty
-                <tr><td colspan="{{ count($config->columnas) }}" class="vacio">Sin resultados.</td></tr>
+                <tr><td colspan="{{ count($config->columnas) + ($config->permiteEliminar ? 1 : 0) }}" class="vacio">Sin resultados.</td></tr>
             @endforelse
             </tbody>
         </table>

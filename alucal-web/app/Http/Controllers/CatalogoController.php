@@ -93,6 +93,39 @@ class CatalogoController extends Controller
         return back()->with('estado', "Catálogo «{$config->titulo}» actualizado: {$actualizadas} filas.");
     }
 
+    public function store(Request $request, string $recurso): RedirectResponse
+    {
+        $config = $this->resolver($recurso);
+
+        abort_unless($config->permiteCrear(), 404);
+
+        $datos = $request->validate($config->reglasCrear);
+
+        $fila = $config->porDefecto;
+        foreach ($config->camposCrear as $campo) {
+            $fila[$campo['campo']] = $datos[$campo['campo']] ?? null;
+        }
+
+        DB::table($config->tabla)->insert($fila);
+
+        return back()->with('estado', "Fila agregada a «{$config->titulo}».");
+    }
+
+    public function destroy(string $recurso, string $identificador): RedirectResponse
+    {
+        $config = $this->resolver($recurso);
+
+        abort_unless($config->permiteEliminar, 404);
+
+        $condiciones = $config->condiciones($identificador);
+
+        abort_if($condiciones === [], 404);
+
+        DB::table($config->tabla)->where($condiciones)->delete();
+
+        return back()->with('estado', "Fila eliminada de «{$config->titulo}».");
+    }
+
     private function resolver(string $recurso): RecursoCatalogo
     {
         return $this->recursos->buscar($recurso) ?? abort(404);

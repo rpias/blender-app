@@ -165,6 +165,51 @@ class CatalogosTest extends TestCase
             ->assertDontSee('>Catálogos</a>', false);
     }
 
+    public function test_agrega_un_accesorio(): void
+    {
+        $this->actingAs($this->usuario)
+            ->post('/catalogos/accesorios/nueva', [
+                'codigo' => '999999',
+                'descripcion' => 'ACCESORIO NUEVO',
+                'precio' => '45',
+                'cantPrecio' => '2',
+            ])
+            ->assertRedirect()
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(45, (int) DB::table('accesorio')->where('codigo', '999999')->value('precio'));
+    }
+
+    public function test_rechaza_un_codigo_de_accesorio_repetido(): void
+    {
+        $this->actingAs($this->usuario)
+            ->post('/catalogos/accesorios/nueva', [
+                'codigo' => '230478',
+                'descripcion' => 'REPETIDO',
+                'precio' => '10',
+                'cantPrecio' => '1',
+            ])
+            ->assertSessionHasErrors('codigo');
+    }
+
+    public function test_elimina_un_perfil(): void
+    {
+        $id = DB::table('perfil')->where('Numero', 'ADR 916')->value('id');
+
+        $this->actingAs($this->usuario)
+            ->delete("/catalogos/perfiles/{$id}")
+            ->assertRedirect();
+
+        $this->assertSame(0, DB::table('perfil')->where('id', $id)->count());
+    }
+
+    public function test_un_catalogo_sin_alta_no_permite_crear(): void
+    {
+        $this->actingAs($this->usuario)
+            ->post('/catalogos/coeficientes/nueva', ['clave' => 'X', 'valor' => '1'])
+            ->assertNotFound();
+    }
+
     public function test_recurso_inexistente_da_404(): void
     {
         $this->actingAs($this->usuario)->get('/catalogos/no-existe')->assertNotFound();

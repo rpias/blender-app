@@ -27,6 +27,10 @@ class RecursoCatalogo
         public readonly array $busqueda = [],
         public readonly array $orden = ['id' => 'asc'],
         public readonly int $porPagina = 50,
+        public readonly array $camposCrear = [],
+        public readonly array $reglasCrear = [],
+        public readonly bool $permiteEliminar = false,
+        public readonly array $porDefecto = [],
     ) {}
 
     /**
@@ -43,6 +47,11 @@ class RecursoCatalogo
         }
 
         return $campos;
+    }
+
+    public function permiteCrear(): bool
+    {
+        return $this->camposCrear !== [];
     }
 
     /**

@@ -19,6 +19,7 @@
             <a href="{{ route('clientes.index') }}" class="{{ request()->routeIs('clientes.*') ? 'activo' : '' }}">Clientes</a>
             @if (auth()->user()?->esAdministrador())
                 <a href="{{ route('catalogos.index', 'coeficientes') }}" class="{{ request()->routeIs('catalogos.*') ? 'activo' : '' }}">Catálogos</a>
+                <a href="{{ route('usuarios.index') }}" class="{{ request()->routeIs('usuarios.*') ? 'activo' : '' }}">Usuarios</a>
             @endif
         </nav>
         <form method="post" action="{{ route('logout') }}" class="salir">

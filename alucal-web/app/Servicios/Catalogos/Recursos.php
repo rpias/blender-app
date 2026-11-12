@@ -83,6 +83,26 @@ class Recursos
                 claves: ['id'],
                 busqueda: ['codigo', 'descripcion'],
                 orden: ['codigo' => 'asc'],
+                camposCrear: [
+                    ['campo' => 'codigo', 'etiqueta' => 'Código', 'tipo' => 'texto'],
+                    ['campo' => 'descripcion', 'etiqueta' => 'Descripción', 'tipo' => 'texto'],
+                    ['campo' => 'precio', 'etiqueta' => 'Precio', 'tipo' => 'numero'],
+                    ['campo' => 'cantPrecio', 'etiqueta' => 'Cada N', 'tipo' => 'entero'],
+                ],
+                reglasCrear: [
+                    'codigo' => 'required|string|max:40|unique:accesorio,codigo',
+                    'descripcion' => 'required|string|max:255',
+                    'precio' => 'required|numeric|min:0',
+                    'cantPrecio' => 'required|integer|min:1',
+                ],
+                permiteEliminar: true,
+                porDefecto: [
+                    'idCategoria' => 1,
+                    'perteneceAListadoAccImportados' => false,
+                    'stockMinimo' => 0,
+                    'reposicion' => 0,
+                    'cantHorasColocacion' => 0,
+                ],
             ),
 
             'perfiles' => new RecursoCatalogo(
@@ -101,6 +121,17 @@ class Recursos
                 claves: ['id'],
                 busqueda: ['Numero', 'Descripcion'],
                 orden: ['Numero' => 'asc'],
+                camposCrear: [
+                    ['campo' => 'Numero', 'etiqueta' => 'Número', 'tipo' => 'texto'],
+                    ['campo' => 'Descripcion', 'etiqueta' => 'Descripción', 'tipo' => 'texto'],
+                    ['campo' => 'Peso', 'etiqueta' => 'kg/m', 'tipo' => 'numero'],
+                ],
+                reglasCrear: [
+                    'Numero' => 'required|string|max:40|unique:perfil,Numero',
+                    'Descripcion' => 'required|string|max:255',
+                    'Peso' => 'required|numeric|min:0',
+                ],
+                permiteEliminar: true,
             ),
 
             'vidrios' => new RecursoCatalogo(

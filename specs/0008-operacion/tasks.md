@@ -19,7 +19,7 @@
 - [x] Middleware `admin` (`SoloAdministrador`) aplicado a catálogos
 - [x] Enlace "Catálogos" oculto para vendedores
 - [x] Tests: vendedor recibe 403 en GET y POST, y no ve el enlace
-- [ ] Gestión de usuarios desde la UI (alta, cambio de rol, baja)
+- [x] Gestión de usuarios desde la UI (alta, cambio de rol, baja, sin autoborrado)
 - [ ] Aplicar el rol a la edición de obras (hoy cualquier usuario autenticado edita)
 
 ## Logs y monitoreo

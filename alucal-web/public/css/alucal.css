@@ -138,3 +138,13 @@ input:focus, select:focus { outline: 2px solid rgba(31, 111, 235, .25); border-c
 .grupo-variante[hidden] { display: none; }
 .grilla .casilla { flex-direction: row; align-items: center; gap: 8px; font-size: 13px; }
 .grilla .casilla input { width: auto; }
+
+.form-alta { margin-bottom: 18px; }
+.form-alta h3 { margin: 0 0 10px; font-size: 15px; }
+.acciones-fila { text-align: right; white-space: nowrap; }
+.acciones-fila form { display: inline; }
+
+.form-fila { display: flex; align-items: center; gap: 8px; }
+.form-fila select { padding: 5px 8px; font-size: 13px; }
+.form-fila .casilla { flex-direction: row; gap: 6px; font-size: 13px; }
+.form-fila .btn { padding: 5px 10px; font-size: 13px; }
