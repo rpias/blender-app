@@ -42,6 +42,7 @@ rsync -az --delete \
   --exclude 'storage/framework/sessions/*' \
   --exclude 'storage/framework/views/*' \
   --exclude 'storage/logs/*' \
+  --exclude 'bootstrap/cache/*.php' \
   "${RAIZ}/" "${SSH_USER}@${SSH_HOST}:${APP_DIR}/"
 
 if [[ -n "$WEB_DIR" ]]; then
@@ -53,6 +54,8 @@ ssh "${SSH_OPTS[@]}" "${SSH_USER}@${SSH_HOST}" bash -s <<EOF
 set -e
 cd ${APP_DIR}
 mkdir -p storage/framework/{cache,sessions,views} storage/logs bootstrap/cache
+# nunca reusar cachés de paquetes generados en otra máquina (p. ej. con dependencias --dev)
+rm -f bootstrap/cache/*.php
 # los archivos estáticos los sirve el usuario del web server: tienen que ser legibles
 find public -type d -exec chmod 755 {} \;
 find public -type f -exec chmod 644 {} \;
