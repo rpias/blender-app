@@ -10,6 +10,7 @@ use App\Services\Aberturas\CalculadoraCorredizaDoppia;
 use App\Services\Aberturas\CalculadoraCorredizaDoppia22;
 use App\Services\Aberturas\CalculadoraCorredizaNordical;
 use App\Services\Aberturas\CalculadoraCorredizaS20;
+use App\Services\Aberturas\CalculadoraGuillotinaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalculadoraProyectanteHA62;
 use App\Services\Aberturas\CalcularAberturaSimple;
@@ -26,7 +27,7 @@ class AberturaController extends Controller
     {
         $datos = $request->validate([
             'tipo' => ['required', 'string', 'in:ABERTURA_SIMPLE'],
-            'idTipologia' => ['required', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
+            'idTipologia' => ['required', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraGuillotinaS20::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
             'idSerie' => ['required', 'integer'],
             'cantidad' => ['required', 'integer', 'min:1', 'max:999'],
             'ancho' => ['required', 'numeric', 'min:100', 'max:10000'],
@@ -76,6 +77,9 @@ class AberturaController extends Controller
 
             // Proyectante HA 62
             'contravidriosProyectante' => ['nullable', 'string', 'in:RECTOS,CURVOS'],
+
+            // Guillotina Serie 20
+            'punzonadoGuillotina' => ['nullable', 'boolean'],
         ]);
 
         $idTipologia = (int) $datos['idTipologia'];
@@ -88,8 +92,14 @@ class AberturaController extends Controller
         $esDoppia22 = $idTipologia === CalculadoraCorredizaDoppia22::TIPOLOGIA;
         $esNordical = $idTipologia === CalculadoraCorredizaNordical::TIPOLOGIA;
         $esProyectante = $idTipologia === CalculadoraProyectanteHA62::TIPOLOGIA;
+        $esGuillotina = $idTipologia === CalculadoraGuillotinaS20::TIPOLOGIA;
 
         $parametros = match (true) {
+            $esGuillotina => [
+                'punzonadoManual' => (bool) ($datos['punzonadoGuillotina'] ?? false),
+                'colorHerrajes' => (string) ($datos['colorHerrajes'] ?? 'GRIS'),
+                'vidrioId' => $datos['vidrioId'] ?? null,
+            ],
             $esProyectante => [
                 'contravidrios' => (string) ($datos['contravidriosProyectante'] ?? 'RECTOS'),
                 'colorHerrajes' => (string) ($datos['colorHerrajes'] ?? 'BLANCO'),

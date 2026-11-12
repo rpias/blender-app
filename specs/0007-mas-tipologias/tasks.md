@@ -38,13 +38,20 @@
 - [x] Burletes 193760 + 230711/230710/230714/230807 según espesor
 - [x] Formulario y 2 tests
 
+## Guillotina Serie 20 (4)
+
+- [x] Portar `getGuillotinaS20` (marco 204/205, hojas 201/202, enganche 216)
+- [x] Punzonado manual vs automático (`alto/2 − 74` vs `alto/2 − 9`)
+- [x] Cierre camarón por color (230066 negro / 230067 gris) y burletes 230941/100104
+- [x] Formulario y 2 tests
+
 ## Pendiente
 
 - [ ] Mosquitero fijo y uniblock mix en batiente
 - [ ] Variante doble contacto (`getBatientePrima_1Hoja_DobleContacto`)
 - [ ] Corrediza 2+1 y 2+2
 - [ ] Paño fijo en corrediza
-- [ ] Guillotina
+- [ ] Guillotina en otras series (Prima 2, Rotonda 700, Serie 25, Rotonda 640)
 - [ ] Proyectante en otras series (Prima, Serie 20, Serie 30, Forma, Rotonda 640)
 - [ ] Tabaquera y oscilobatiente
 - [ ] Aberturas compuestas (`AberturaCompuesta_2`)

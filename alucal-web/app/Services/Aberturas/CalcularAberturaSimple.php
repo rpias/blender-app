@@ -28,6 +28,7 @@ class CalcularAberturaSimple
         private readonly CalculadoraCorredizaDoppia22 $doppia22,
         private readonly CalculadoraCorredizaNordical $nordical,
         private readonly CalculadoraProyectanteHA62 $proyectante,
+        private readonly CalculadoraGuillotinaS20 $guillotina,
         private readonly CalculadoraPrecioAbertura $precios,
     ) {}
 
@@ -93,6 +94,17 @@ class CalcularAberturaSimple
                 'divisorAlMedio' => (bool) ($parametros['divisorAlMedio'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
+            ]);
+        }
+
+        if ($idTipologia === CalculadoraGuillotinaS20::TIPOLOGIA) {
+            return $this->guillotina->calcular([
+                'anchoMM' => (float) $abertura->ancho,
+                'altoMM' => (float) $abertura->alto,
+                'cantidad' => max(1, (int) $abertura->cantidad),
+                'punzonadoManual' => (bool) ($parametros['punzonadoManual'] ?? false),
+                'colorHerrajes' => (string) ($parametros['colorHerrajes'] ?? $abertura->colorHerrajes ?? 'GRIS'),
+                'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null, $parametros['vidrioDvh'] ?? null),
             ]);
         }
 
