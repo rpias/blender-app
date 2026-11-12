@@ -723,6 +723,74 @@
         </form>
     </section>
 
+
+    <section class="tarjeta bloque-form">
+        <h2>Agregar abertura · Proyectante HA 62</h2>
+        <p class="ayuda">
+            Una hoja que abre hacia afuera: marco y hoja a 45° (ADR 1483/1484), contravidrios según vidrio.
+        </p>
+
+        <form method="post" action="{{ route('aberturas.store', $obra) }}">
+            @csrf
+            <input type="hidden" name="tipo" value="ABERTURA_SIMPLE">
+            <input type="hidden" name="idTipologia" value="10">
+            <input type="hidden" name="idSerie" value="10">
+
+            <div class="grilla">
+                <label>
+                    Ancho (mm)
+                    <input type="number" name="ancho" value="600" min="100" max="10000" required>
+                </label>
+                <label>
+                    Alto (mm)
+                    <input type="number" name="alto" value="600" min="100" max="10000" required>
+                </label>
+                <label>
+                    Cantidad
+                    <input type="number" name="cantidad" value="1" min="1" max="999" required>
+                </label>
+                <label>
+                    Contravidrios
+                    <select name="contravidriosProyectante">
+                        <option value="RECTOS">Rectos · ADR 1655</option>
+                        <option value="CURVOS">Curvos · desde 14 mm</option>
+                    </select>
+                </label>
+                <label>
+                    Color de herrajes
+                    <select name="colorHerrajes">
+                        <option value="BLANCO">Blanco</option>
+                        <option value="NEGRO">Negro</option>
+                    </select>
+                </label>
+                <label>
+                    Vidrio
+                    <select name="vidrioId">
+                        <option value="">Sin vidrio</option>
+                        @foreach ($vidrios as $vidrio)
+                            <option value="{{ $vidrio['id'] }}">{{ $vidrio['etiqueta'] }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <label>
+                    Ubicación
+                    <input type="text" name="ubicacion" maxlength="60" placeholder="Ej.: Baño">
+                </label>
+                <label>
+                    Terminación
+                    <select name="terminacion">
+                        <option value="PINTADO_BLANCO">Pintado blanco</option>
+                        <option value="PINTADO_NEGRO">Pintado negro</option>
+                        <option value="ANODIZADO_NATURAL">Anodizado natural</option>
+                        <option value="ELECTROCOLOR_NEGRO">Electrocolor negro</option>
+                    </select>
+                </label>
+            </div>
+
+            <button type="submit" class="btn primario">Agregar y calcular</button>
+        </form>
+    </section>
+
     <script>
         (function () {
             const serie = document.getElementById('serie');

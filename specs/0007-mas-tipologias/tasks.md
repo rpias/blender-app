@@ -31,12 +31,20 @@
 - [x] Accesorios AA710/AA708/AA711/AA498/AA213 y dos vidrios (hoja y paño fijo)
 - [x] Formulario y 2 tests
 
+## Proyectante HA 62 (10)
+
+- [x] Portar `getProyDeslizHA62` (marco 1483 y hoja 1484 a 45°, contravidrios −164/−202)
+- [x] Contravidrios rectos 1655/1295/916/919/1489/1163/913/910 y curvos 917/918, 920/921, 1174/1175, 914/915, 911/912
+- [x] Burletes 193760 + 230711/230710/230714/230807 según espesor
+- [x] Formulario y 2 tests
+
 ## Pendiente
 
 - [ ] Mosquitero fijo y uniblock mix en batiente
 - [ ] Variante doble contacto (`getBatientePrima_1Hoja_DobleContacto`)
 - [ ] Corrediza 2+1 y 2+2
 - [ ] Paño fijo en corrediza
-- [ ] Proyectante y guillotina
+- [ ] Guillotina
+- [ ] Proyectante en otras series (Prima, Serie 20, Serie 30, Forma, Rotonda 640)
 - [ ] Tabaquera y oscilobatiente
 - [ ] Aberturas compuestas (`AberturaCompuesta_2`)

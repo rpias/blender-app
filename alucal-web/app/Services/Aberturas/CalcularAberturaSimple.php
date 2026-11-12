@@ -27,6 +27,7 @@ class CalcularAberturaSimple
         private readonly CalculadoraCorredizaDoppia $doppia,
         private readonly CalculadoraCorredizaDoppia22 $doppia22,
         private readonly CalculadoraCorredizaNordical $nordical,
+        private readonly CalculadoraProyectanteHA62 $proyectante,
         private readonly CalculadoraPrecioAbertura $precios,
     ) {}
 
@@ -92,6 +93,18 @@ class CalcularAberturaSimple
                 'divisorAlMedio' => (bool) ($parametros['divisorAlMedio'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
+            ]);
+        }
+
+        if ($idTipologia === CalculadoraProyectanteHA62::TIPOLOGIA) {
+            return $this->proyectante->calcular([
+                'anchoMM' => (float) $abertura->ancho,
+                'altoMM' => (float) $abertura->alto,
+                'cantidad' => max(1, (int) $abertura->cantidad),
+                'contravidrios' => (string) ($parametros['contravidrios'] ?? 'RECTOS'),
+                'colorHerrajes' => (string) ($parametros['colorHerrajes'] ?? $abertura->colorHerrajes ?? 'BLANCO'),
+                'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
+                'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null, $parametros['vidrioDvh'] ?? null),
             ]);
         }
 
