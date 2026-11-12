@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AberturaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ObraController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/aberturas/opciones/{tipologia}/{serie}', [AberturaController::class, 'opciones'])->name('aberturas.opciones');
     Route::post('/aberturas/{abertura}/recalcular', [AberturaController::class, 'recalcular'])->name('aberturas.recalcular');
     Route::delete('/aberturas/{abertura}', [AberturaController::class, 'destroy'])->name('aberturas.destroy');
+
+    Route::get('/catalogos/{recurso}', [CatalogoController::class, 'index'])->name('catalogos.index');
+    Route::post('/catalogos/{recurso}', [CatalogoController::class, 'update'])->name('catalogos.update');
 
     Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
     Route::get('/clientes/crear', [ClienteController::class, 'create'])->name('clientes.create');

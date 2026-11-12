@@ -21,7 +21,7 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 |---|---|
 | Stack | Laravel 13 · PHP 8.3 · MySQL 8 / MariaDB |
 | Código | 112 migraciones, 108 modelos Eloquent, 5 calculadoras de tipología |
-| Tests | 27 tests · 119 assertions (`php artisan test`) |
+| Tests | 36 tests · 142 assertions (`php artisan test`) |
 | Producción | Hostinger compartido, `~/alucal` + `public_html` por symlink |
 | Datos migrados | 7 obras, 8 aberturas, 1.728 perfiles, 1.267 accesorios |
 
@@ -33,6 +33,7 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 - Precio por **margen operativo**, con coeficientes, desperdicios y precios por kilo leídos de la
   base (no hardcodeados).
 - Presupuesto de obra en **PDF**, **XLSX** y **CSV**.
+- **Catálogos editables**: coeficientes, precio por kilo, márgenes, accesorios, perfiles y vidrios.
 - Importación de los catálogos y datos históricos desde las bases SQLite del Java.
 
 ## Puesta en marcha local

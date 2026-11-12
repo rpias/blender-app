@@ -17,6 +17,7 @@
         <nav>
             <a href="{{ route('obras.index') }}" class="{{ request()->routeIs('obras.*') ? 'activo' : '' }}">Obras</a>
             <a href="{{ route('clientes.index') }}" class="{{ request()->routeIs('clientes.*') ? 'activo' : '' }}">Clientes</a>
+            <a href="{{ route('catalogos.index', 'coeficientes') }}" class="{{ request()->routeIs('catalogos.*') ? 'activo' : '' }}">Catálogos</a>
         </nav>
         <form method="post" action="{{ route('logout') }}" class="salir">
             @csrf

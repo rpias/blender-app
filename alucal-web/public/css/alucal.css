@@ -109,3 +109,19 @@ input:focus, select:focus { outline: 2px solid rgba(31, 111, 235, .25); border-c
 }
 
 .acciones-encabezado { display: flex; align-items: center; gap: 14px; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 18px; }
+.tabs a {
+    padding: 7px 12px; border: 1px solid var(--borde); border-radius: 999px;
+    background: #fff; color: var(--suave); text-decoration: none; font-size: 13px;
+}
+.tabs a.activo { background: var(--acento); border-color: var(--acento); color: #fff; }
+.tabs a:hover { border-color: #b9c0cc; }
+
+.tabla-catalogo input { width: 100%; padding: 6px 8px; font-size: 13px; }
+.tabla-catalogo td.lectura { color: var(--suave); font-size: 13px; }
+.tabla-catalogo td.editable { min-width: 110px; }
+
+.acciones-form { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
+.buscador.chico { margin: 0; }
+.buscador.chico input { min-width: 200px; }

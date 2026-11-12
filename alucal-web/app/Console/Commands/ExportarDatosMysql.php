@@ -67,8 +67,8 @@ class ExportarDatosMysql extends Command
                             $partes[] = (string) $valor;
                         } else {
                             $partes[] = "'".str_replace(
-                                ["\\", "'", "\n", "\r", "\x00"],
-                                ["\\\\", "\\'", "\\n", "\\r", "\\0"],
+                                ['\\', "'", "\n", "\r", "\x00"],
+                                ['\\\\', "\\'", '\\n', '\\r', '\\0'],
                                 (string) $valor
                             )."'";
                         }

@@ -17,6 +17,9 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0003](0003-tipologias-de-aberturas/spec.md) | parcial | 5 tipologías: marco fijo, Domina, HA 62, S20, S25 |
 | [0004](0004-presupuestos-y-exportes/spec.md) | implementada | Presupuesto en PDF, XLSX y CSV |
 | [0005](0005-despliegue/spec.md) | implementada | Hosting compartido, MySQL, publicación por SSH |
+| [0006](0006-catalogos-editables/spec.md) | implementada | Edición de coeficientes, precios, márgenes, accesorios, perfiles y vidrios |
+| [0007](0007-mas-tipologias/spec.md) | planificada | Batiente, 2+1, 2+2, paño fijo y compuestas |
+| [0008](0008-operacion/spec.md) | planificada | Dominio, backups, roles y monitoreo |
 
 ## Cómo agregar una spec
 
