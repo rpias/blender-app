@@ -566,6 +566,103 @@
         </form>
     </section>
 
+
+    <section class="tarjeta bloque-form">
+        <h2>Agregar abertura · Corrediza 2+1 Doppia</h2>
+        <p class="ayuda">
+            Dos hojas móviles y un paño fijo: ADR 2471/2472, cubrehoja 2477 y marco según la variante.
+        </p>
+
+        <form method="post" action="{{ route('aberturas.store', $obra) }}">
+            @csrf
+            <input type="hidden" name="tipo" value="ABERTURA_SIMPLE">
+            <input type="hidden" name="idTipologia" value="14">
+            <input type="hidden" name="idSerie" value="3">
+
+            <div class="grilla">
+                <label>
+                    Ancho (mm)
+                    <input type="number" name="ancho" value="2400" min="100" max="10000" required>
+                </label>
+                <label>
+                    Alto (mm)
+                    <input type="number" name="alto" value="1500" min="100" max="10000" required>
+                </label>
+                <label>
+                    Cantidad
+                    <input type="number" name="cantidad" value="1" min="1" max="999" required>
+                </label>
+                <label>
+                    Marco inferior
+                    <select name="marcoInferiorDoppia">
+                        <option value="ADR 2494">ADR 2494 · umbral bajo</option>
+                        <option value="ADR 2496">ADR 2496 · umbral alto</option>
+                    </select>
+                </label>
+                <label>
+                    Marco superior
+                    <select name="marcoSuperiorDoppia">
+                        <option value="ADR 2494">ADR 2494</option>
+                        <option value="ADR 2496">ADR 2496 · con refuerzo</option>
+                    </select>
+                </label>
+                <label>
+                    Parante lateral
+                    <select name="paranteDoppia">
+                        <option value="ADR 2474">ADR 2474 · simple</option>
+                        <option value="ADR 2479">ADR 2479 · reforzado</option>
+                    </select>
+                </label>
+                <label>
+                    Zócalo y cabezal
+                    <select name="zocaloDoppia">
+                        <option value="ADR 2204">ADR 2204</option>
+                        <option value="ADR 2209">ADR 2209 · alto</option>
+                    </select>
+                </label>
+                <label>
+                    Enganche central
+                    <select name="engancheDoppia">
+                        <option value="SIMPLE">Simple · 2 × ADR 2473</option>
+                        <option value="REFORZADO">Reforzado · 2473 + 2479</option>
+                        <option value="DOBLEMENTE REFORZADO">Doblemente · 2 × 2479</option>
+                    </select>
+                </label>
+                <label>
+                    Color de herrajes
+                    <select name="colorHerrajes">
+                        <option value="BLANCO">Blanco</option>
+                        <option value="NEGRO">Negro</option>
+                    </select>
+                </label>
+                <label>
+                    Vidrio
+                    <select name="vidrioId">
+                        <option value="">Sin vidrio</option>
+                        @foreach ($vidrios as $vidrio)
+                            <option value="{{ $vidrio['id'] }}">{{ $vidrio['etiqueta'] }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                <label>
+                    Ubicación
+                    <input type="text" name="ubicacion" maxlength="60" placeholder="Ej.: Estar">
+                </label>
+                <label>
+                    Terminación
+                    <select name="terminacion">
+                        <option value="PINTADO_BLANCO">Pintado blanco</option>
+                        <option value="PINTADO_NEGRO">Pintado negro</option>
+                        <option value="ANODIZADO_NATURAL">Anodizado natural</option>
+                        <option value="ELECTROCOLOR_NEGRO">Electrocolor negro</option>
+                    </select>
+                </label>
+            </div>
+
+            <button type="submit" class="btn primario">Agregar y calcular</button>
+        </form>
+    </section>
+
     <script>
         (function () {
             const serie = document.getElementById('serie');
