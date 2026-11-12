@@ -63,7 +63,7 @@ class AberturaController extends Controller
             'hojaBatiente' => ['nullable', 'string', 'in:RECTA,CURVA'],
             'contravidriosBatiente' => ['nullable', 'string', 'in:CURVOS,RECTOS'],
             'cierreBatiente' => ['nullable', 'string', 'in:FALLEBA,ALDABILLA'],
-            'colorHerrajes' => ['nullable', 'string', 'in:NEGRO,BLANCO'],
+            'colorHerrajes' => ['nullable', 'string', 'in:NEGRO,BLANCO,GRIS'],
 
             // Corrediza 2+1 (Doppia)
             'marcoInferiorDoppia' => ['nullable', 'string', 'in:ADR 2494,ADR 2496'],

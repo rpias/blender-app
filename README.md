@@ -34,6 +34,7 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 - Precio por **margen operativo**, con coeficientes, desperdicios y precios por kilo leídos de la
   base (no hardcodeados).
 - Presupuesto de obra en **PDF**, **XLSX** y **CSV**.
+- Colores de herrajes: blanco, negro y gris (el gris sólo aplica a la guillotina, como en el original).
 - **Catálogos editables**: coeficientes, precio por kilo, márgenes, accesorios, perfiles y vidrios.
 - Importación de los catálogos y datos históricos desde las bases SQLite del Java.
 

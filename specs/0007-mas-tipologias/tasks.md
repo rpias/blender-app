@@ -44,6 +44,7 @@
 - [x] Punzonado manual vs automático (`alto/2 − 74` vs `alto/2 − 9`)
 - [x] Cierre camarón por color (230066 negro / 230067 gris) y burletes 230941/100104
 - [x] Formulario y 2 tests
+- [x] Verificado en producción: guillotina 1200×1000 → U$S 161
 
 ## Pendiente
 
