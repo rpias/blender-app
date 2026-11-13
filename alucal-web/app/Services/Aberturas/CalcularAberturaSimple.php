@@ -94,6 +94,7 @@ class CalcularAberturaSimple
                 'enganche' => (string) ($parametros['enganche'] ?? 'SIMPLE'),
                 'ruedaCodigo' => (string) ($parametros['ruedaCodigo'] ?? '193155'),
                 'divisorAlMedio' => (bool) ($parametros['divisorAlMedio'] ?? false),
+                'mosquitero' => (bool) ($parametros['mosquitero'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
             ]);

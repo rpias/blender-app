@@ -44,6 +44,8 @@ Fuera de alcance: fachadas vidriadas, barandas, estructuras de aluminio y uniblo
 - `tests/Feature/CalculoBatienteTest.php` — 1 hoja recta (hoja 761 × 1961, vidrio 669 × 1869 mm),
   2 hojas curvas con DVH (6234 + 6223 + 6231), cantidad 3 y error de hoja.
 - `app/Services/Aberturas/CalculadoraBatiente.php`
+- `tests/Feature/CalculoMosquiteroTest.php` — perfiles 5 mm menores, escuadras y tejido por tamaño,
+  y precio mayor que sin mosquitero.
 - `tests/Feature/CalculoOsciloTest.php` — kit coplanar 230682 (hoja 648 mm) y escalonado negro 230675,
   más rechazo de hoja de 348 mm sin kit.
 - `tests/Feature/CalculoTabaqueraTest.php` — sapito blanco con limitadores, contravidrios 547/309 mm.

@@ -60,6 +60,14 @@
 - [x] Accesorios 230419, 230376, 230716, AA258, 230353, 230728 y burletes
 - [x] Formulario y 2 tests · producción: 700×500 → U$S 191
 
+## Mosquitero fijo
+
+- [x] `Mosquitero` portado de `agregarMosquiteroFijo` y `agregarTejidoMosquitero`
+- [x] Hoja 5 mm menor que el vano, escuadras 230661 (Serie 20) / 230428 (Domina), 230623, 196150
+- [x] Tejido por lado menor (230861 a 232001)
+- [x] Opción "Con mosquitero" en corrediza Serie 20 y Domina · producción: Domina 1500×1000 → U$S 369
+- [ ] Uniblock mix (cajón de cortina) y mosquitero en guía
+
 ## Pendiente
 
 - [ ] Mosquitero fijo y uniblock mix en batiente

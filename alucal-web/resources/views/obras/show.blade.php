@@ -256,6 +256,9 @@
                     <label class="casilla">
                         <input type="checkbox" name="divisorAlMedio" value="1"> Divisor al medio
                     </label>
+                    <label class="casilla">
+                        <input type="checkbox" name="mosquitero" value="1"> Con mosquitero
+                    </label>
                 </div>
             </div>
 
@@ -272,6 +275,9 @@
                     </label>
                     <label class="casilla">
                         <input type="checkbox" name="divisorAlMedio" value="1"> Divisor al medio
+                    </label>
+                    <label class="casilla">
+                        <input type="checkbox" name="mosquitero" value="1"> Con mosquitero
                     </label>
                 </div>
             </div>

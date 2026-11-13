@@ -19,7 +19,10 @@ class CalculadoraCorredizaS20
 {
     public const TIPOLOGIA = 3;
 
-    public function __construct(private readonly Constantes $constantes) {}
+    public function __construct(
+        private readonly Constantes $constantes,
+        private readonly Mosquitero $mosquitero,
+    ) {}
 
     /**
      * @param  array{
@@ -153,6 +156,11 @@ class CalculadoraCorredizaS20
         $pesoHoja = $this->pesoHojaEstimado($lineas, $vidrio, $cantidad);
         $codigoRodamiento = $this->codigoRodamiento($idSerie, $pesoHoja, $zocalo);
         $accesorio($codigoRodamiento, 4.0 * $cantidad, 'HOJA');
+
+        // Mosquitero fijo opcional sobre el vano completo.
+        if ((bool) ($datos['mosquitero'] ?? false)) {
+            $this->mosquitero->agregar($lineas, Mosquitero::PERFIL_S20, $ancho, $alto, $cantidad);
+        }
 
         return $lineas;
     }

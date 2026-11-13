@@ -17,7 +17,10 @@ class CalculadoraCorredizaDomina
 {
     public const TIPOLOGIA = 3;
 
-    public function __construct(private readonly Constantes $constantes) {}
+    public function __construct(
+        private readonly Constantes $constantes,
+        private readonly Mosquitero $mosquitero,
+    ) {}
 
     /**
      * @param  array{
@@ -107,6 +110,11 @@ class CalculadoraCorredizaDomina
             } else {
                 $this->vidrios($lineas, 2 * $cantidad, $anchoVidrio / 1000.0, $altoVidrio / 1000.0, $vidrio);
             }
+        }
+
+        // Mosquitero fijo opcional sobre el vano completo.
+        if ((bool) ($datos['mosquitero'] ?? false)) {
+            $this->mosquitero->agregar($lineas, Mosquitero::PERFIL_DOMINA, $ancho, $alto, $cantidad);
         }
 
         return $lineas;

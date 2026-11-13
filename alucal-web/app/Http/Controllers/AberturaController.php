@@ -62,6 +62,7 @@ class AberturaController extends Controller
             'marcoHA62' => ['nullable', 'string', 'in:45 GRADOS,90 GRADOS'],
             'engancheHA62' => ['nullable', 'string', 'in:SIMPLE,REFORZADO,DOBLEMENTE REFORZADO'],
             'divisor' => ['nullable', 'string', 'max:30'],
+            'mosquitero' => ['nullable', 'boolean'],
 
             // Batiente
             'cantHojasBatiente' => ['nullable', 'integer', 'in:1,2'],
@@ -182,6 +183,7 @@ class AberturaController extends Controller
                 'enganche' => (string) ($datos['engancheDomina'] ?? 'SIMPLE'),
                 'ruedaCodigo' => '193155',
                 'divisorAlMedio' => (bool) ($datos['divisorAlMedio'] ?? false),
+                'mosquitero' => (bool) ($datos['mosquitero'] ?? false),
                 'espesorVidrio' => 4,
                 'vidrioId' => $datos['vidrioId'] ?? null,
             ],
@@ -194,6 +196,7 @@ class AberturaController extends Controller
                 'enganche' => (string) ($datos['enganche'] ?? '203'),
                 'punzonadoManual' => (bool) ($datos['punzonadoManual'] ?? false),
                 'cantEnganches' => (int) ($datos['cantEnganches'] ?? 2),
+                'mosquitero' => (bool) ($datos['mosquitero'] ?? false),
                 'divisorAlMedio' => (bool) ($datos['divisorAlMedio'] ?? false),
                 'divisor' => $datos['divisor'] ?? null,
                 'vidrioId' => $datos['vidrioId'] ?? null,
