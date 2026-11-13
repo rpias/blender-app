@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -31,6 +32,22 @@ class ElementoObra extends Model
     }
 
     /** @return BelongsTo<Obra, $this> */
+    /**
+     * Divisiones del vano cuando este elemento es una abertura compuesta (spec 0009).
+     */
+    public function vanoDivisiones(): HasMany
+    {
+        return $this->hasMany(VanoDivision::class, 'idElementoVano');
+    }
+
+    /**
+     * Aberturas agrupadas en este vano.
+     */
+    public function hijos(): HasMany
+    {
+        return $this->hasMany(self::class, 'idElementoVano');
+    }
+
     public function obra(): BelongsTo
     {
         return $this->belongsTo(Obra::class, 'idObra');

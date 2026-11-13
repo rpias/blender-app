@@ -2,13 +2,13 @@
 
 ## Modelo
 
-- [ ] Migración `vano_division` + `elemento_obra.idElementoVano`
-- [ ] Modelo `VanoDivision` y relación en `ElementoObra`
+- [x] Migración `vano_division` + `elemento_obra.idElementoVano`
+- [x] Modelo `VanoDivision` y relaciones `hijos` / `vanoDivisiones` en `ElementoObra`
 - [ ] Validación: hijos de la misma obra y sin vano previo
 
 ## Cálculo
 
-- [ ] `CalcularVano`: suma de hijos + conectores por kilo
+- [x] `CalcularVano`: suma de hijos + conectores por kilo (2 tests)
 - [ ] Snapshot del vano en `elemento_obra.datos`
 - [ ] Recalcular el vano cuando cambia un hijo
 
@@ -25,5 +25,6 @@
 
 ## Verificación
 
-- [ ] Tests: total del vano, hijo duplicado, borrado del vano conserva hijos
+- [x] Tests de cálculo: total del vano con y sin conectores
+- [ ] Tests: hijo duplicado y borrado del vano conserva hijos
 - [ ] Prueba en producción con una obra de ejemplo

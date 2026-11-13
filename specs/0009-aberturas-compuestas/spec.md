@@ -1,6 +1,6 @@
 # Spec 0009 — Aberturas compuestas
 
-**Estado:** planificada
+**Estado:** parcial (modelo y cálculo)
 **Depende de:** 0001, 0002, 0003, 0004
 
 ## Problema
@@ -48,6 +48,12 @@ Fuera de alcance: mover hijos entre vanos, redimensionar hijos desde el contened
 - **R4** — Intentar agregar una abertura ya agrupada devuelve error de validación.
 - **R5** — Borrar el vano deja las aberturas intactas y el total de la obra sin cambios.
 - **R6** — El PDF lista el vano en negrita y debajo sus hijos con sus medidas.
+
+## Evidencia
+
+- Migración `2026_01_02_000400_add_vanos_compuestos` aplicada en desarrollo y producción.
+- `tests/Feature/CalcularVanoTest.php` — suma de hijos (100 + 200×2) más conector de 2 m ≈ 39,
+  y total sin conectores.
 
 ## Riesgo principal
 
