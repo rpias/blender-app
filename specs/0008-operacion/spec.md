@@ -41,6 +41,8 @@ alertas. Cualquier incidente (base corrupta, error de deploy, clave filtrada) ho
 - `deploy/backup.sh` ejecutado en el servidor: `alucal-20261112-1416.sql.gz` (121 KB, 119 tablas).
 - `tests/Feature/CatalogosTest.php`: vendedor recibe 403 en GET y POST de catálogos.
 - Producción: `logging.default = daily`, retención 14 días.
+- Restauración verificada: el backup `alucal-20261113-1227.sql.gz` se importó en una base limpia
+  (MariaDB 10.4) y devolvió los mismos conteos que producción.
 
 ## Riesgos
 

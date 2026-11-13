@@ -11,7 +11,9 @@
 - [x] Primera copia generada y validada (`alucal-20261112-1416.sql.gz`, 119 tablas)
 - [ ] Programar el cron en hPanel (el usuario SSH no tiene `crontab`):
       `15 3 * * * /home/u746296444/alucal/deploy/backup.sh >/dev/null 2>&1`
-- [ ] Restaurar una copia en una base de prueba (requiere crear una segunda base desde hPanel)
+- [x] Restaurar una copia y validar los datos en una base temporal (MariaDB 10.4 local):
+      7 obras, 8 aberturas y 1.728 perfiles, idénticos a producción
+- [x] Backup portable: el script quita la marca de sandbox de MariaDB 11 que rompe clientes 10.x
 
 ## Roles
 

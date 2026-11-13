@@ -68,6 +68,20 @@ la carga.
 | `public_html` no apunta a la app | `ln -s` dentro del directorio existente | borrar el directorio y recrear el symlink |
 | Fechas como `26/06/58597` | epoch en ms en columna `DATE` | accesores `Obra::comoFecha()` |
 
+## Backups
+
+`deploy/backup.sh` corre `mysqldump` comprimido con retención de 7 días y quita la marca
+`/*M!999999` que MariaDB 11 agrega al inicio: sin eso, un cliente 10.x no puede restaurar el archivo.
+
+Restauración verificada el 2026-11-13: copia importada en una base limpia devolvió 7 obras,
+8 aberturas y 1.728 perfiles, igual que producción.
+
+Cron pendiente de cargar en hPanel (el usuario SSH no tiene binario `crontab`):
+
+```
+15 3 * * * /home/u746296444/alucal/deploy/backup.sh >/dev/null 2>&1
+```
+
 ## Checklist antes de dar por publicado
 
 - [ ] `APP_DEBUG=false` y `APP_ENV=production`

@@ -39,11 +39,22 @@ fi
 mkdir -p "$DESTINO"
 ARCHIVO="$DESTINO/alucal-$(date +%Y%m%d-%H%M).sql.gz"
 
+TMP="$ARCHIVO.tmp"
+
 mysqldump \
     --host="$DB_HOST" --port="$DB_PORT" \
     --user="$DB_USERNAME" --password="$DB_PASSWORD" \
-    --single-transaction --quick --skip-lock-tables --no-tablespaces \
-    "$DB_DATABASE" | gzip -9 > "$ARCHIVO"
+    --single-transaction --quick --skip-lock-tables --no-tablespaces --skip-comments \
+    "$DB_DATABASE" > "$TMP"
+
+# MariaDB 11 agrega una marca de sandbox que los clientes 10.x no entienden.
+if head -1 "$TMP" | grep -q '^/\*M!'; then
+    tail -n +2 "$TMP" > "$TMP.sin"
+    mv "$TMP.sin" "$TMP"
+fi
+
+gzip -9 -c "$TMP" > "$ARCHIVO"
+rm -f "$TMP"
 
 # Verificación mínima: el archivo existe y descomprime.
 gzip -t "$ARCHIVO"
