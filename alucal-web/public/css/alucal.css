@@ -148,3 +148,6 @@ input:focus, select:focus { outline: 2px solid rgba(31, 111, 235, .25); border-c
 .form-fila select { padding: 5px 8px; font-size: 13px; }
 .form-fila .casilla { flex-direction: row; gap: 6px; font-size: 13px; }
 .form-fila .btn { padding: 5px 10px; font-size: 13px; }
+
+.chip { display: inline-block; padding: 1px 8px; margin-right: 4px; border-radius: 999px;
+        background: #eef1f5; color: var(--suave); font-size: 12px; }

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\Obra;
+use App\Models\Perfil;
 use App\Services\Aberturas\CalculadoraBatiente;
 use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
+use App\Services\Aberturas\CalcularVano;
 use App\Services\Aberturas\ParametrosFormulario;
 use App\Servicios\Exportacion\PresupuestoPdf;
 use App\Servicios\Exportacion\XlsxWriter;
@@ -123,6 +125,15 @@ class ObraController extends Controller
             ->all();
         $serieInicial = $series[0]['id'] ?? null;
 
+        $candidatos = $obra->elementos
+            ->filter(fn ($elemento) => $elemento->aberturaSimple !== null && $elemento->idElementoVano === null)
+            ->values();
+
+        $vanos = $obra->elementos
+            ->filter(fn ($elemento) => $elemento->tipoElemento === 'ABERTURA_COMPUESTA'
+                && $elemento->hijos()->exists())
+            ->values();
+
         return view('obras.show', [
             'obra' => $obra,
             'series' => $series,
@@ -132,7 +143,10 @@ class ObraController extends Controller
             'opcionesIniciales' => $serieInicial !== null
                 ? $formulario->opciones(CalculadoraMarcoFijo::TIPOLOGIA, $serieInicial)
                 : ['perfiles' => [], 'divisores' => [], 'contravidrios' => []],
-            'total' => $obra->elementos->sum(fn ($elemento) => (float) ($elemento->aberturaSimple?->precioUnitario ?? 0) * (int) ($elemento->aberturaSimple?->cantidad ?? 0)),
+            'candidatos' => $candidatos,
+            'vanos' => $vanos,
+            'conectores' => Perfil::query()->orderBy('Numero')->get(['Numero', 'Descripcion']),
+            'total' => $this->totalObra($obra),
         ]);
     }
 
@@ -146,6 +160,27 @@ class ObraController extends Controller
     /**
      * Presupuesto de la obra en PDF (Dompdf, sin binarios externos).
      */
+    /**
+     * Total de la obra: aberturas sueltas más vanos compuestos (spec 0009).
+     */
+    private function totalObra(Obra $obra): float
+    {
+        $total = 0.0;
+        $calcular = app(CalcularVano::class);
+
+        foreach ($obra->elementos as $elemento) {
+            if ($elemento->tipoElemento === 'ABERTURA_COMPUESTA') {
+                $total += $calcular->detalle($elemento)['total'];
+
+                continue;
+            }
+
+            $total += (float) ($elemento->aberturaSimple?->precioUnitario ?? 0) * (int) ($elemento->aberturaSimple?->cantidad ?? 0);
+        }
+
+        return $total;
+    }
+
     public function exportarPdf(Obra $obra, PresupuestoPdf $pdf): Response
     {
         $contenido = $pdf->generar($obra);

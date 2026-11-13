@@ -80,6 +80,90 @@
         @endif
     </table>
 
+    @if ($vanos->isNotEmpty())
+        <section class="tarjeta">
+            <h2>Vanos compuestos</h2>
+            <table class="tabla">
+                <thead>
+                <tr><th>N°</th><th>Agrupa</th><th>Conector</th><th class="num">Total</th><th></th></tr>
+                </thead>
+                <tbody>
+                @foreach ($vanos as $vano)
+                    @php($division = $vano->vanoDivisiones->first())
+                    @php($detalle = app(\App\Services\Aberturas\CalcularVano::class)->detalle($vano))
+                    <tr>
+                        <td>{{ $vano->numero }}</td>
+                        <td>
+                            @foreach ($vano->hijos as $hijo)
+                                <span class="chip">#{{ $hijo->numero }}</span>
+                            @endforeach
+                        </td>
+                        <td>{{ $division?->codigoConector ?? '—' }}</td>
+                        <td class="num">{{ number_format($detalle['total'], 0, ',', '.') }}</td>
+                        <td class="acciones">
+                            <form method="post" action="{{ route('vanos.destroy', [$obra, $vano]) }}"
+                                  onsubmit="return confirm('¿Deshacer el vano? Las aberturas se conservan.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="link-boton">Deshacer</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </section>
+    @endif
+
+    @if ($candidatos->isNotEmpty())
+        <section class="tarjeta">
+            <h2>Agrupar aberturas en un vano</h2>
+            <form method="post" action="{{ route('vanos.store', $obra) }}">
+                @csrf
+                <div class="grilla">
+                    @foreach ($candidatos as $candidato)
+                        <label class="casilla">
+                            <input type="checkbox" name="hijos[]" value="{{ $candidato->id }}">
+                            #{{ $candidato->numero }} ·
+                            {{ $candidato->aberturaSimple?->tipologia?->nombre }}
+                            {{ number_format((float) $candidato->aberturaSimple?->ancho, 0, ',', '.') }}×{{ number_format((float) $candidato->aberturaSimple?->alto, 0, ',', '.') }}
+                        </label>
+                    @endforeach
+                </div>
+                <div class="grilla">
+                    <label>
+                        Perfil conector
+                        <select name="codigoConector" required>
+                            @foreach ($conectores as $conector)
+                                <option value="{{ $conector->Numero }}">{{ $conector->Numero }} · {{ $conector->Descripcion }}</option>
+                            @endforeach
+                        </select>
+                    </label>
+                    <label>
+                        Orientación
+                        <select name="orientacion">
+                            <option value="VERTICAL">Vertical</option>
+                            <option value="HORIZONTAL">Horizontal</option>
+                        </select>
+                    </label>
+                    <label>
+                        Largo del conector (mm)
+                        <input type="number" name="posicionMM" value="2000" min="100" max="12000" required>
+                    </label>
+                    <label>
+                        Terminación
+                        <select name="terminacion">
+                            <option value="PINTADO_BLANCO">Pintado blanco</option>
+                            <option value="PINTADO_NEGRO">Pintado negro</option>
+                            <option value="ANODIZADO_NATURAL">Anodizado natural</option>
+                        </select>
+                    </label>
+                </div>
+                <button type="submit" class="btn primario">Crear vano</button>
+            </form>
+        </section>
+    @endif
+
     <section class="tarjeta bloque-form">
         <h2>Agregar abertura</h2>
         <p class="ayuda">

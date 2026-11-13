@@ -6,6 +6,7 @@ use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ObraController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VanoController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/obras');
@@ -28,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/obras/{obra}/presupuesto.csv', [ObraController::class, 'exportarCsv'])->name('obras.csv');
     Route::get('/obras/{obra}/presupuesto.pdf', [ObraController::class, 'exportarPdf'])->name('obras.pdf');
     Route::get('/obras/{obra}/presupuesto.xlsx', [ObraController::class, 'exportarXlsx'])->name('obras.xlsx');
+
+    Route::post('/obras/{obra}/vanos', [VanoController::class, 'store'])->name('vanos.store');
+    Route::delete('/obras/{obra}/vanos/{vano}', [VanoController::class, 'destroy'])->name('vanos.destroy');
 
     Route::post('/obras/{obra}/aberturas', [AberturaController::class, 'store'])->name('aberturas.store');
     Route::get('/aberturas/opciones/{tipologia}/{serie}', [AberturaController::class, 'opciones'])->name('aberturas.opciones');

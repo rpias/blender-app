@@ -4,7 +4,7 @@
 
 - [x] Migración `vano_division` + `elemento_obra.idElementoVano`
 - [x] Modelo `VanoDivision` y relaciones `hijos` / `vanoDivisiones` en `ElementoObra`
-- [ ] Validación: hijos de la misma obra y sin vano previo
+- [x] Validación: hijos de la misma obra y sin vano previo
 
 ## Cálculo
 
@@ -14,9 +14,10 @@
 
 ## UI
 
-- [ ] Formulario "Agrupar en vano" en el detalle de obra
-- [ ] Tabla de obra con vano padre e hijos indentados
-- [ ] Acciones: recalcular y deshacer vano
+- [x] Formulario "Agrupar aberturas en un vano" con selección, conector, orientación y largo
+- [x] Tabla de vanos con las aberturas que agrupa, conector y total
+- [x] Deshacer vano conservando las aberturas
+- [x] El total de la obra incluye los vanos
 
 ## Reportes
 
@@ -26,5 +27,5 @@
 ## Verificación
 
 - [x] Tests de cálculo: total del vano con y sin conectores
-- [ ] Tests: hijo duplicado y borrado del vano conserva hijos
+- [x] Tests: vano creado, abertura de otra obra, abertura ya agrupada y deshacer
 - [ ] Prueba en producción con una obra de ejemplo

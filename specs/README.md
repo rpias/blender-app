@@ -20,7 +20,7 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0006](0006-catalogos-editables/spec.md) | implementada | Edición de coeficientes, precios, márgenes, accesorios, perfiles y vidrios |
 | [0007](0007-mas-tipologias/spec.md) | parcial | Batiente listo; faltan 2+1, 2+2, paño fijo, proyectante, compuestas |
 | [0008](0008-operacion/spec.md) | parcial | Backup y roles listos; falta dominio y alertas |
-| [0009](0009-aberturas-compuestas/spec.md) | parcial | Modelo y cálculo listos; falta UI y reportes |
+| [0009](0009-aberturas-compuestas/spec.md) | parcial | Modelo, cálculo y agrupado; faltan reportes |
 
 ## Cómo agregar una spec
 
