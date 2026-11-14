@@ -43,7 +43,9 @@ inputs editables dentro de la tarjeta.
   elementos de a 15 y conservación de `buscar` en el paginador.
 - Medición con Chrome (CDP, 390 px CSS): `scrollWidth = 390` en panel, obras, detalle de obra,
   catálogos y usuarios.
-- Capturas a 390 px de obras, detalle de obra, catálogos de perfiles y usuarios.
+- Capturas a 390 px de obras, detalle de obra, catálogos de perfiles y usuarios, y a 820 px del detalle.
+- Producción: `/obras` a 390 px con `scrollWidth = 390` y 49 celdas etiquetadas; el paginador de
+  catálogos responde en la página 2 con Anterior/Siguiente.
 
 ## Criterios de aceptación
 

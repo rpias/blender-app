@@ -335,7 +335,14 @@ body.invitado {
 .pagina.puntos { border-color: transparent; background: transparent; color: var(--suave); }
 
 /* ---------- Tablas como tarjetas en móvil y tablet (spec 0011) ---------- */
-@media (max-width: 820px) {
+@media (min-width: 600px) and (max-width: 900px) {
+    .acciones-encabezado .btn, .acciones-form .btn, .encabezado .btn { flex: 0 1 auto; width: auto; }
+    .buscador { flex-direction: row; }
+    .buscador .btn { width: auto; }
+    .grilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
     html, body { max-width: 100%; overflow-x: hidden; }
     .cuerpo, .contenido { min-width: 0; max-width: 100%; }
     .contenido { padding: 18px 14px 48px; }
