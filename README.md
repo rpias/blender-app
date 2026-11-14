@@ -21,12 +21,14 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 |---|---|
 | Stack | Laravel 13 · PHP 8.3 · MySQL 8 / MariaDB |
 | Código | 112 migraciones, 108 modelos Eloquent, 5 calculadoras de tipología |
-| Tests | 84 tests · 304 assertions (`vendor/bin/phpunit`) |
+| Tests | 85 tests · 309 assertions (`vendor/bin/phpunit`) |
 | Producción | Hostinger compartido, `~/alucal` + `public_html` por symlink |
 | Datos migrados | 7 obras, 8 aberturas, 1.728 perfiles, 1.267 accesorios |
 
 ## Qué resuelve hoy
 
+- **Panel de inicio** con obras abiertas, monto presupuestado, aberturas, clientes, últimas obras y
+  tipologías más usadas, dentro de un shell con barra lateral.
 - Obras y clientes: alta, listado, detalle con totales, edición y baja.
 - Aberturas: **Marco fijo, Batiente (1 y 2 hojas), Corrediza Domina, HA 62, Serie 20, Serie 25
   Doppia 2+1 / 2+2, Corrediza + Paño Fijo Nórdical, Proyectante HA 62, Guillotina Serie 20, Tabaquera y Oscilobatiente HA 62**,

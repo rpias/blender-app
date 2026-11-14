@@ -5,11 +5,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ObraController;
+use App\Http\Controllers\PanelController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VanoController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/obras');
+Route::middleware('auth')->get('/', [PanelController::class, 'index'])->name('panel');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'show'])->name('login');

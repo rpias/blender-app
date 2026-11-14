@@ -27,9 +27,22 @@ class NavegacionBasicaTest extends TestCase
             ->assertSee('grupo-variante', false);
     }
 
-    public function test_la_raiz_redirige_a_obras(): void
+    public function test_la_raiz_lleva_al_panel_y_pide_sesion(): void
     {
-        $this->get('/')->assertRedirect('/obras');
+        $this->get('/')->assertRedirect('/login');
+    }
+
+    public function test_el_panel_muestra_los_indicadores(): void
+    {
+        $usuario = User::factory()->create(['nombre' => 'Admin', 'rol' => 'admin', 'activo' => true]);
+
+        $this->actingAs($usuario)
+            ->get('/')
+            ->assertOk()
+            ->assertSee('Obras abiertas')
+            ->assertSee('Presupuestado')
+            ->assertSee('Aberturas cargadas')
+            ->assertSee('Tipologías más usadas');
     }
 
     public function test_un_visitante_no_ve_obras(): void
