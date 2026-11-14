@@ -27,8 +27,20 @@ class PanelController extends Controller
     {
         $meses = [];
 
+        // Ventana: termina en el mes más reciente con datos válidos (o el actual).
+        // Las obras importadas traen 0000-00-00 y no se pueden graficar.
+        $fin = now()->startOfMonth();
+
+        foreach ($obras as $obra) {
+            $fecha = $obra->fechaCreacion;
+
+            if ($fecha !== null && $fecha->year >= 1900 && $fecha->gt($fin)) {
+                $fin = $fecha->startOfMonth();
+            }
+        }
+
         for ($i = 5; $i >= 0; $i--) {
-            $mes = now()->startOfMonth()->subMonths($i);
+            $mes = $fin->copy()->subMonths($i);
             $meses[$mes->format('Y-m')] = [
                 'etiqueta' => self::MESES[$mes->month - 1],
                 'total' => 0.0,
@@ -39,6 +51,10 @@ class PanelController extends Controller
             $fecha = $obra->fechaCreacion;
 
             if ($fecha === null) {
+                continue;
+            }
+
+            if ($fecha->year < 1900) {
                 continue;
             }
 
@@ -117,6 +133,22 @@ class PanelController extends Controller
         return $alertas;
     }
 
+    /**
+     * ¿Hay al menos una obra con fecha de creación utilizable?
+     *
+     * @param  Collection<int, Obra>  $obras
+     */
+    private function hayFechasValidas($obras): bool
+    {
+        foreach ($obras as $obra) {
+            if ($obra->fechaCreacion !== null && $obra->fechaCreacion->year >= 1900) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function index(LineasPresupuesto $lineas): View
     {
         $obras = Obra::query()
@@ -167,6 +199,7 @@ class PanelController extends Controller
             'obras' => $obras->count(),
             'alertas' => $alertas,
             'serie' => $serie,
+            'hayFechas' => $this->hayFechasValidas($obras),
         ]);
     }
 }

@@ -94,6 +94,12 @@
             <span class="ayuda">Últimos 6 meses</span>
         </div>
 
+        @if (! $hayFechas)
+            <p class="vacio">
+                Ninguna obra tiene fecha de creación válida, así que todavía no se puede mostrar la
+                tendencia. Cargá la fecha desde <strong>Editar obra</strong>.
+            </p>
+        @else
         <svg viewBox="0 0 {{ $anchoLienzo }} {{ $altoLienzo }}" role="img"
              aria-label="Presupuesto por mes de los últimos 6 meses" preserveAspectRatio="none">
             @foreach ([0, 0.5, 1] as $franja)
@@ -117,6 +123,7 @@
                 </text>
             @endforeach
         </svg>
+        @endif
     </section>
 
     <div class="dos-columnas">

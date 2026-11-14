@@ -46,6 +46,20 @@ class PanelAlertasTest extends TestCase
         ]);
     }
 
+    public function test_sin_fechas_validas_avisa_en_el_grafico(): void
+    {
+        Obra::query()->create([
+            'numero' => 'Z-1', 'nombre' => 'Sin fecha', 'fechaCreacion' => '0000-00-00',
+            'estadoSeguimiento' => 'CERRADA',
+        ]);
+
+        $this->actingAs($this->usuario)
+            ->get('/')
+            ->assertOk()
+            ->assertSee('Ninguna obra tiene fecha de creación válida')
+            ->assertDontSee('grafico-linea', false);
+    }
+
     public function test_muestra_el_grafico_mensual(): void
     {
         $esteMes = $this->obra(['numero' => 'G-1', 'fechaCreacion' => now()->toDateString()]);
