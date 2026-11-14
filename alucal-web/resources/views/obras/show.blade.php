@@ -200,6 +200,7 @@
                             <option value="7:10">Oscilobatiente HA 62</option>
                             <option value="2:12">Batiente Prima</option>
                             <option value="10:10">Proyectante HA 62</option>
+                            <option value="9:10">Proyección y desliz HA 62</option>
                             <option value="12:10">Tabaquera HA 62</option>
                             <option value="4:19">Guillotina Serie 20</option>
                         </optgroup>
@@ -492,6 +493,26 @@
                     <label>
                         Contravidrios
                         <select name="contravidriosProyectante">
+                            <option value="RECTOS">Rectos · ADR 1655</option>
+                            <option value="CURVOS">Curvos · desde 14 mm</option>
+                        </select>
+                    </label>
+                    <label>
+                        Color de herrajes
+                        <select name="colorHerrajes">
+                            <option value="BLANCO">Blanco</option>
+                            <option value="NEGRO">Negro</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            {{-- Proyección y desliz --}}
+            <div class="grupo-variante" data-para="9:10">
+                <div class="grilla">
+                    <label>
+                        Contravidrios
+                        <select name="contravidriosProyDesliz">
                             <option value="RECTOS">Rectos · ADR 1655</option>
                             <option value="CURVOS">Curvos · desde 14 mm</option>
                         </select>

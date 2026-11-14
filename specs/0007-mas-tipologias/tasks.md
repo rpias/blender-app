@@ -68,6 +68,13 @@
 - [x] Opción "Con mosquitero" en corrediza Serie 20 y Domina · producción: Domina 1500×1000 → U$S 369
 - [ ] Uniblock mix (cajón de cortina) y mosquitero en guía
 
+## Proyección y desliz HA 62 (tipología 9)
+
+- [x] Portar `getProyDeslizHA62` (marco ADR 1483, hoja ADR 1484 a −46, contravidrios −164/−202)
+- [x] Accesorios 230415, 193780, H91 por color (230306/230134), 192804, 193285, 193790 y burletes
+- [x] Formulario (variante 9:10) y 3 tests · producción: 800×1000 → U$S 251
+- [ ] Otras series de tipo 9 (S35, Prima, Prima 2, Prima Plus, Forma, Rotonda 640, HA 62 RPT, Ecothermic)
+
 ## Pendiente
 
 - [ ] Mosquitero fijo y uniblock mix en batiente

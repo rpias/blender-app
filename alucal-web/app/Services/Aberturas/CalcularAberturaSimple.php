@@ -31,6 +31,7 @@ class CalcularAberturaSimple
         private readonly CalculadoraGuillotinaS20 $guillotina,
         private readonly CalculadoraTabaqueraHA62 $tabaquera,
         private readonly CalculadoraOscilobatienteHA62 $oscilobatiente,
+        private readonly CalculadoraProyeccionDeslizHA62 $proyDesliz,
         private readonly CalculadoraPrecioAbertura $precios,
     ) {}
 
@@ -97,6 +98,18 @@ class CalcularAberturaSimple
                 'mosquitero' => (bool) ($parametros['mosquitero'] ?? false),
                 'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
                 'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null),
+            ]);
+        }
+
+        if ($idTipologia === CalculadoraProyeccionDeslizHA62::TIPOLOGIA) {
+            return $this->proyDesliz->calcular([
+                'anchoMM' => (float) $abertura->ancho,
+                'altoMM' => (float) $abertura->alto,
+                'cantidad' => max(1, (int) $abertura->cantidad),
+                'contravidrios' => (string) ($parametros['contravidrios'] ?? 'RECTOS'),
+                'colorHerrajes' => (string) ($parametros['colorHerrajes'] ?? $abertura->colorHerrajes ?? 'BLANCO'),
+                'espesorVidrio' => (int) ($parametros['espesorVidrio'] ?? 4),
+                'vidrio' => $this->vidrio($parametros['vidrioId'] ?? null, $parametros['vidrioDvh'] ?? null),
             ]);
         }
 

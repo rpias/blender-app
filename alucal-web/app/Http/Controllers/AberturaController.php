@@ -13,6 +13,7 @@ use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraGuillotinaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalculadoraOscilobatienteHA62;
+use App\Services\Aberturas\CalculadoraProyeccionDeslizHA62;
 use App\Services\Aberturas\CalculadoraProyectanteHA62;
 use App\Services\Aberturas\CalculadoraTabaqueraHA62;
 use App\Services\Aberturas\CalcularAberturaSimple;
@@ -33,7 +34,7 @@ class AberturaController extends Controller
         $datos = $request->validate([
             'tipo' => ['required', 'string', 'in:ABERTURA_SIMPLE'],
             'variante' => ['nullable', 'string', 'regex:/^\d+:\d+$/'],
-            'idTipologia' => ['required_without:variante', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraGuillotinaS20::TIPOLOGIA.','.CalculadoraTabaqueraHA62::TIPOLOGIA.','.CalculadoraOscilobatienteHA62::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
+            'idTipologia' => ['required_without:variante', 'integer', 'in:'.CalculadoraBatiente::TIPOLOGIA.','.CalculadoraCorredizaDoppia::TIPOLOGIA.','.CalculadoraCorredizaDoppia22::TIPOLOGIA.','.CalculadoraCorredizaNordical::TIPOLOGIA.','.CalculadoraProyectanteHA62::TIPOLOGIA.','.CalculadoraGuillotinaS20::TIPOLOGIA.','.CalculadoraTabaqueraHA62::TIPOLOGIA.','.CalculadoraOscilobatienteHA62::TIPOLOGIA.','.CalculadoraProyeccionDeslizHA62::TIPOLOGIA.','.CalculadoraMarcoFijo::TIPOLOGIA.','.CalculadoraCorredizaS20::TIPOLOGIA],
             'idSerie' => ['required_without:variante', 'integer'],
             'cantidad' => ['required', 'integer', 'min:1', 'max:999'],
             'ancho' => ['required', 'numeric', 'min:100', 'max:10000'],
@@ -93,6 +94,9 @@ class AberturaController extends Controller
 
             // Oscilobatiente HA 62
             'marcoOscilo' => ['nullable', 'string', 'in:ADR 1470,ADR 1483'],
+
+            // Proyección y desliz HA 62
+            'contravidriosProyDesliz' => ['nullable', 'string', 'in:RECTOS,CURVOS'],
         ]);
 
         if (! empty($datos['variante'])) {
@@ -114,8 +118,15 @@ class AberturaController extends Controller
         $esGuillotina = $idTipologia === CalculadoraGuillotinaS20::TIPOLOGIA;
         $esTabaquera = $idTipologia === CalculadoraTabaqueraHA62::TIPOLOGIA;
         $esOscilo = $idTipologia === CalculadoraOscilobatienteHA62::TIPOLOGIA;
+        $esProyDesliz = $idTipologia === CalculadoraProyeccionDeslizHA62::TIPOLOGIA;
 
         $parametros = match (true) {
+            $esProyDesliz => [
+                'contravidrios' => (string) ($datos['contravidriosProyDesliz'] ?? 'RECTOS'),
+                'colorHerrajes' => (string) ($datos['colorHerrajes'] ?? 'BLANCO'),
+                'espesorVidrio' => 4,
+                'vidrioId' => $datos['vidrioId'] ?? null,
+            ],
             $esOscilo => [
                 'marco' => (string) ($datos['marcoOscilo'] ?? 'ADR 1470'),
                 'contravidrios' => (string) ($datos['contravidriosProyectante'] ?? 'RECTOS'),

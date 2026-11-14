@@ -1,6 +1,6 @@
 # Spec 0007 — Más tipologías
 
-**Estado:** parcial (8 tipologías de HA 62 y líneas asociadas)
+**Estado:** parcial (9 tipologías, HA 62 casi completa)
 **Depende de:** 0003
 
 ## Problema
