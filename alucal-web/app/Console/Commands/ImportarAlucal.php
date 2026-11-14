@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -135,7 +136,7 @@ class ImportarAlucal extends Command
                 if (! in_array($col, $columnasDestino, true)) {
                     continue;
                 }
-                $nueva[$col] = $this->normalizar($valor);
+                $nueva[$col] = $this->normalizar($valor, $col);
             }
 
             if ($destino === 'clientes') {
@@ -155,10 +156,24 @@ class ImportarAlucal extends Command
         return count($lotes);
     }
 
-    private function normalizar(mixed $valor): mixed
+    /** Columnas de fecha que el original guarda como epoch en milisegundos. */
+    private const FECHAS = [
+        'fechaCreacion', 'fechaUltModificacion', 'proximaAccionFecha',
+        'fecha', 'fechaAlta', 'fechaBaja',
+    ];
+
+    private function normalizar(mixed $valor, ?string $columna = null): mixed
     {
         if (is_string($valor) && ! mb_check_encoding($valor, 'UTF-8')) {
             return mb_convert_encoding($valor, 'UTF-8', 'Windows-1252');
+        }
+
+        if ($columna !== null && is_numeric($valor) && (int) $valor > 100000000000) {
+            if (in_array($columna, self::FECHAS, true) || str_starts_with($columna, 'fecha')) {
+                return Carbon::createFromTimestampMsUTC((int) $valor)
+                    ->setTimezone('America/Montevideo')
+                    ->toDateTimeString();
+            }
         }
 
         return $valor;
