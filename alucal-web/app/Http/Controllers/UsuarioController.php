@@ -15,7 +15,7 @@ class UsuarioController extends Controller
     public function index(): View
     {
         return view('usuarios.index', [
-            'usuarios' => User::query()->orderBy('nombre')->get(),
+            'usuarios' => User::query()->orderBy('nombre')->paginate(25),
         ]);
     }
 

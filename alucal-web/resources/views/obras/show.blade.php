@@ -43,18 +43,18 @@
         </tr>
         </thead>
         <tbody>
-        @forelse ($obra->elementos as $elemento)
+        @forelse ($elementos as $elemento)
             @php($ab = $elemento->aberturaSimple)
             <tr>
-                <td class="num">{{ $elemento->numero }}</td>
-                <td>{{ $ab?->tipologia?->nombre ?? '—' }}</td>
-                <td>{{ $ab?->serie?->nombre ?? '—' }}</td>
-                <td>{{ $ab ? number_format($ab->ancho, 0, ',', '.').' × '.number_format($ab->alto, 0, ',', '.') : '—' }}</td>
-                <td class="num">{{ $ab?->cantidad ?? '—' }}</td>
-                <td>{{ $ab?->ubicacion ?: '—' }}</td>
-                <td class="num">{{ $ab?->precioUnitario !== null ? number_format((float) $ab->precioUnitario, 0, ',', '.') : '—' }}</td>
-                <td class="num">{{ $ab?->precioUnitario !== null ? number_format((float) $ab->precioUnitario * (int) $ab->cantidad, 0, ',', '.') : '—' }}</td>
-                <td class="acciones">
+                <td class="num" data-etiqueta="Nº">{{ $elemento->numero }}</td>
+                <td data-etiqueta="Tipología">{{ $ab?->tipologia?->nombre ?? '—' }}</td>
+                <td data-etiqueta="Serie">{{ $ab?->serie?->nombre ?? '—' }}</td>
+                <td data-etiqueta="Medidas">{{ $ab ? number_format($ab->ancho, 0, ',', '.').' × '.number_format($ab->alto, 0, ',', '.') : '—' }}</td>
+                <td class="num" data-etiqueta="Cant.">{{ $ab?->cantidad ?? '—' }}</td>
+                <td data-etiqueta="Ubicación">{{ $ab?->ubicacion ?: '—' }}</td>
+                <td class="num" data-etiqueta="Unitario">{{ $ab?->precioUnitario !== null ? number_format((float) $ab->precioUnitario, 0, ',', '.') : '—' }}</td>
+                <td class="num" data-etiqueta="Subtotal">{{ $ab?->precioUnitario !== null ? number_format((float) $ab->precioUnitario * (int) $ab->cantidad, 0, ',', '.') : '—' }}</td>
+                <td class="acciones" data-etiqueta="">
                     @if ($ab)
                         <a href="{{ route('aberturas.pdf', $ab) }}" class="link" target="_blank">PDF</a>
                         <form method="post" action="{{ route('aberturas.destroy', $ab) }}" onsubmit="return confirm('¿Eliminar la abertura?')">
@@ -80,6 +80,8 @@
         @endif
     </table>
 
+    @include('partials.paginacion', ['paginador' => $elementos])
+
     @if ($vanos->isNotEmpty())
         <section class="tarjeta">
             <h2>Vanos compuestos</h2>
@@ -92,15 +94,15 @@
                     @php($division = $vano->vanoDivisiones->first())
                     @php($detalle = app(\App\Services\Aberturas\CalcularVano::class)->detalle($vano))
                     <tr>
-                        <td>{{ $vano->numero }}</td>
+                        <td data-etiqueta="Nº">{{ $vano->numero }}</td>
                         <td>
                             @foreach ($vano->hijos as $hijo)
                                 <span class="chip">#{{ $hijo->numero }}</span>
                             @endforeach
                         </td>
                         <td>{{ $division?->codigoConector ?? '—' }}</td>
-                        <td class="num">{{ number_format($detalle['total'], 0, ',', '.') }}</td>
-                        <td class="acciones">
+                        <td class="num" data-etiqueta="Total">{{ number_format($detalle['total'], 0, ',', '.') }}</td>
+                        <td class="acciones" data-etiqueta="">
                             <form method="post" action="{{ route('vanos.destroy', [$obra, $vano]) }}"
                                   onsubmit="return confirm('¿Deshacer el vano? Las aberturas se conservan.');">
                                 @csrf

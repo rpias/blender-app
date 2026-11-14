@@ -145,16 +145,16 @@
                 <tbody>
                 @forelse ($ultimas as $fila)
                     <tr>
-                        <td>{{ $fila['obra']->numero }}</td>
-                        <td>
+                        <td data-etiqueta="Nº">{{ $fila['obra']->numero }}</td>
+                        <td data-etiqueta="Obra">
                             <a class="link" href="{{ route('obras.show', $fila['obra']) }}">{{ $fila['obra']->nombre }}</a>
                         </td>
-                        <td>
+                        <td data-etiqueta="Estado">
                             <span class="chip {{ $fila['obra']->estadoSeguimiento === 'CERRADA' ? 'chip-gris' : 'chip-verde' }}">
                                 {{ $fila['obra']->estadoSeguimiento === 'CERRADA' ? 'Cerrada' : 'Abierta' }}
                             </span>
                         </td>
-                        <td class="num">{{ number_format($fila['total'], 0, ',', '.') }}</td>
+                        <td class="num" data-etiqueta="Total">{{ number_format($fila['total'], 0, ',', '.') }}</td>
                     </tr>
                 @empty
                     <tr><td colspan="4" class="vacio">Todavía no hay obras cargadas.</td></tr>

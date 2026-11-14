@@ -126,6 +126,12 @@ class ObraController extends Controller
             ->all();
         $serieInicial = $series[0]['id'] ?? null;
 
+        $elementos = $obra->elementos()
+            ->with(['aberturaSimple.tipologia', 'aberturaSimple.serie'])
+            ->orderBy('numero')
+            ->paginate(15, ['*'], 'pagina')
+            ->withQueryString();
+
         $candidatos = $obra->elementos
             ->filter(fn ($elemento) => $elemento->aberturaSimple !== null && $elemento->idElementoVano === null)
             ->values();
@@ -137,6 +143,7 @@ class ObraController extends Controller
 
         return view('obras.show', [
             'obra' => $obra,
+            'elementos' => $elementos,
             'series' => $series,
             'seriesBatiente' => $seriesBatiente,
             'seriesCorrediza' => $seriesCorrediza,

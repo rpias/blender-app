@@ -27,12 +27,12 @@
         <tbody>
         @forelse ($clientes as $cliente)
             <tr>
-                <td class="num">{{ $cliente->numero }}</td>
-                <td>{{ $cliente->nombre }}</td>
-                <td>{{ $cliente->empresa ?: '—' }}</td>
-                <td>{{ $cliente->telefono ?: '—' }}</td>
-                <td>{{ $cliente->email ?: '—' }}</td>
-                <td>{{ $cliente->direccion ?: '—' }}</td>
+                <td class="num" data-etiqueta="Nº">{{ $cliente->numero }}</td>
+                <td data-etiqueta="Nombre">{{ $cliente->nombre }}</td>
+                <td data-etiqueta="Empresa">{{ $cliente->empresa ?: '—' }}</td>
+                <td data-etiqueta="Teléfono">{{ $cliente->telefono ?: '—' }}</td>
+                <td data-etiqueta="Correo">{{ $cliente->email ?: '—' }}</td>
+                <td data-etiqueta="Dirección">{{ $cliente->direccion ?: '—' }}</td>
             </tr>
         @empty
             <tr><td colspan="6" class="vacio">No hay clientes cargados.</td></tr>
@@ -40,5 +40,5 @@
         </tbody>
     </table>
 
-    {{ $clientes->links() }}
+    @include('partials.paginacion', ['paginador' => $clientes])
 @endsection

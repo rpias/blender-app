@@ -51,9 +51,9 @@
         <tbody>
         @foreach ($usuarios as $usuario)
             <tr>
-                <td>{{ $usuario->nombre ?: $usuario->name }}</td>
-                <td>{{ $usuario->email }}</td>
-                <td>
+                <td data-etiqueta="Nombre">{{ $usuario->nombre ?: $usuario->name }}</td>
+                <td data-etiqueta="Correo">{{ $usuario->email }}</td>
+                <td data-etiqueta="Rol y estado">
                     <form method="post" action="{{ route('usuarios.update', $usuario) }}" class="form-fila">
                         @csrf
                         @method('PATCH')
@@ -67,7 +67,7 @@
                         <button type="submit" class="btn">Guardar</button>
                     </form>
                 </td>
-                <td class="acciones-fila">
+                <td class="acciones-fila" data-etiqueta="">
                     @if ($usuario->id !== auth()->id())
                         <form method="post" action="{{ route('usuarios.destroy', $usuario) }}"
                               onsubmit="return confirm('¿Eliminar el usuario?');">
@@ -81,4 +81,6 @@
         @endforeach
         </tbody>
     </table>
+
+    @include('partials.paginacion', ['paginador' => $usuarios])
 @endsection

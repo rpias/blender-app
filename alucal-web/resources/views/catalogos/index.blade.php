@@ -72,7 +72,8 @@
                 <tr>
                     @foreach ($config->columnas as $columna)
                         @php($campo = $columna['campo'])
-                        <td class="{{ $columna['tipo'] === 'solo-lectura' ? 'lectura' : 'editable' }}">
+                        <td class="{{ $columna['tipo'] === 'solo-lectura' ? 'lectura' : 'editable' }}"
+                            data-etiqueta="{{ $columna['etiqueta'] }}">
                             @if ($columna['tipo'] === 'solo-lectura')
                                 {{ $fila->{$campo} }}
                             @else
@@ -87,7 +88,7 @@
                         </td>
                     @endforeach
                     @if ($config->permiteEliminar)
-                        <td class="acciones-fila">
+                        <td class="acciones-fila" data-etiqueta="">
                             <form method="post" action="{{ route('catalogos.destroy', [$recurso, $identificador]) }}"
                                   onsubmit="return confirm('¿Eliminar esta fila del catálogo?');">
                                 @csrf
@@ -109,5 +110,5 @@
         </div>
     </form>
 
-    {{ $filas->links() }}
+    @include('partials.paginacion', ['paginador' => $filas])
 @endsection

@@ -28,13 +28,13 @@
         <tbody>
         @forelse ($obras as $obra)
             <tr>
-                <td class="num">{{ $obra->numero }}</td>
-                <td>{{ $obra->nombre }}</td>
-                <td>{{ $obra->cliente ?: '—' }}</td>
-                <td>{{ $obra->ubicacion ?: '—' }}</td>
-                <td>{{ $obra->fechaCreacion?->format('d/m/Y') }}</td>
-                <td><span class="chip">{{ $obra->estadoSeguimiento ?: 'ABIERTA' }}</span></td>
-                <td class="acciones"><a href="{{ route('obras.show', $obra) }}">Ver</a></td>
+                <td class="num" data-etiqueta="Nº">{{ $obra->numero }}</td>
+                <td data-etiqueta="Nombre">{{ $obra->nombre }}</td>
+                <td data-etiqueta="Cliente">{{ $obra->cliente ?: '—' }}</td>
+                <td data-etiqueta="Ubicación">{{ $obra->ubicacion ?: '—' }}</td>
+                <td data-etiqueta="Creada">{{ $obra->fechaCreacion?->format('d/m/Y') }}</td>
+                <td data-etiqueta="Estado"><span class="chip">{{ $obra->estadoSeguimiento ?: 'ABIERTA' }}</span></td>
+                <td class="acciones" data-etiqueta=""><a href="{{ route('obras.show', $obra) }}" class="btn-chico">Ver</a></td>
             </tr>
         @empty
             <tr><td colspan="7" class="vacio">Todavía no hay obras cargadas.</td></tr>
@@ -42,5 +42,5 @@
         </tbody>
     </table>
 
-    {{ $obras->links() }}
+    @include('partials.paginacion', ['paginador' => $obras])
 @endsection

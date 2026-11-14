@@ -27,6 +27,8 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 
 ## Qué resuelve hoy
 
+- **Responsive**: por debajo de 820 px las tablas se muestran como tarjetas y todas las listas se
+  paginan con un paginador propio.
 - **Panel de inicio** con obras abiertas, monto presupuestado, aberturas, clientes, últimas obras,
   tipologías más usadas, gráfico de lo presupuestado por mes y alertas (acción vencida, de la semana
   y obras sin aberturas), dentro de un shell con barra lateral.
