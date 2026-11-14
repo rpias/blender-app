@@ -97,6 +97,12 @@ class AberturaController extends Controller
 
             // Proyección y desliz HA 62
             'contravidriosProyDesliz' => ['nullable', 'string', 'in:RECTOS,CURVOS'],
+
+            // Premarco y tapajuntas (se cobran por metro lineal)
+            'premarcoCodigo' => ['nullable', 'string', 'exists:precio_metro_lineal_premarco,perfil'],
+            'premarcoAbajo' => ['nullable', 'boolean'],
+            'tapajuntasCodigo' => ['nullable', 'string', 'exists:precio_metro_lineal_tapajuntas,perfil'],
+            'tapajuntasAbajo' => ['nullable', 'boolean'],
         ]);
 
         if (! empty($datos['variante'])) {
@@ -119,6 +125,13 @@ class AberturaController extends Controller
         $esTabaquera = $idTipologia === CalculadoraTabaqueraHA62::TIPOLOGIA;
         $esOscilo = $idTipologia === CalculadoraOscilobatienteHA62::TIPOLOGIA;
         $esProyDesliz = $idTipologia === CalculadoraProyeccionDeslizHA62::TIPOLOGIA;
+
+        $perimetrales = [
+            'premarcoCodigo' => $datos['premarcoCodigo'] ?? null,
+            'premarcoAbajo' => (bool) ($datos['premarcoAbajo'] ?? true),
+            'tapajuntasCodigo' => $datos['tapajuntasCodigo'] ?? null,
+            'tapajuntasAbajo' => (bool) ($datos['tapajuntasAbajo'] ?? true),
+        ];
 
         $parametros = match (true) {
             $esProyDesliz => [
@@ -228,7 +241,7 @@ class AberturaController extends Controller
         }
 
         try {
-            $abertura = DB::transaction(function () use ($obra, $datos, $parametros, $idTipologia, $calculadora) {
+            $abertura = DB::transaction(function () use ($obra, $datos, $parametros, $perimetrales, $idTipologia, $calculadora) {
                 $elemento = ElementoObra::query()->create([
                     'tipoElemento' => 'ABERTURA_SIMPLE',
                     'idObra' => $obra->id,
@@ -250,6 +263,8 @@ class AberturaController extends Controller
                     'idElementoObra' => $elemento->id,
                     'idRellenoVano' => 1,
                 ]);
+
+                $parametros = array_merge($parametros, $perimetrales);
 
                 $calculadora->ejecutar($abertura, $parametros);
 

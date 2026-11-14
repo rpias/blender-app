@@ -26,6 +26,7 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0012](0012-registro-de-sucesos/spec.md) | implementada | Auditoría de acciones y consulta filtrable |
 | [0013](0013-formato-de-moneda/spec.md) | implementada | Importes con dos decimales en toda la app |
 | [0014](0014-computo-de-materiales/spec.md) | implementada | Lista de corte y cómputo por obra |
+| [0015](0015-premarco-y-tapajuntas/spec.md) | implementada | Cobro de premarco y tapajuntas |
 
 ## Cómo agregar una spec
 

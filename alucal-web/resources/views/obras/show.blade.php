@@ -244,6 +244,36 @@
                         @endforeach
                     </select>
                 </label>
+                <label>
+                    Premarco
+                    <select name="premarcoCodigo">
+                        <option value="">Sin premarco</option>
+                        @foreach ($premarcos as $premarco)
+                            <option value="{{ $premarco->perfil }}" @selected(old('premarcoCodigo') === $premarco->perfil)>
+                                {{ $premarco->perfil }} · {{ \App\Support\Moneda::formatear($premarco->precio) }}/m
+                            </option>
+                        @endforeach
+                    </select>
+                </label>
+                <label class="casilla">
+                    <input type="hidden" name="premarcoAbajo" value="0">
+                    <input type="checkbox" name="premarcoAbajo" value="1" checked> Premarco también abajo
+                </label>
+                <label>
+                    Tapajuntas
+                    <select name="tapajuntasCodigo">
+                        <option value="">Sin tapajuntas</option>
+                        @foreach ($tapajuntas as $tapaj)
+                            <option value="{{ $tapaj->perfil }}" @selected(old('tapajuntasCodigo') === $tapaj->perfil)>
+                                {{ $tapaj->perfil }} · {{ \App\Support\Moneda::formatear($tapaj->precio) }}/m
+                            </option>
+                        @endforeach
+                    </select>
+                </label>
+                <label class="casilla">
+                    <input type="hidden" name="tapajuntasAbajo" value="0">
+                    <input type="checkbox" name="tapajuntasAbajo" value="1" checked> Tapajuntas también abajo
+                </label>
             </div>
 
             {{-- Marco fijo --}}

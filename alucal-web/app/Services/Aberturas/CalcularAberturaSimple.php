@@ -64,6 +64,8 @@ class CalcularAberturaSimple
             ], $lineas->barras),
             accesorios: $lineas->accesorios,
             vidrios: $lineas->vidrios,
+            premarco: $this->perimetral($parametros, 'premarcoCodigo', 'premarcoAbajo', (float) $abertura->ancho, (float) $abertura->alto),
+            tapajuntas: $this->perimetral($parametros, 'tapajuntasCodigo', 'tapajuntasAbajo', (float) $abertura->ancho, (float) $abertura->alto),
         ));
 
         $abertura->forceFill([
@@ -79,6 +81,29 @@ class CalcularAberturaSimple
         ])->save();
 
         return $resultado;
+    }
+
+    /**
+     * Premarco o tapajuntas elegido en el formulario, con su perímetro en mm.
+     *
+     * Se cobra por metro lineal: con el lado de abajo son 2×(ancho+alto); sin
+     * él, el ancho más los dos verticales.
+     *
+     * @param  array<string, mixed>  $parametros
+     * @return array{codigo: string, perimetroMM: float}|null
+     */
+    private function perimetral(array $parametros, string $claveCodigo, string $claveAbajo, float $ancho, float $alto): ?array
+    {
+        $codigo = trim((string) ($parametros[$claveCodigo] ?? ''));
+
+        if ($codigo === '') {
+            return null;
+        }
+
+        $conAbajo = (bool) ($parametros[$claveAbajo] ?? true);
+        $perimetro = $conAbajo ? 2 * ($ancho + $alto) : $ancho + 2 * $alto;
+
+        return ['codigo' => $codigo, 'perimetroMM' => $perimetro];
     }
 
     public function lineas(AberturaSimple $abertura, array $parametros): LineasAbertura

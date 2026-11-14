@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Obra;
 use App\Models\Perfil;
+use App\Models\PrecioMetroLinealPremarco;
+use App\Models\PrecioMetroLinealTapajuntas;
 use App\Services\Aberturas\CalculadoraBatiente;
 use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
@@ -156,6 +158,8 @@ class ObraController extends Controller
             'candidatos' => $candidatos,
             'vanos' => $vanos,
             'conectores' => Perfil::query()->orderBy('Numero')->get(['Numero', 'Descripcion']),
+            'premarcos' => PrecioMetroLinealPremarco::query()->orderBy('perfil')->get(),
+            'tapajuntas' => PrecioMetroLinealTapajuntas::query()->orderBy('perfil')->get(),
             'total' => $this->totalObra($obra),
         ]);
     }
