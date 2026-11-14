@@ -6,6 +6,7 @@ use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ObraController;
 use App\Http\Controllers\PanelController;
+use App\Http\Controllers\SucesoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VanoController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/aberturas/{abertura}', [AberturaController::class, 'destroy'])->name('aberturas.destroy');
 
     Route::middleware('admin')->group(function () {
+        Route::get('/registro', [SucesoController::class, 'index'])->name('registro.index');
+
         Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
         Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
         Route::patch('/usuarios/{usuario}', [UsuarioController::class, 'update'])->name('usuarios.update');

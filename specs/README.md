@@ -23,6 +23,7 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0009](0009-aberturas-compuestas/spec.md) | implementada | Vanos: modelo, cálculo, agrupado y reportes |
 | [0010](0010-panel-administrativo/spec.md) | implementada | Shell administrativo y panel de indicadores |
 | [0011](0011-responsive-y-paginacion/spec.md) | implementada | Tablas como tarjetas y paginación propia |
+| [0012](0012-registro-de-sucesos/spec.md) | implementada | Auditoría de acciones y consulta filtrable |
 
 ## Cómo agregar una spec
 

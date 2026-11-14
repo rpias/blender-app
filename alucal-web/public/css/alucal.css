@@ -396,3 +396,13 @@ body.invitado {
     .vacio { display: block; text-align: center; }
     .form-fila { flex-wrap: wrap; }
 }
+
+/* Registro de sucesos (spec 0012) */
+.filtros { margin-bottom: 16px; }
+.chip-accion { text-transform: lowercase; }
+.chip-crear { background: #e6f7ee; color: #12855a; }
+.chip-editar { background: #eef4ff; color: #1f4fa8; }
+.chip-eliminar { background: #fdecea; color: var(--error); }
+.chip-ingresar { background: #efe9ff; color: #6d3ff0; }
+.chip-salir { background: #eef1f5; color: #64748b; }
+.chip-intento-fallido { background: #fff1e5; color: #c25e00; }

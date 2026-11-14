@@ -45,6 +45,8 @@ tools/      utilidades de migración (generadores de esquema y modelos)
 - **Un solo formulario de alta**: se elige el tipo de abertura y se muestran sólo sus campos.
 - **Catálogos editables**: coeficientes, precio por kilo, márgenes, accesorios, perfiles y vidrios,
   con alta y baja de perfiles y accesorios.
+- **Registro de sucesos**: auditoría en base de datos de altas, bajas, ediciones, ingresos y salidas,
+  con consulta filtrable para administradores.
 - **Usuarios** con roles (admin/vendedor) y estado activo.
 - Importación de los catálogos y datos históricos desde las bases SQLite del Java.
 
