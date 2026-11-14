@@ -12,6 +12,14 @@
 - [x] Vista `panel/index.blade.php` con tarjetas, tabla y barras
 - [x] `/` lleva al panel (y exige sesión)
 
+## Alertas
+
+- [x] Acción vencida (obra abierta con fecha anterior a hoy)
+- [x] Acción de esta semana (hasta 7 días)
+- [x] Obras sin aberturas con precio
+- [x] Tarjetas de alerta con color por tipo y enlace a la obra
+- [x] 5 tests de alertas
+
 ## Verificación
 
 - [x] Tests: acceso a la raíz, indicadores en pantalla

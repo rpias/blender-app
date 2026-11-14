@@ -11,6 +11,29 @@
         <a class="btn primario" href="{{ route('obras.create') }}">Nueva obra</a>
     </div>
 
+    @if (! empty($alertas))
+        <section class="alertas">
+            @foreach ($alertas as $alerta)
+                <article class="alerta alerta-{{ $alerta['tipo'] }}">
+                    <h2>{{ $alerta['titulo'] }}</h2>
+                    <ul>
+                        @foreach ($alerta['items'] as $item)
+                            <li>
+                                <a href="{{ route('obras.show', $item['obra']) }}">
+                                    {{ $item['obra']->numero }} · {{ $item['obra']->nombre }}
+                                </a>
+                                — {{ $item['detalle'] }}
+                                @if ($item['fecha'])
+                                    <span class="alerta-fecha">{{ $item['fecha'] }}</span>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </article>
+            @endforeach
+        </section>
+    @endif
+
     <section class="kpis">
         <article class="kpi">
             <span class="kpi-icono azul"><svg class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="10" rx="1.5"/></svg></span>

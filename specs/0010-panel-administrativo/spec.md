@@ -36,6 +36,7 @@ Fuera de alcance: compra e integración de una plantilla comercial (ver nota de 
 | R5 | La navegación se agrupa (Operación / Configuración) y respeta el rol. |
 | R6 | En pantallas menores a 1.024 px la barra lateral se oculta y se abre desde el botón de menú. |
 | R7 | El diseño no requiere Node ni compilación de assets: se sirve con el CSS del proyecto. |
+| R8 | El panel alerta acciones vencidas, acciones de los próximos 7 días y obras sin aberturas con precio. |
 
 ## Criterios de aceptación
 
@@ -51,6 +52,9 @@ Fuera de alcance: compra e integración de una plantilla comercial (ver nota de 
 - `tests/Feature/NavegacionBasicaTest.php` — la raíz exige sesión y el panel muestra los indicadores.
 - Capturas: panel a 1.440 px y a 820 px (barra lateral colapsada y KPIs en dos columnas).
 - Producción con 7 obras y U$S 1.882 presupuestados.
+
+- **R8** — Una obra abierta con `proximaAccionFecha` de hace 3 días aparece como vencida; una cerrada no;
+  una obra sin aberturas aparece en "sin aberturas". Cubierto por `tests/Feature/PanelAlertasTest.php`.
 
 ## Nota de licencia
 

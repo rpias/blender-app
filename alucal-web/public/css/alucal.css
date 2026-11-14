@@ -271,3 +271,19 @@ body.app-shell {
 
 .sidebar-nav .icono svg { width: 17px; height: 17px; display: block; }
 .kpi-icono .icono-svg { width: 18px; height: 18px; display: block; }
+
+/* Alertas del panel (spec 0010) */
+.alertas { display: grid; gap: 12px; margin: 18px 0 0; }
+.alerta { border-radius: 12px; padding: 14px 16px; border: 1px solid var(--borde); background: #fff; }
+.alerta h2 { margin: 0 0 6px; font-size: 14px; }
+.alerta ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+.alerta li { margin: 3px 0; }
+.alerta a { color: var(--texto); font-weight: 600; text-decoration: none; }
+.alerta a:hover { text-decoration: underline; }
+.alerta-fecha { color: var(--suave); font-size: 12px; margin-left: 6px; }
+.alerta-vencida { background: #fdecea; border-color: #f5c6c0; }
+.alerta-vencida h2 { color: var(--error); }
+.alerta-proxima { background: #fff8e6; border-color: #f3e0aa; }
+.alerta-proxima h2 { color: #8a6100; }
+.alerta-incompleta { background: #eef4ff; border-color: #cddcf7; }
+.alerta-incompleta h2 { color: #1f4fa8; }
