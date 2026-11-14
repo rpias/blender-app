@@ -10,6 +10,7 @@ use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalcularVano;
 use App\Services\Aberturas\ParametrosFormulario;
+use App\Servicios\Exportacion\ComputoMateriales;
 use App\Servicios\Exportacion\LineasPresupuesto;
 use App\Servicios\Exportacion\PresupuestoPdf;
 use App\Servicios\Exportacion\XlsxWriter;
@@ -169,6 +170,61 @@ class ObraController extends Controller
     /**
      * Presupuesto de la obra en PDF (Dompdf, sin binarios externos).
      */
+
+    /**
+     * Cómputo de materiales de la obra (spec 0014): lista de corte del taller.
+     */
+    public function computo(Obra $obra, ComputoMateriales $computo): View
+    {
+        $obra->load(['elementos.aberturaSimple', 'elementos.hijos.aberturaSimple']);
+
+        return view('obras.computo', [
+            'obra' => $obra,
+            'computo' => $computo->para($obra),
+        ]);
+    }
+
+    public function exportarComputo(Obra $obra, ComputoMateriales $computo): BinaryFileResponse
+    {
+        $obra->load(['elementos.aberturaSimple', 'elementos.hijos.aberturaSimple']);
+        $datos = $computo->para($obra);
+
+        $libro = new XlsxWriter('Cómputo '.$obra->numero);
+        $libro->agregarFila(['Perfil', 'Descripción', 'Corte (mm)', 'Cantidad', 'Metros', 'Kilos'], true);
+
+        foreach ($datos['perfiles'] as $fila) {
+            $libro->agregarFila([
+                $fila['codigo'], $fila['descripcion'], (float) $fila['largoMM'],
+                (int) $fila['cantidad'], (float) $fila['metros'], (float) $fila['kilos'],
+            ]);
+        }
+
+        $libro->agregarFila([]);
+        $libro->agregarFila(['Accesorio', 'Descripción', '', 'Cantidad', '', ''], true);
+
+        foreach ($datos['accesorios'] as $fila) {
+            $libro->agregarFila([$fila['codigo'], $fila['descripcion'], '', (float) $fila['cantidad'], '', '']);
+        }
+
+        $libro->agregarFila([]);
+        $libro->agregarFila(['Vidrio', '', 'Ancho (m)', 'Alto (m)', 'Cantidad', 'm²'], true);
+
+        foreach ($datos['vidrios'] as $fila) {
+            $libro->agregarFila([
+                $fila['descripcion'], '', (float) $fila['anchoM'], (float) $fila['altoM'],
+                (int) $fila['cantidad'], (float) $fila['m2'],
+            ]);
+        }
+
+        $libro->agregarFila([]);
+        $libro->agregarFila(['', '', '', '', 'Kilos totales', (float) $datos['kilos']], true);
+
+        $ruta = tempnam(sys_get_temp_dir(), 'alucal-computo').'.xlsx';
+        $libro->guardar($ruta);
+
+        return response()->download($ruta, 'computo-obra-'.$obra->numero.'.xlsx')->deleteFileAfterSend(true);
+    }
+
     /**
      * Total de la obra: aberturas sueltas más vanos compuestos (spec 0009).
      */

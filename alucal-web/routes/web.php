@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/obras/{obra}/presupuesto.pdf', [ObraController::class, 'exportarPdf'])->name('obras.pdf');
     Route::get('/obras/{obra}/presupuesto.xlsx', [ObraController::class, 'exportarXlsx'])->name('obras.xlsx');
 
+    Route::get('/obras/{obra}/computo', [ObraController::class, 'computo'])->name('obras.computo');
+    Route::get('/obras/{obra}/computo.xlsx', [ObraController::class, 'exportarComputo'])->name('obras.computo.xlsx');
+
     Route::post('/obras/{obra}/vanos', [VanoController::class, 'store'])->name('vanos.store');
     Route::delete('/obras/{obra}/vanos/{vano}', [VanoController::class, 'destroy'])->name('vanos.destroy');
 
