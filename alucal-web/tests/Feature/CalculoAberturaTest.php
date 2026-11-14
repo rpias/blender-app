@@ -195,7 +195,7 @@ class CalculoAberturaTest extends TestCase
 
         $this->assertStringContainsString('Detalle', $contenido);
         $this->assertStringContainsString('TOTAL', $contenido);
-        $this->assertStringContainsString('98.00', $contenido);
+        $this->assertStringContainsString('98,00', $contenido);
     }
 
     public function test_exporta_el_presupuesto_en_xlsx(): void

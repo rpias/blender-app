@@ -45,7 +45,7 @@
         <article class="kpi">
             <span class="kpi-icono verde"><svg class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M16.5 7.5c0-1.7-2-3-4.5-3S7.5 5.8 7.5 7.5 9.5 10 12 10s4.5 1.3 4.5 3-2 3-4.5 3-4.5-1.3-4.5-3"/></svg></span>
             <p class="kpi-label">Presupuestado</p>
-            <p class="kpi-valor">U$S {{ number_format($presupuestado, 0, ',', '.') }}</p>
+            <p class="kpi-valor">{{ \App\Support\Moneda::conSimbolo($presupuestado) }}</p>
             <p class="kpi-pie">Todas las obras</p>
         </article>
 
@@ -116,7 +116,7 @@
 
             @foreach ($puntos as $punto)
                 <circle cx="{{ $punto['x'] }}" cy="{{ $punto['y'] }}" r="4" class="grafico-punto">
-                    <title>{{ $punto['etiqueta'] }}: U$S {{ number_format($punto['total'], 0, ',', '.') }}</title>
+                    <title>{{ $punto['etiqueta'] }}: {{ \App\Support\Moneda::conSimbolo($punto['total']) }}</title>
                 </circle>
                 <text x="{{ $punto['x'] }}" y="{{ $altoLienzo - 8 }}" class="grafico-etiqueta" text-anchor="middle">
                     {{ $punto['etiqueta'] }}
@@ -154,7 +154,7 @@
                                 {{ $fila['obra']->estadoSeguimiento === 'CERRADA' ? 'Cerrada' : 'Abierta' }}
                             </span>
                         </td>
-                        <td class="num" data-etiqueta="Total">{{ number_format($fila['total'], 0, ',', '.') }}</td>
+                        <td class="num" data-etiqueta="Total">{{ \App\Support\Moneda::formatear($fila['total']) }}</td>
                     </tr>
                 @empty
                     <tr><td colspan="4" class="vacio">Todavía no hay obras cargadas.</td></tr>

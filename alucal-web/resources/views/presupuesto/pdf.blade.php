@@ -98,8 +98,8 @@
             <td class="num">{{ $linea['tipo'] === 'vano' ? '—' : $linea['cantidad'] }}</td>
             <td>{{ $linea['ubicacion'] }}</td>
             <td>{{ $linea['terminacion'] }}</td>
-            <td class="num">{{ $linea['unitario'] !== null ? number_format($linea['unitario'], 0, ',', '.') : '—' }}</td>
-            <td class="num">{{ number_format($linea['subtotal'], 0, ',', '.') }}</td>
+            <td class="num">{{ $linea['unitario'] !== null ? \App\Support\Moneda::formatear($linea['unitario']) : '—' }}</td>
+            <td class="num">{{ \App\Support\Moneda::formatear($linea['subtotal']) }}</td>
         </tr>
         @if ($linea['tipo'] === 'vano')
             @foreach ($linea['hijos'] as $hijo)
@@ -109,7 +109,7 @@
                     <td>{{ $hijo['medidas'] }}</td>
                     <td colspan="3"></td>
                     <td></td>
-                    <td class="num">{{ number_format($hijo['subtotal'], 0, ',', '.') }}</td>
+                    <td class="num">{{ \App\Support\Moneda::formatear($hijo['subtotal']) }}</td>
                 </tr>
             @endforeach
         @endif
@@ -120,7 +120,7 @@
     <tfoot>
     <tr>
         <td colspan="7" class="num">TOTAL {{ $moneda }}</td>
-        <td class="num">{{ number_format($total, 0, ',', '.') }}</td>
+        <td class="num">{{ \App\Support\Moneda::formatear($total) }}</td>
     </tr>
     </tfoot>
 </table>

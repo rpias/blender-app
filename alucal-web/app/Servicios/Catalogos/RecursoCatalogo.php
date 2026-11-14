@@ -36,6 +36,20 @@ class RecursoCatalogo
     /**
      * @return list<string>
      */
+    /**
+     * Tipo declarado de una columna ('texto', 'numero', 'entero', 'moneda', 'decimal', 'solo-lectura').
+     */
+    public function tipoDe(string $campo): string
+    {
+        foreach ($this->columnas as $columna) {
+            if ($columna['campo'] === $campo) {
+                return (string) ($columna['tipo'] ?? 'texto');
+            }
+        }
+
+        return 'texto';
+    }
+
     public function camposEditables(): array
     {
         $campos = [];

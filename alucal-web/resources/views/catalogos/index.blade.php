@@ -40,10 +40,11 @@
                         {{ $campo['etiqueta'] }}
                         <input
                             type="{{ $campo['tipo'] === 'texto' ? 'text' : 'number' }}"
-                            @if ($campo['tipo'] === 'numero') step="any" @endif
+                            @if (in_array($campo['tipo'], ['numero', 'moneda', 'decimal'], true)) step="any" @endif
                             @if ($campo['tipo'] === 'entero') step="1" @endif
                             name="{{ $campo['campo'] }}"
                             value="{{ old($campo['campo']) }}"
+                            @if ($campo['tipo'] === 'moneda') placeholder="Pesos, ej. 25,50" @endif
                             required>
                     </label>
                 @endforeach
@@ -77,13 +78,19 @@
                             @if ($columna['tipo'] === 'solo-lectura')
                                 {{ $fila->{$campo} }}
                             @else
+                                @php($esMoneda = $columna['tipo'] === 'moneda')
+                                @php($esDecimal = $columna['tipo'] === 'decimal')
+                                @php($esNumero = in_array($columna['tipo'], ['numero', 'entero', 'moneda', 'decimal'], true))
+                                @php($valorMostrado = $esMoneda ? ((float) $fila->{$campo} / 100) : $fila->{$campo})
                                 <input
-                                    type="{{ $columna['tipo'] === 'numero' ? 'number' : ($columna['tipo'] === 'entero' ? 'number' : 'text') }}"
+                                    type="{{ $esNumero ? 'number' : 'text' }}"
                                     @if ($columna['tipo'] === 'numero') step="any" @endif
                                     @if ($columna['tipo'] === 'entero') step="1" @endif
+                                    @if ($esMoneda || $esDecimal) step="0.01" @endif
                                     name="filas[{{ $identificador }}][{{ $campo }}]"
-                                    value="{{ $fila->{$campo} }}"
-                                    aria-label="{{ $columna['etiqueta'] }}">
+                                    value="{{ ($esMoneda || $esDecimal) ? number_format((float) $valorMostrado, 2, '.', '') : $valorMostrado }}"
+                                    aria-label="{{ $columna['etiqueta'] }}"
+                                    @if ($esMoneda || $esDecimal) title="{{ \App\Support\Moneda::conSimbolo($esMoneda ? $fila->{$campo} / 100 : $fila->{$campo}) }}" @endif>
                             @endif
                         </td>
                     @endforeach

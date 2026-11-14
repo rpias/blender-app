@@ -24,6 +24,7 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0010](0010-panel-administrativo/spec.md) | implementada | Shell administrativo y panel de indicadores |
 | [0011](0011-responsive-y-paginacion/spec.md) | implementada | Tablas como tarjetas y paginación propia |
 | [0012](0012-registro-de-sucesos/spec.md) | implementada | Auditoría de acciones y consulta filtrable |
+| [0013](0013-formato-de-moneda/spec.md) | implementada | Importes con dos decimales en toda la app |
 
 ## Cómo agregar una spec
 

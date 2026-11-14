@@ -13,6 +13,7 @@ use App\Services\Aberturas\ParametrosFormulario;
 use App\Servicios\Exportacion\LineasPresupuesto;
 use App\Servicios\Exportacion\PresupuestoPdf;
 use App\Servicios\Exportacion\XlsxWriter;
+use App\Support\Moneda;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -227,12 +228,12 @@ class ObraController extends Controller
                 $libro->agregarFila([
                     $hijo['numero'], '   ↳ '.$hijo['descripcion'], $hijo['medidas'], '', '', '', '',
                     round($hijo['subtotal'], 2),
-                ]);
+                ], false, [7]);
             }
         }
 
         $libro->agregarFila([]);
-        $libro->agregarFila(['', '', '', '', '', 'TOTAL', '', round((new LineasPresupuesto)->total($lineas), 2)], true);
+        $libro->agregarFila(['', '', '', '', '', 'TOTAL', '', round((new LineasPresupuesto)->total($lineas), 2)], true, [7]);
 
         $ruta = tempnam(sys_get_temp_dir(), 'alucal-xlsx').'.xlsx';
         $libro->guardar($ruta);
@@ -262,20 +263,20 @@ class ObraController extends Controller
                     $linea['tipo'] === 'vano' ? '' : $linea['cantidad'],
                     $linea['ubicacion'],
                     $linea['terminacion'],
-                    $linea['unitario'] !== null ? number_format($linea['unitario'], 2, '.', '') : '',
-                    number_format($linea['subtotal'], 2, '.', ''),
+                    $linea['unitario'] !== null ? Moneda::formatear($linea['unitario']) : '',
+                    Moneda::formatear($linea['subtotal']),
                 ]);
 
                 foreach ($linea['hijos'] as $hijo) {
                     fputcsv($salida, [
                         $hijo['numero'], '   ↳ '.$hijo['descripcion'], $hijo['medidas'], '', '', '', '',
-                        number_format($hijo['subtotal'], 2, '.', ''),
+                        Moneda::formatear($hijo['subtotal']),
                     ]);
                 }
             }
 
             fputcsv($salida, []);
-            fputcsv($salida, ['', '', '', '', '', 'TOTAL', '', number_format((new LineasPresupuesto)->total($lineas), 2, '.', '')]);
+            fputcsv($salida, ['', '', '', '', '', 'TOTAL', '', Moneda::formatear((new LineasPresupuesto)->total($lineas))]);
 
             fclose($salida);
         }, $nombre, ['Content-Type' => 'text/csv; charset=UTF-8']);

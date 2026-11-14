@@ -19,6 +19,7 @@ use App\Services\Aberturas\CalcularAberturaSimple;
 use App\Services\Aberturas\ParametrosFormulario;
 use App\Services\Aberturas\SerieSinConstantes;
 use App\Servicios\Exportacion\PresupuestoPdf;
+use App\Support\Moneda;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -251,7 +252,7 @@ class AberturaController extends Controller
 
         return redirect()
             ->route('obras.show', $obra)
-            ->with('estado', 'Abertura agregada: '.number_format((float) $abertura->precioUnitario, 0, ',', '.').' U$S por unidad.');
+            ->with('estado', 'Abertura agregada: '.Moneda::conSimbolo((float) $abertura->precioUnitario).' por unidad.');
     }
 
     public function recalcular(AberturaSimple $abertura, CalcularAberturaSimple $calculadora): RedirectResponse

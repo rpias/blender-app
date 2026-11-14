@@ -34,7 +34,7 @@ class Recursos
                 columnas: [
                     ['campo' => 'terminacion', 'etiqueta' => 'Terminación', 'tipo' => 'solo-lectura'],
                     ['campo' => 'rpt', 'etiqueta' => 'RPT', 'tipo' => 'solo-lectura'],
-                    ['campo' => 'valor', 'etiqueta' => 'U$S/kg', 'tipo' => 'numero'],
+                    ['campo' => 'valor', 'etiqueta' => 'U$S/kg', 'tipo' => 'decimal'],
                 ],
                 reglas: ['valor' => 'required|numeric|min:0'],
                 claves: ['id'],
@@ -73,7 +73,7 @@ class Recursos
                 columnas: [
                     ['campo' => 'codigo', 'etiqueta' => 'Código', 'tipo' => 'solo-lectura'],
                     ['campo' => 'descripcion', 'etiqueta' => 'Descripción', 'tipo' => 'solo-lectura'],
-                    ['campo' => 'precio', 'etiqueta' => 'Precio', 'tipo' => 'numero'],
+                    ['campo' => 'precio', 'etiqueta' => 'Precio', 'tipo' => 'moneda'],
                     ['campo' => 'cantPrecio', 'etiqueta' => 'Cada N', 'tipo' => 'entero'],
                 ],
                 reglas: [
@@ -86,7 +86,7 @@ class Recursos
                 camposCrear: [
                     ['campo' => 'codigo', 'etiqueta' => 'Código', 'tipo' => 'texto'],
                     ['campo' => 'descripcion', 'etiqueta' => 'Descripción', 'tipo' => 'texto'],
-                    ['campo' => 'precio', 'etiqueta' => 'Precio', 'tipo' => 'numero'],
+                    ['campo' => 'precio', 'etiqueta' => 'Precio', 'tipo' => 'moneda'],
                     ['campo' => 'cantPrecio', 'etiqueta' => 'Cada N', 'tipo' => 'entero'],
                 ],
                 reglasCrear: [
@@ -140,8 +140,8 @@ class Recursos
                 tabla: 'vidrio_sin_camara',
                 columnas: [
                     ['campo' => 'id', 'etiqueta' => 'ID', 'tipo' => 'solo-lectura'],
-                    ['campo' => 'precio', 'etiqueta' => 'U$S/m²', 'tipo' => 'numero'],
-                    ['campo' => 'precioMinimo', 'etiqueta' => 'Mínimo', 'tipo' => 'numero'],
+                    ['campo' => 'precio', 'etiqueta' => 'U$S/m²', 'tipo' => 'decimal'],
+                    ['campo' => 'precioMinimo', 'etiqueta' => 'Mínimo', 'tipo' => 'decimal'],
                     ['campo' => 'margen', 'etiqueta' => 'Margen', 'tipo' => 'numero'],
                 ],
                 reglas: [

@@ -103,7 +103,36 @@ class CatalogosTest extends TestCase
             ])
             ->assertSessionHasNoErrors();
 
-        $this->assertSame(99, (int) DB::table('accesorio')->where('id', $id)->value('precio'));
+        // El formulario edita en pesos y la base guarda centavos.
+        $this->assertSame(9900, (int) DB::table('accesorio')->where('id', $id)->value('precio'));
+
+        $this->actingAs($this->usuario)
+            ->get('/catalogos/accesorios?buscar=230478')
+            ->assertOk()
+            ->assertSee('99.00', false);
+    }
+
+    public function test_el_precio_se_muestra_con_dos_decimales(): void
+    {
+        $id = DB::table('accesorio')->where('codigo', '230447')->value('id');
+        DB::table('accesorio')->where('id', $id)->update(['precio' => 1842]);
+
+        $this->actingAs($this->usuario)
+            ->get('/catalogos/accesorios?buscar=230447')
+            ->assertOk()
+            ->assertSee('18.42', false);
+    }
+
+    public function test_el_precio_por_kilo_se_muestra_con_dos_decimales(): void
+    {
+        DB::table('precios_por_kilo')->insert([
+            'terminacion' => 'PINTADO_BLANCO', 'rpt' => 0, 'valor' => 7.48,
+        ]);
+
+        $this->actingAs($this->usuario)
+            ->get('/catalogos/precios-kilo')
+            ->assertOk()
+            ->assertSee('7.48', false);
     }
 
     public function test_rechaza_precio_negativo_en_accesorios(): void
@@ -177,7 +206,7 @@ class CatalogosTest extends TestCase
             ->assertRedirect()
             ->assertSessionHasNoErrors();
 
-        $this->assertSame(45, (int) DB::table('accesorio')->where('codigo', '999999')->value('precio'));
+        $this->assertSame(4500, (int) DB::table('accesorio')->where('codigo', '999999')->value('precio'));
     }
 
     public function test_rechaza_un_codigo_de_accesorio_repetido(): void

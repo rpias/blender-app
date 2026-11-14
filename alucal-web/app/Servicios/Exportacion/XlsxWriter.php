@@ -8,13 +8,14 @@ use ZipArchive;
 /**
  * Escritor XLSX mínimo sin dependencias externas.
  *
- * Genera un libro de una hoja con cadenas en línea (sin sharedStrings) y dos
- * estilos: normal y encabezado en negrita. Suficiente para el presupuesto de
- * obra en hosting compartido sin sumar PhpSpreadsheet.
+ * Genera un libro de una hoja con cadenas en línea (sin sharedStrings) y tres
+ * estilos: normal, encabezado en negrita e importe con dos decimales.
+ * Suficiente para el presupuesto de obra en hosting compartido sin sumar
+ * PhpSpreadsheet.
  */
 class XlsxWriter
 {
-    /** @var list<list<array{valor: string|float|int|null, encabezado: bool}>> */
+    /** @var list<list<array{valor: string|float|int|null, encabezado: bool, moneda: bool}>> */
     private array $filas = [];
 
     /** @var array<int, float> ancho de columna en caracteres */
@@ -25,11 +26,15 @@ class XlsxWriter
     /**
      * @param  list<string|float|int|null>  $valores
      */
-    public function agregarFila(array $valores, bool $encabezado = false): void
+    public function agregarFila(array $valores, bool $encabezado = false, array $columnasMoneda = []): void
     {
         $fila = [];
         foreach ($valores as $indice => $valor) {
-            $fila[] = ['valor' => $valor, 'encabezado' => $encabezado];
+            $fila[] = [
+                'valor' => $valor,
+                'encabezado' => $encabezado,
+                'moneda' => in_array($indice, $columnasMoneda, true),
+            ];
             $largo = is_string($valor) ? mb_strlen($valor) : 12;
             $this->anchos[$indice] = max($this->anchos[$indice] ?? 10, min(60, $largo + 2));
         }
@@ -103,8 +108,10 @@ class XlsxWriter
             .'<fill><patternFill patternType="gray125"/></fill></fills>'
             .'<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>'
             .'<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
-            .'<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'
-            .'<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs>'
+            .'<numFmts count="1"><numFmt numFmtId="164" formatCode="#,##0.00"/></numFmts>'
+            .'<cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'
+            .'<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>'
+            .'<xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/></cellXfs>'
             .'</styleSheet>';
     }
 
@@ -126,7 +133,7 @@ class XlsxWriter
         foreach ($this->filas as $numeroFila => $fila) {
             $xml .= '<row r="'.($numeroFila + 1).'">';
             foreach ($fila as $numeroColumna => $celda) {
-                $xml .= $this->celda($numeroColumna, $numeroFila, $celda['valor'], $celda['encabezado']);
+                $xml .= $this->celda($numeroColumna, $numeroFila, $celda['valor'], $celda['encabezado'], $celda['moneda'] ?? false);
             }
             $xml .= '</row>';
         }
@@ -134,14 +141,14 @@ class XlsxWriter
         return $xml.'</sheetData></worksheet>';
     }
 
-    private function celda(int $columna, int $fila, string|float|int|null $valor, bool $encabezado): string
+    private function celda(int $columna, int $fila, string|float|int|null $valor, bool $encabezado, bool $moneda = false): string
     {
         if ($valor === null || $valor === '') {
             return '';
         }
 
         $referencia = $this->columna($columna).($fila + 1);
-        $estilo = $encabezado ? ' s="1"' : '';
+        $estilo = $encabezado ? ' s="1"' : ($moneda ? ' s="2"' : '');
 
         if (is_int($valor) || is_float($valor)) {
             return '<c r="'.$referencia.'"'.$estilo.'><v>'.$valor.'</v></c>';

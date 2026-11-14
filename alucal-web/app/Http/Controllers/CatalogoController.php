@@ -77,9 +77,18 @@ class CatalogoController extends Controller
 
                 $cambios = [];
                 foreach ($config->camposEditables() as $campo) {
-                    if (array_key_exists($campo, (array) $valores)) {
-                        $cambios[$campo] = $valores[$campo];
+                    if (! array_key_exists($campo, (array) $valores)) {
+                        continue;
                     }
+
+                    $valor = $valores[$campo];
+
+                    // Las columnas 'moneda' se editan en pesos y se guardan en centavos.
+                    if ($config->tipoDe($campo) === 'moneda' && $valor !== null && $valor !== '') {
+                        $valor = (int) round(((float) $valor) * 100);
+                    }
+
+                    $cambios[$campo] = $valor;
                 }
 
                 if ($cambios === []) {
@@ -103,7 +112,13 @@ class CatalogoController extends Controller
 
         $fila = $config->porDefecto;
         foreach ($config->camposCrear as $campo) {
-            $fila[$campo['campo']] = $datos[$campo['campo']] ?? null;
+            $valor = $datos[$campo['campo']] ?? null;
+
+            if ($config->tipoDe($campo['campo']) === 'moneda' && $valor !== null && $valor !== '') {
+                $valor = (int) round(((float) $valor) * 100);
+            }
+
+            $fila[$campo['campo']] = $valor;
         }
 
         DB::table($config->tabla)->insert($fila);

@@ -24,7 +24,7 @@
     <div class="metricas">
         <div class="metrica"><span>{{ $obra->elementos->count() }}</span>Elementos</div>
         <div class="metrica"><span>{{ $obra->elementos->sum(fn ($e) => $e->aberturaSimple->cantidad ?? 0) }}</span>Aberturas</div>
-        <div class="metrica"><span>U$S {{ number_format($total, 0, ',', '.') }}</span>Total presupuestado</div>
+        <div class="metrica"><span>{{ \App\Support\Moneda::conSimbolo($total) }}</span>Total presupuestado</div>
         <div class="metrica"><span>{{ $obra->estadoSeguimiento ?: 'ABIERTA' }}</span>Estado</div>
     </div>
 
@@ -52,8 +52,8 @@
                 <td data-etiqueta="Medidas">{{ $ab ? number_format($ab->ancho, 0, ',', '.').' × '.number_format($ab->alto, 0, ',', '.') : '—' }}</td>
                 <td class="num" data-etiqueta="Cant.">{{ $ab?->cantidad ?? '—' }}</td>
                 <td data-etiqueta="Ubicación">{{ $ab?->ubicacion ?: '—' }}</td>
-                <td class="num" data-etiqueta="Unitario">{{ $ab?->precioUnitario !== null ? number_format((float) $ab->precioUnitario, 0, ',', '.') : '—' }}</td>
-                <td class="num" data-etiqueta="Subtotal">{{ $ab?->precioUnitario !== null ? number_format((float) $ab->precioUnitario * (int) $ab->cantidad, 0, ',', '.') : '—' }}</td>
+                <td class="num" data-etiqueta="Unitario">{{ $ab?->precioUnitario !== null ? \App\Support\Moneda::formatear($ab->precioUnitario) : '—' }}</td>
+                <td class="num" data-etiqueta="Subtotal">{{ $ab?->precioUnitario !== null ? \App\Support\Moneda::formatear((float) $ab->precioUnitario * (int) $ab->cantidad) : '—' }}</td>
                 <td class="acciones" data-etiqueta="">
                     @if ($ab)
                         <a href="{{ route('aberturas.pdf', $ab) }}" class="link" target="_blank">PDF</a>
@@ -73,7 +73,7 @@
             <tfoot>
             <tr>
                 <th colspan="7">Total</th>
-                <th class="num">U$S {{ number_format($total, 0, ',', '.') }}</th>
+                <th class="num">{{ \App\Support\Moneda::conSimbolo($total) }}</th>
                 <th></th>
             </tr>
             </tfoot>
@@ -101,7 +101,7 @@
                             @endforeach
                         </td>
                         <td>{{ $division?->codigoConector ?? '—' }}</td>
-                        <td class="num" data-etiqueta="Total">{{ number_format($detalle['total'], 0, ',', '.') }}</td>
+                        <td class="num" data-etiqueta="Total">{{ \App\Support\Moneda::formatear($detalle['total']) }}</td>
                         <td class="acciones" data-etiqueta="">
                             <form method="post" action="{{ route('vanos.destroy', [$obra, $vano]) }}"
                                   onsubmit="return confirm('¿Deshacer el vano? Las aberturas se conservan.');">
