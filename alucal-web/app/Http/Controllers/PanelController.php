@@ -14,6 +14,44 @@ use Illuminate\View\View;
  */
 class PanelController extends Controller
 {
+    private const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+    /**
+     * Totales presupuestados por mes de los últimos 6 meses.
+     *
+     * @param  Collection<int, Obra>  $obras
+     * @param  array<int, float>  $porObra
+     * @return list<array{etiqueta: string, total: float}>
+     */
+    private function serieMensual($obras, array $porObra): array
+    {
+        $meses = [];
+
+        for ($i = 5; $i >= 0; $i--) {
+            $mes = now()->startOfMonth()->subMonths($i);
+            $meses[$mes->format('Y-m')] = [
+                'etiqueta' => self::MESES[$mes->month - 1],
+                'total' => 0.0,
+            ];
+        }
+
+        foreach ($obras as $obra) {
+            $fecha = $obra->fechaCreacion;
+
+            if ($fecha === null) {
+                continue;
+            }
+
+            $clave = $fecha->format('Y-m');
+
+            if (isset($meses[$clave])) {
+                $meses[$clave]['total'] += $porObra[$obra->id] ?? 0.0;
+            }
+        }
+
+        return array_values($meses);
+    }
+
     /**
      * Alertas del panel: acciones vencidas, próximas y obras sin aberturas.
      *
@@ -116,6 +154,7 @@ class PanelController extends Controller
         ]);
 
         $alertas = $this->alertas($obras, $porObra);
+        $serie = $this->serieMensual($obras, $porObra);
 
         return view('panel.index', [
             'abiertas' => $abiertas,
@@ -127,6 +166,7 @@ class PanelController extends Controller
             'tipologias' => $tipologias,
             'obras' => $obras->count(),
             'alertas' => $alertas,
+            'serie' => $serie,
         ]);
     }
 }

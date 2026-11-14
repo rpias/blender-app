@@ -37,6 +37,7 @@ Fuera de alcance: compra e integración de una plantilla comercial (ver nota de 
 | R6 | En pantallas menores a 1.024 px la barra lateral se oculta y se abre desde el botón de menú. |
 | R7 | El diseño no requiere Node ni compilación de assets: se sirve con el CSS del proyecto. |
 | R8 | El panel alerta acciones vencidas, acciones de los próximos 7 días y obras sin aberturas con precio. |
+| R9 | El panel grafica el monto presupuestado por mes de los últimos 6 meses, con SVG propio y sin librerías. |
 
 ## Criterios de aceptación
 
@@ -55,6 +56,9 @@ Fuera de alcance: compra e integración de una plantilla comercial (ver nota de 
 
 - **R8** — Una obra abierta con `proximaAccionFecha` de hace 3 días aparece como vencida; una cerrada no;
   una obra sin aberturas aparece en "sin aberturas". Cubierto por `tests/Feature/PanelAlertasTest.php`.
+
+- **R9** — Dos obras en meses distintos aparecen como puntos del gráfico y el eje muestra el tope;
+  cubierto por `test_muestra_el_grafico_mensual`.
 
 ## Nota de licencia
 

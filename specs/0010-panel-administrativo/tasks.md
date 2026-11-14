@@ -20,6 +20,13 @@
 - [x] Tarjetas de alerta con color por tipo y enlace a la obra
 - [x] 5 tests de alertas
 
+## Gráfico
+
+- [x] Serie de los últimos 6 meses por `fechaCreacion` con los totales de cada obra
+- [x] SVG propio: área, línea, puntos con tooltip, grilla y etiquetas en español
+- [x] Sin librerías ni JS
+- [x] Test del gráfico
+
 ## Verificación
 
 - [x] Tests: acceso a la raíz, indicadores en pantalla

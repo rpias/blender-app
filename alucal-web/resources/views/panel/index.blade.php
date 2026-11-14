@@ -64,6 +64,61 @@
         </article>
     </section>
 
+
+    @php
+        $anchoLienzo = 760;
+        $altoLienzo = 210;
+        $margenIzq = 44;
+        $margenDer = 14;
+        $margenSup = 16;
+        $margenInf = 28;
+        $pasoX = count($serie) > 1 ? ($anchoLienzo - $margenIzq - $margenDer) / (count($serie) - 1) : 0;
+        $tope = max(1.0, collect($serie)->max('total'));
+        $altoUtil = $altoLienzo - $margenSup - $margenInf;
+        $puntos = [];
+        foreach ($serie as $i => $mes) {
+            $puntos[] = [
+                'x' => round($margenIzq + $i * $pasoX, 1),
+                'y' => round($margenSup + $altoUtil - ($mes['total'] / $tope) * $altoUtil, 1),
+                'etiqueta' => $mes['etiqueta'],
+                'total' => $mes['total'],
+            ];
+        }
+        $linea = collect($puntos)->map(fn ($p) => $p['x'].','.$p['y'])->implode(' ');
+        $area = $margenIzq.','.($altoLienzo - $margenInf).' '.$linea.' '.end($puntos)['x'].','.($altoLienzo - $margenInf);
+    @endphp
+
+    <section class="tarjeta grafico-mensual">
+        <div class="tarjeta-cabecera">
+            <h2>Presupuestado por mes</h2>
+            <span class="ayuda">Últimos 6 meses</span>
+        </div>
+
+        <svg viewBox="0 0 {{ $anchoLienzo }} {{ $altoLienzo }}" role="img"
+             aria-label="Presupuesto por mes de los últimos 6 meses" preserveAspectRatio="none">
+            @foreach ([0, 0.5, 1] as $franja)
+                @php($y = $margenSup + $altoUtil - $franja * $altoUtil)
+                <line x1="{{ $margenIzq }}" y1="{{ $y }}" x2="{{ $anchoLienzo - $margenDer }}" y2="{{ $y }}"
+                      class="grafico-grid"/>
+                <text x="{{ $margenIzq - 8 }}" y="{{ $y + 4 }}" class="grafico-eje" text-anchor="end">
+                    {{ number_format($tope * $franja, 0, ',', '.') }}
+                </text>
+            @endforeach
+
+            <polygon points="{{ $area }}" class="grafico-area"/>
+            <polyline points="{{ $linea }}" class="grafico-linea"/>
+
+            @foreach ($puntos as $punto)
+                <circle cx="{{ $punto['x'] }}" cy="{{ $punto['y'] }}" r="4" class="grafico-punto">
+                    <title>{{ $punto['etiqueta'] }}: U$S {{ number_format($punto['total'], 0, ',', '.') }}</title>
+                </circle>
+                <text x="{{ $punto['x'] }}" y="{{ $altoLienzo - 8 }}" class="grafico-etiqueta" text-anchor="middle">
+                    {{ $punto['etiqueta'] }}
+                </text>
+            @endforeach
+        </svg>
+    </section>
+
     <div class="dos-columnas">
         <section class="tarjeta">
             <div class="tarjeta-cabecera">

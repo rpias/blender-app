@@ -46,6 +46,25 @@ class PanelAlertasTest extends TestCase
         ]);
     }
 
+    public function test_muestra_el_grafico_mensual(): void
+    {
+        $esteMes = $this->obra(['numero' => 'G-1', 'fechaCreacion' => now()->toDateString()]);
+        $this->conAbertura($esteMes, 300);
+
+        $anterior = $this->obra(['numero' => 'G-2', 'fechaCreacion' => now()->subMonth()->toDateString()]);
+        $this->conAbertura($anterior, 200);
+
+        $respuesta = $this->actingAs($this->usuario)->get('/');
+
+        $respuesta->assertOk()
+            ->assertSee('Presupuestado por mes')
+            ->assertSee('grafico-linea', false)
+            ->assertSee('grafico-area', false);
+
+        // El eje muestra el tope del gráfico (300).
+        $this->assertStringContainsString('300', $respuesta->getContent());
+    }
+
     public function test_muestra_la_accion_vencida(): void
     {
         $obra = $this->obra([

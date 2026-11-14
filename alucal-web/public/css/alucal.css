@@ -305,3 +305,13 @@ body.invitado {
 .invitado-marca small { display: block; font-weight: 400; font-size: 11px; color: #94a3b8; letter-spacing: .05em; }
 .invitado-caja .tarjeta { box-shadow: 0 20px 40px rgba(2, 6, 23, .35); }
 .invitado-caja .aviso.error { margin-bottom: 14px; }
+
+/* Gráfico mensual del panel (spec 0010) */
+.grafico-mensual { margin-bottom: 16px; }
+.grafico-mensual svg { width: 100%; height: 210px; display: block; overflow: visible; }
+.grafico-grid { stroke: #e7ebf1; stroke-width: 1; stroke-dasharray: 4 4; }
+.grafico-eje { fill: #94a3b8; font-size: 10px; }
+.grafico-area { fill: rgba(37, 99, 235, .12); }
+.grafico-linea { fill: none; stroke: #2563eb; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.grafico-punto { fill: #fff; stroke: #2563eb; stroke-width: 2.5; }
+.grafico-etiqueta { fill: #64748b; font-size: 11px; }
