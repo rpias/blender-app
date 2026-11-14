@@ -35,7 +35,10 @@
         .nota { margin-top: 12px; font-size: 9px; color: #444; }
         .pie { position: fixed; bottom: -18px; left: 0; right: 0; font-size: 8px; color: #777; text-align: center; }
         ul { padding-left: 16px; margin: 4px 0; }
-    </style>
+        .fila-vano td { font-weight: bold; background: #f3f5f9; }
+    .fila-hijo td { color: #555; font-size: 9px; }
+    .detalle-vano { font-weight: normal; font-size: 9px; color: #666; }
+</style>
 </head>
 <body>
 <div class="encabezado">
@@ -81,23 +84,35 @@
     </tr>
     </thead>
     <tbody>
-    @forelse ($elementos as $elemento)
-        @php($abertura = $elemento->aberturaSimple)
-        @php($subtotal = (float) ($abertura?->precioUnitario ?? 0) * (int) ($abertura?->cantidad ?? 0))
-        @php($total += $subtotal)
-        <tr>
-            <td>{{ $elemento->numero }}</td>
+    @forelse ($lineas as $linea)
+        @php($total += $linea['subtotal'])
+        <tr class="{{ $linea['tipo'] === 'vano' ? 'fila-vano' : '' }}">
+            <td>{{ $linea['numero'] }}</td>
             <td>
-                {{ $abertura?->tipologia?->nombre ?? str_replace('_', ' ', (string) $elemento->tipoElemento) }}
-                @if ($abertura?->serie) / {{ $abertura->serie->nombre }} @endif
+                {{ $linea['descripcion'] }}
+                @if ($linea['tipo'] === 'vano')
+                    <div class="detalle-vano">{{ $linea['medidas'] }}</div>
+                @endif
             </td>
-            <td>{{ $abertura ? number_format((float) $abertura->ancho, 0, ',', '.').' × '.number_format((float) $abertura->alto, 0, ',', '.') : '—' }}</td>
-            <td class="num">{{ $abertura?->cantidad ?? '—' }}</td>
-            <td>{{ $abertura?->ubicacion ?: '—' }}</td>
-            <td>{{ $abertura?->terminacion ? str_replace('_', ' ', (string) $abertura->terminacion) : '—' }}</td>
-            <td class="num">{{ $abertura?->precioUnitario !== null ? number_format((float) $abertura->precioUnitario, 0, ',', '.') : '—' }}</td>
-            <td class="num">{{ $abertura?->precioUnitario !== null ? number_format($subtotal, 0, ',', '.') : '—' }}</td>
+            <td>{{ $linea['tipo'] === 'vano' ? '—' : $linea['medidas'] }}</td>
+            <td class="num">{{ $linea['tipo'] === 'vano' ? '—' : $linea['cantidad'] }}</td>
+            <td>{{ $linea['ubicacion'] }}</td>
+            <td>{{ $linea['terminacion'] }}</td>
+            <td class="num">{{ $linea['unitario'] !== null ? number_format($linea['unitario'], 0, ',', '.') : '—' }}</td>
+            <td class="num">{{ number_format($linea['subtotal'], 0, ',', '.') }}</td>
         </tr>
+        @if ($linea['tipo'] === 'vano')
+            @foreach ($linea['hijos'] as $hijo)
+                <tr class="fila-hijo">
+                    <td></td>
+                    <td>↳ {{ $hijo['numero'] }} · {{ $hijo['descripcion'] }}</td>
+                    <td>{{ $hijo['medidas'] }}</td>
+                    <td colspan="3"></td>
+                    <td></td>
+                    <td class="num">{{ number_format($hijo['subtotal'], 0, ',', '.') }}</td>
+                </tr>
+            @endforeach
+        @endif
     @empty
         <tr><td colspan="8">Sin elementos cargados.</td></tr>
     @endforelse

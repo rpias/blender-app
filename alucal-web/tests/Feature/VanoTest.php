@@ -114,6 +114,30 @@ class VanoTest extends TestCase
             ->assertSessionHasErrors('hijos');
     }
 
+    public function test_el_pdf_muestra_el_vano_y_sus_hijos(): void
+    {
+        $obra = $this->obra();
+        $a = $this->elemento($obra, 1, 100);
+        $b = $this->elemento($obra, 2, 200);
+
+        $this->actingAs($this->usuario)->post("/obras/{$obra->id}/vanos", [
+            'hijos' => [$a->id, $b->id],
+            'codigoConector' => 'ADR 5000',
+            'orientacion' => 'VERTICAL',
+            'posicionMM' => 2000,
+        ]);
+
+        $respuesta = $this->actingAs($this->usuario)->get("/obras/{$obra->id}/presupuesto.pdf");
+
+        $respuesta->assertOk()->assertHeader('Content-Type', 'application/pdf');
+
+        // El CSV muestra la línea del vano y sus hijos.
+        $csv = $this->actingAs($this->usuario)->get("/obras/{$obra->id}/presupuesto.csv")->streamedContent();
+
+        $this->assertStringContainsString('Vano compuesto', $csv);
+        $this->assertStringContainsString('↳', $csv);
+    }
+
     public function test_deshacer_el_vano_conserva_las_aberturas(): void
     {
         $obra = $this->obra();

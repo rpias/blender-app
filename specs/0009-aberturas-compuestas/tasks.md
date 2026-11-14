@@ -21,8 +21,10 @@
 
 ## Reportes
 
-- [ ] PDF con el vano y sus hijos
-- [ ] Excel y CSV con la misma agrupación
+- [x] `LineasPresupuesto`: aberturas sueltas y vanos con sus hijos y subtotales
+- [x] PDF con el vano en negrita y los hijos indentados
+- [x] Excel y CSV con la misma agrupación
+- [ ] Snapshot del vano y premarco/tapajuntas del contenedor
 
 ## Verificación
 

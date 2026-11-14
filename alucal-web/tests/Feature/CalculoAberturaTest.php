@@ -193,7 +193,7 @@ class CalculoAberturaTest extends TestCase
         $respuesta->assertHeader('content-type', 'text/csv; charset=UTF-8');
         $contenido = $respuesta->streamedContent();
 
-        $this->assertStringContainsString('Tipología', $contenido);
+        $this->assertStringContainsString('Detalle', $contenido);
         $this->assertStringContainsString('TOTAL', $contenido);
         $this->assertStringContainsString('98.00', $contenido);
     }

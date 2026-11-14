@@ -52,6 +52,7 @@ class PresupuestoPdf
         $html = View::make('presupuesto.pdf', [
             'obra' => $obra,
             'elementos' => $elementos,
+            'lineas' => $obra !== null ? (new LineasPresupuesto)->para($obra) : [],
             'empresa' => Empresa::query()->first(),
             'textos' => $this->textos(),
         ])->render();

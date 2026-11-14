@@ -1,6 +1,6 @@
 # Spec 0009 — Aberturas compuestas
 
-**Estado:** parcial (modelo, cálculo y agrupado en la UI)
+**Estado:** implementada (sin premarco/tapajuntas del vano)
 **Depende de:** 0001, 0002, 0003, 0004
 
 ## Problema
@@ -52,7 +52,7 @@ Fuera de alcance: mover hijos entre vanos, redimensionar hijos desde el contened
 ## Evidencia
 
 - Migración `2026_01_02_000400_add_vanos_compuestos` aplicada en desarrollo y producción.
-- `tests/Feature/VanoTest.php` — creación, rechazo de aberturas ajenas o ya agrupadas, y deshacer.
+- `tests/Feature/VanoTest.php` — incluye el CSV con la línea del vano y sus hijos. — creación, rechazo de aberturas ajenas o ya agrupadas, y deshacer.
 - `tests/Feature/CalcularVanoTest.php` — suma de hijos (100 + 200×2) más conector de 2 m ≈ 39,
   y total sin conectores.
 

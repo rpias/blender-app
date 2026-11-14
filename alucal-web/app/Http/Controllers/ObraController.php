@@ -10,6 +10,7 @@ use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalcularVano;
 use App\Services\Aberturas\ParametrosFormulario;
+use App\Servicios\Exportacion\LineasPresupuesto;
 use App\Servicios\Exportacion\PresupuestoPdf;
 use App\Servicios\Exportacion\XlsxWriter;
 use Illuminate\Http\RedirectResponse;
@@ -198,29 +199,33 @@ class ObraController extends Controller
     {
         $obra->load(['elementos.aberturaSimple.tipologia', 'elementos.aberturaSimple.serie']);
 
+        $lineas = (new LineasPresupuesto)->para($obra);
+
         $libro = new XlsxWriter('Presupuesto '.$obra->numero);
-        $libro->agregarFila(['Nº', 'Tipología', 'Serie', 'Medidas (mm)', 'Cantidad', 'Ubicación', 'Precio unitario', 'Subtotal'], true);
+        $libro->agregarFila(['Nº', 'Detalle', 'Medidas / conector', 'Cantidad', 'Ubicación', 'Terminación', 'Precio unitario', 'Subtotal'], true);
 
-        $total = 0.0;
-        foreach ($obra->elementosPresupuestables() as $elemento) {
-            $abertura = $elemento->aberturaSimple;
-            $subtotal = (float) ($abertura->precioUnitario ?? 0) * (int) $abertura->cantidad;
-            $total += $subtotal;
-
+        foreach ($lineas as $linea) {
             $libro->agregarFila([
-                (int) $elemento->numero,
-                (string) ($abertura->tipologia?->nombre ?? ''),
-                (string) ($abertura->serie?->nombre ?? ''),
-                number_format((float) $abertura->ancho, 0, '', '').' x '.number_format((float) $abertura->alto, 0, '', ''),
-                (int) $abertura->cantidad,
-                (string) ($abertura->ubicacion ?? ''),
-                (float) ($abertura->precioUnitario ?? 0),
-                round($subtotal, 2),
-            ]);
+                $linea['numero'],
+                $linea['descripcion'],
+                $linea['medidas'],
+                $linea['tipo'] === 'vano' ? '' : $linea['cantidad'],
+                $linea['ubicacion'],
+                $linea['terminacion'],
+                $linea['unitario'] !== null ? $linea['unitario'] : '',
+                round($linea['subtotal'], 2),
+            ], $linea['tipo'] === 'vano');
+
+            foreach ($linea['hijos'] as $hijo) {
+                $libro->agregarFila([
+                    $hijo['numero'], '   ↳ '.$hijo['descripcion'], $hijo['medidas'], '', '', '', '',
+                    round($hijo['subtotal'], 2),
+                ]);
+            }
         }
 
         $libro->agregarFila([]);
-        $libro->agregarFila(['', '', '', '', '', 'TOTAL', '', round($total, 2)], true);
+        $libro->agregarFila(['', '', '', '', '', 'TOTAL', '', round((new LineasPresupuesto)->total($lineas), 2)], true);
 
         $ruta = tempnam(sys_get_temp_dir(), 'alucal-xlsx').'.xlsx';
         $libro->guardar($ruta);
@@ -234,36 +239,36 @@ class ObraController extends Controller
 
         $nombre = 'presupuesto-obra-'.$obra->numero.'.csv';
 
-        return response()->streamDownload(function () use ($obra) {
+        $lineas = (new LineasPresupuesto)->para($obra);
+
+        return response()->streamDownload(function () use ($lineas) {
             $salida = fopen('php://output', 'w');
             fwrite($salida, "\xEF\xBB\xBF"); // BOM para que Excel respete los acentos
 
-            fputcsv($salida, ['Nº', 'Tipología', 'Serie', 'Medidas (mm)', 'Cantidad', 'Ubicación', 'Precio unitario', 'Subtotal']);
+            fputcsv($salida, ['Nº', 'Detalle', 'Medidas / conector', 'Cantidad', 'Ubicación', 'Terminación', 'Precio unitario', 'Subtotal']);
 
-            $total = 0.0;
-            foreach ($obra->elementos as $elemento) {
-                $abertura = $elemento->aberturaSimple;
-                if ($abertura === null) {
-                    continue;
-                }
-
-                $subtotal = (float) ($abertura->precioUnitario ?? 0) * (int) $abertura->cantidad;
-                $total += $subtotal;
-
+            foreach ($lineas as $linea) {
                 fputcsv($salida, [
-                    $elemento->numero,
-                    $abertura->tipologia?->nombre,
-                    $abertura->serie?->nombre,
-                    number_format((float) $abertura->ancho, 0, '', '').' x '.number_format((float) $abertura->alto, 0, '', ''),
-                    $abertura->cantidad,
-                    $abertura->ubicacion,
-                    number_format((float) ($abertura->precioUnitario ?? 0), 2, '.', ''),
-                    number_format($subtotal, 2, '.', ''),
+                    $linea['numero'],
+                    $linea['descripcion'],
+                    $linea['medidas'],
+                    $linea['tipo'] === 'vano' ? '' : $linea['cantidad'],
+                    $linea['ubicacion'],
+                    $linea['terminacion'],
+                    $linea['unitario'] !== null ? number_format($linea['unitario'], 2, '.', '') : '',
+                    number_format($linea['subtotal'], 2, '.', ''),
                 ]);
+
+                foreach ($linea['hijos'] as $hijo) {
+                    fputcsv($salida, [
+                        $hijo['numero'], '   ↳ '.$hijo['descripcion'], $hijo['medidas'], '', '', '', '',
+                        number_format($hijo['subtotal'], 2, '.', ''),
+                    ]);
+                }
             }
 
             fputcsv($salida, []);
-            fputcsv($salida, ['', '', '', '', '', 'TOTAL', '', number_format($total, 2, '.', '')]);
+            fputcsv($salida, ['', '', '', '', '', 'TOTAL', '', number_format((new LineasPresupuesto)->total($lineas), 2, '.', '')]);
 
             fclose($salida);
         }, $nombre, ['Content-Type' => 'text/csv; charset=UTF-8']);
