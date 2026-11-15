@@ -103,6 +103,9 @@ class AberturaController extends Controller
             'premarcoAbajo' => ['nullable', 'boolean'],
             'tapajuntasCodigo' => ['nullable', 'string', 'exists:precio_metro_lineal_tapajuntas,perfil'],
             'tapajuntasAbajo' => ['nullable', 'boolean'],
+
+            // Colocación (precio base + perímetro)
+            'colocacion' => ['nullable', 'string', 'exists:precio_colocacion,tipoColocacion'],
         ]);
 
         if (! empty($datos['variante'])) {
@@ -131,6 +134,7 @@ class AberturaController extends Controller
             'premarcoAbajo' => (bool) ($datos['premarcoAbajo'] ?? true),
             'tapajuntasCodigo' => $datos['tapajuntasCodigo'] ?? null,
             'tapajuntasAbajo' => (bool) ($datos['tapajuntasAbajo'] ?? true),
+            'colocacion' => (string) ($datos['colocacion'] ?? ''),
         ];
 
         $parametros = match (true) {

@@ -4,6 +4,7 @@ namespace App\Servicios\Exportacion;
 
 use App\Models\Obra;
 use App\Services\Aberturas\CalcularVano;
+use App\Services\Precios\CalculadoraColocacion;
 
 /**
  * Arma las líneas del presupuesto: aberturas sueltas y vanos compuestos
@@ -68,6 +69,12 @@ class LineasPresupuesto
                 continue;
             }
 
+            $colocacion = app(CalculadoraColocacion::class)->calcular(
+                (float) $abertura->ancho,
+                (float) $abertura->alto,
+                (string) (($abertura->parametros['colocacion'] ?? '') ?: ''),
+            );
+
             $lineas[] = [
                 'tipo' => 'abertura',
                 'numero' => (int) $elemento->numero,
@@ -80,6 +87,21 @@ class LineasPresupuesto
                 'subtotal' => (float) ($abertura->precioUnitario ?? 0) * (int) $abertura->cantidad,
                 'hijos' => [],
             ];
+
+            if ($colocacion !== null) {
+                $lineas[] = [
+                    'tipo' => 'colocacion',
+                    'numero' => (int) $elemento->numero,
+                    'descripcion' => 'Colocación · '.str_replace('_', ' ', $colocacion['tipo']),
+                    'medidas' => $colocacion['metros'].' m',
+                    'cantidad' => (int) $abertura->cantidad,
+                    'ubicacion' => (string) ($abertura->ubicacion ?: '—'),
+                    'terminacion' => '—',
+                    'unitario' => $colocacion['total'],
+                    'subtotal' => $colocacion['total'] * (int) $abertura->cantidad,
+                    'hijos' => [],
+                ];
+            }
         }
 
         return $lineas;

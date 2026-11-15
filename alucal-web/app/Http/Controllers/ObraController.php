@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Obra;
 use App\Models\Perfil;
+use App\Models\PrecioColocacion;
 use App\Models\PrecioMetroLinealPremarco;
 use App\Models\PrecioMetroLinealTapajuntas;
 use App\Services\Aberturas\CalculadoraBatiente;
@@ -12,6 +13,7 @@ use App\Services\Aberturas\CalculadoraCorredizaS20;
 use App\Services\Aberturas\CalculadoraMarcoFijo;
 use App\Services\Aberturas\CalcularVano;
 use App\Services\Aberturas\ParametrosFormulario;
+use App\Services\Precios\CalculadoraColocacion;
 use App\Servicios\Exportacion\ComputoMateriales;
 use App\Servicios\Exportacion\LineasPresupuesto;
 use App\Servicios\Exportacion\PresupuestoPdf;
@@ -160,6 +162,7 @@ class ObraController extends Controller
             'conectores' => Perfil::query()->orderBy('Numero')->get(['Numero', 'Descripcion']),
             'premarcos' => PrecioMetroLinealPremarco::query()->orderBy('perfil')->get(),
             'tapajuntas' => PrecioMetroLinealTapajuntas::query()->orderBy('perfil')->get(),
+            'colocaciones' => PrecioColocacion::query()->orderBy('tipoColocacion')->get(),
             'total' => $this->totalObra($obra),
         ]);
     }
@@ -244,7 +247,18 @@ class ObraController extends Controller
                 continue;
             }
 
-            $total += (float) ($elemento->aberturaSimple?->precioUnitario ?? 0) * (int) ($elemento->aberturaSimple?->cantidad ?? 0);
+            $abertura = $elemento->aberturaSimple;
+            $total += (float) ($abertura?->precioUnitario ?? 0) * (int) ($abertura?->cantidad ?? 0);
+
+            if ($abertura !== null) {
+                $colocacion = app(CalculadoraColocacion::class)->calcular(
+                    (float) $abertura->ancho,
+                    (float) $abertura->alto,
+                    (string) (($abertura->parametros['colocacion'] ?? '') ?: ''),
+                );
+
+                $total += ($colocacion['total'] ?? 0) * (int) $abertura->cantidad;
+            }
         }
 
         return $total;

@@ -274,6 +274,17 @@
                     <input type="hidden" name="tapajuntasAbajo" value="0">
                     <input type="checkbox" name="tapajuntasAbajo" value="1" checked> Tapajuntas también abajo
                 </label>
+                <label>
+                    Colocación
+                    <select name="colocacion">
+                        <option value="">Sin colocar</option>
+                        @foreach ($colocaciones as $colocacion)
+                            <option value="{{ $colocacion->tipoColocacion }}" @selected(old('colocacion') === $colocacion->tipoColocacion)>
+                                {{ str_replace('_', ' ', $colocacion->tipoColocacion) }} · {{ \App\Support\Moneda::conSimbolo($colocacion->precioBase) }} + {{ \App\Support\Moneda::conSimbolo($colocacion->precioPorMetroLineal) }}/m
+                            </option>
+                        @endforeach
+                    </select>
+                </label>
             </div>
 
             {{-- Marco fijo --}}
