@@ -406,3 +406,8 @@ body.invitado {
 .chip-ingresar { background: #efe9ff; color: #6d3ff0; }
 .chip-salir { background: #eef1f5; color: #64748b; }
 .chip-intento-fallido { background: #fff1e5; color: #c25e00; }
+
+/* Optimización de corte (spec 0018) */
+.barra-corte { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 3px 0; font-size: 13px; }
+.barra-corte .corte { background: #eef4ff; color: #1f4fa8; padding: 1px 7px; border-radius: 5px; font-variant-numeric: tabular-nums; }
+.barra-corte .sobra { color: var(--suave); font-size: 12px; }

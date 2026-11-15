@@ -29,6 +29,7 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0015](0015-premarco-y-tapajuntas/spec.md) | implementada | Cobro de premarco y tapajuntas |
 | [0016](0016-colocacion/spec.md) | implementada | Cobro de colocación por abertura |
 | [0017](0017-cortes-de-premarco-y-tapajuntas/spec.md) | implementada | Cortes de premarco y tapajuntas en el cómputo |
+| [0018](0018-optimizacion-de-corte/spec.md) | implementada | Barras necesarias y retazo por perfil |
 
 ## Cómo agregar una spec
 

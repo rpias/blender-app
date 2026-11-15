@@ -61,6 +61,83 @@
         </table>
     </section>
 
+
+    <section class="tarjeta">
+        <div class="tarjeta-cabecera">
+            <h2>Optimización de corte</h2>
+            <form method="get" class="form-fila">
+                <label class="casilla">
+                    Barra (mm)
+                    <input type="number" name="barra" value="{{ $largoBarra }}" min="1000" max="12000" step="100">
+                </label>
+                <label class="casilla">
+                    Sierra (mm)
+                    <input type="number" name="kerf" value="{{ $kerf }}" min="0" max="20" step="1">
+                </label>
+                <button type="submit" class="btn">Recalcular</button>
+            </form>
+        </div>
+
+        <p class="ayuda">
+            Reparto de los tramos en barras de {{ number_format($largoBarra, 0, ',', '.') }} mm
+            descontando {{ $kerf }} mm por corte.
+        </p>
+
+        <table class="tabla">
+            <thead>
+            <tr>
+                <th>Perfil</th>
+                <th class="num">Barras</th>
+                <th>Cortes por barra</th>
+                <th class="num">Retazo</th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse ($optimizacion as $fila)
+                <tr>
+                    <td data-etiqueta="Perfil">{{ $fila['codigo'] }}</td>
+                    <td class="num" data-etiqueta="Barras">{{ $fila['totalBarras'] }}</td>
+                    <td data-etiqueta="Cortes por barra">
+                        @foreach ($fila['barras'] as $indice => $barra)
+                            <div class="barra-corte">
+                                <span class="chip">#{{ $indice + 1 }}</span>
+                                @foreach ($barra['cortes'] as $corte)
+                                    <span class="corte">{{ number_format($corte, 0, ',', '.') }}</span>
+                                @endforeach
+                                <span class="sobra">retazo {{ number_format($barra['sobranteMM'], 0, ',', '.') }}</span>
+                            </div>
+                        @endforeach
+                        @if ($fila['noEntran'] !== [])
+                            <p class="aviso error">
+                                No entran en la barra:
+                                @foreach ($fila['noEntran'] as $noEntra)
+                                    {{ number_format($noEntra['largoMM'], 0, ',', '.') }} mm × {{ $noEntra['cantidad'] }}
+                                @endforeach
+                            </p>
+                        @endif
+                    </td>
+                    <td class="num" data-etiqueta="Retazo">
+                        {{ number_format($fila['sobranteMM'], 0, ',', '.') }} mm
+                        <small>({{ $fila['sobrantePct'] }}%)</small>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="4" class="vacio">La obra no tiene cortes para optimizar.</td></tr>
+            @endforelse
+            </tbody>
+            @if ($optimizacion !== [])
+                <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th class="num">{{ collect($optimizacion)->sum('totalBarras') }}</th>
+                    <th>barras de {{ number_format($largoBarra, 0, ',', '.') }} mm</th>
+                    <th class="num">{{ number_format(collect($optimizacion)->sum('sobranteMM'), 0, ',', '.') }} mm</th>
+                </tr>
+                </tfoot>
+            @endif
+        </table>
+    </section>
+
     <div class="dos-columnas">
         <section class="tarjeta">
             <h2>Accesorios</h2>

@@ -16,6 +16,7 @@ use App\Services\Aberturas\ParametrosFormulario;
 use App\Services\Precios\CalculadoraColocacion;
 use App\Servicios\Exportacion\ComputoMateriales;
 use App\Servicios\Exportacion\LineasPresupuesto;
+use App\Servicios\Exportacion\OptimizacionCorte;
 use App\Servicios\Exportacion\PresupuestoPdf;
 use App\Servicios\Exportacion\XlsxWriter;
 use App\Support\Moneda;
@@ -181,13 +182,20 @@ class ObraController extends Controller
     /**
      * Cómputo de materiales de la obra (spec 0014): lista de corte del taller.
      */
-    public function computo(Obra $obra, ComputoMateriales $computo): View
+    public function computo(Obra $obra, ComputoMateriales $computo, OptimizacionCorte $optimizacion): View
     {
         $obra->load(['elementos.aberturaSimple', 'elementos.hijos.aberturaSimple']);
 
+        $datos = $computo->para($obra);
+        $largoBarra = (int) request('barra', OptimizacionCorte::LARGO_BARRA_MM);
+        $kerf = (int) request('kerf', OptimizacionCorte::KERF_MM);
+
         return view('obras.computo', [
             'obra' => $obra,
-            'computo' => $computo->para($obra),
+            'computo' => $datos,
+            'optimizacion' => $optimizacion->para($datos['perfiles'], max(1000, $largoBarra), max(0, $kerf)),
+            'largoBarra' => max(1000, $largoBarra),
+            'kerf' => max(0, $kerf),
         ]);
     }
 
