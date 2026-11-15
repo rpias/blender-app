@@ -28,6 +28,7 @@ Cada carpeta es una unidad de trabajo con tres archivos:
 | [0014](0014-computo-de-materiales/spec.md) | implementada | Lista de corte y cómputo por obra |
 | [0015](0015-premarco-y-tapajuntas/spec.md) | implementada | Cobro de premarco y tapajuntas |
 | [0016](0016-colocacion/spec.md) | implementada | Cobro de colocación por abertura |
+| [0017](0017-cortes-de-premarco-y-tapajuntas/spec.md) | implementada | Cortes de premarco y tapajuntas en el cómputo |
 
 ## Cómo agregar una spec
 

@@ -6,6 +6,7 @@ use App\Models\Accesorio;
 use App\Models\ElementoObra;
 use App\Models\Obra;
 use App\Models\Perfil;
+use App\Services\Aberturas\CortesPerimetrales;
 
 /**
  * Cómputo de materiales de una obra (spec 0014).
@@ -54,6 +55,8 @@ class ComputoMateriales
                     $this->sumarVidrio($vidrios, $vidrio);
                 }
 
+                $this->sumarPerimetrales($perfiles, $accesorios, $abertura['parametros'] ?? [], (float) ($abertura['ancho'] ?? 0), (float) ($abertura['alto'] ?? 0));
+
                 $kilos += (float) ($lineas['kilos'] ?? 0);
             }
         }
@@ -76,11 +79,74 @@ class ComputoMateriales
     {
         if ($elemento->tipoElemento === 'ABERTURA_COMPUESTA') {
             return $elemento->hijos()->with('aberturaSimple')->get()
-                ->map(fn (ElementoObra $hijo) => ['lineas' => $hijo->aberturaSimple?->lineas])
+                ->map(fn (ElementoObra $hijo) => [
+                    'lineas' => $hijo->aberturaSimple?->lineas,
+                    'parametros' => $hijo->aberturaSimple?->parametros,
+                    'ancho' => $hijo->aberturaSimple?->ancho,
+                    'alto' => $hijo->aberturaSimple?->alto,
+                ])
                 ->all();
         }
 
-        return [['lineas' => $elemento->aberturaSimple?->lineas]];
+        return [[
+            'lineas' => $elemento->aberturaSimple?->lineas,
+            'parametros' => $elemento->aberturaSimple?->parametros,
+            'ancho' => $elemento->aberturaSimple?->ancho,
+            'alto' => $elemento->aberturaSimple?->alto,
+        ]];
+    }
+
+    /**
+     * Suma los cortes de premarco y tapajuntas elegidos en la abertura.
+     *
+     * @param  array<string, array<string, mixed>>  $perfiles
+     * @param  array<string, array<string, mixed>>  $accesorios
+     * @param  array<string, mixed>|null  $parametros
+     */
+    private function sumarPerimetrales(array &$perfiles, array &$accesorios, ?array $parametros, float $ancho, float $alto): void
+    {
+        if ($parametros === [] || $parametros === null || $ancho <= 0 || $alto <= 0) {
+            return;
+        }
+
+        $cortes = app(CortesPerimetrales::class);
+
+        $premarco = trim((string) ($parametros['premarcoCodigo'] ?? ''));
+
+        if ($premarco !== '') {
+            $resultado = $cortes->premarco($premarco, $ancho, $alto, (bool) ($parametros['premarcoAbajo'] ?? true));
+
+            foreach ($resultado['barras'] as $barra) {
+                $this->sumarBarra($perfiles, [
+                    'perfil' => $barra['codigo'],
+                    'pesoKgPorMetro' => (float) (Perfil::query()->where('Numero', $barra['codigo'])->value('Peso') ?? 0),
+                    'cantidad' => $barra['cantidad'],
+                    'largoMM' => $barra['largoMM'],
+                ]);
+            }
+
+            if ($resultado['escuadras'] !== null) {
+                $this->sumarAccesorio($accesorios, [
+                    'codigo' => $resultado['escuadras']['codigo'],
+                    'cantidad' => $resultado['escuadras']['cantidad'],
+                ]);
+            }
+        }
+
+        $tapajuntas = trim((string) ($parametros['tapajuntasCodigo'] ?? ''));
+
+        if ($tapajuntas !== '') {
+            $resultado = $cortes->tapajuntas($tapajuntas, $ancho, $alto, (bool) ($parametros['tapajuntasAbajo'] ?? true));
+
+            foreach ($resultado['barras'] as $barra) {
+                $this->sumarBarra($perfiles, [
+                    'perfil' => $barra['codigo'],
+                    'pesoKgPorMetro' => (float) (Perfil::query()->where('Numero', $barra['codigo'])->value('Peso') ?? 0),
+                    'cantidad' => $barra['cantidad'],
+                    'largoMM' => $barra['largoMM'],
+                ]);
+            }
+        }
     }
 
     /**
